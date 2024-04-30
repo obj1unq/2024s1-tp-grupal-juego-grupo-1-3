@@ -1,9 +1,15 @@
 import wollok.game.*
 
-object pepita {
+object zeldita {
 
-	method position() = game.center()
+	var property position = game.at(3,8)
 
-	method image() = "pepita.png"
+	method image() = "minotaur4x.png"
+	
+	method mover(direccion) {
+
+		position = direccion.siguiente(self.position())
+	
+	}
 
 }
