@@ -1,18 +1,23 @@
 import wollok.game.*
-import pepita.*
+import asterion.*
 import posiciones.*
+import artefactos.*
 
 program juego {
-
-	game.addVisual(zeldita)	
+	// CONFIG	
 	game.title("nivel 1")
 	game.height(10)
 	game.width(10)
-	game.ground("suelo.png") 
-	keyboard.down().onPressDo({ zeldita.mover(abajo) })
-	keyboard.up().onPressDo({ zeldita.mover(arriba) })
-	keyboard.left().onPressDo({ zeldita.mover(izquierda) })
-	keyboard.right().onPressDo({ zeldita.mover(derecha) })
-
+	game.ground("suelo.png")
+		// PERSONAJE
+	game.addVisual(asterion)
+	game.addVisual(espadaDeNederita)
+		// MOVILIDAD
+	keyboard.down().onPressDo({ asterion.mover(abajo) })
+	keyboard.up().onPressDo({ asterion.mover(arriba) })
+	keyboard.left().onPressDo({ asterion.mover(izquierda) })
+	keyboard.right().onPressDo({ asterion.mover(derecha) })
+	keyboard.q().onPressDo({ asterion.agarrar(cosa) }) // modificar
+	keyboard.z().onPressDo({ asterion.soltar(cosa) }) // modificar
 	game.start()
 }
