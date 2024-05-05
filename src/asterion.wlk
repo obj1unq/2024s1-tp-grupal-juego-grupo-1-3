@@ -6,9 +6,9 @@ object asterion {
 
 	var property position = game.at(3, 8)
 	var vida = 100
-	const utilidades = #{}
-	var arma = espadaDeNederita // solo puede tener un arma en la mano (podriamos hacer que pueda llevar un a segunda arma)
-	const defensa = #{}
+	const property utilidades = #{}
+	var property arma = espadaDeNederita // solo puede tener un arma en la mano (podriamos hacer que pueda llevar una segunda arma)
+	const property defenza = #{}
 	const poderBase = 10
 
 	method image() = "minotaur4x.png"
@@ -22,25 +22,29 @@ object asterion {
 	}
 
 	method poderDefensa() {
-		return defensa.sum()
+		return defenza.forEach({ artefacto => artefacto.defensaQueOtorga().sum() })
 	}
 
 /////////////////////////////--FUNCIONALIDAD--////////////////////////////////
+	method objetoEnPosActual() {
+		return game.getObjectsIn(self.position()).copyWithout(self).asList().get(0)
+	}
+
 ///////////////////////////////--ACCIONES--/////////////////////////////////
 	method agarrarYEquipar(cosa) {
-		// dropear lo que tiene (agregar el addvisual al mapa)
-		// sacar el addvisual del mapa
-		arma = cosa
+		game.addVisual(arma) // dropea lo que tiene (agrega la visual al game)
+		cosa.agregar(self) // equipa el ara del suelo
+		game.removeVisual(cosa) // remueve el arma que agarro del suelo de las visuales del game
 	}
 
 	method soltarSiPuede(cosa) {
-	// verificar que no este vacio
-	// dropear cosa (agregar el addvisual)
+		self.verificarSiTieneElObjeto(cosa)
+		cosa.sacar(self)
+		game.addVisual(cosa)
 	}
 
 	method usar(cosa) {
-		// usa llave o algun optro artefacto que no es de daño
-		utilidades.remove(cosa)
+		cosa.sacar(self)
 	}
 
 	method golpear(enemigo) {
@@ -48,5 +52,11 @@ object asterion {
 	}
 
 //////////////////////////--VERIFICACIONES--////////////////////////////////
+	method verificarSiTieneElObjeto(cosa) {
+		if (not defenza.find(cosa)) {
+			self.error("No tengo este objeto en mi poder")
+		}
+	}
+
 }
 

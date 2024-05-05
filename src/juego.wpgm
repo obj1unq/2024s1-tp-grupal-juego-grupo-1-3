@@ -17,7 +17,7 @@ program juego {
 	keyboard.up().onPressDo({ asterion.mover(arriba) })
 	keyboard.left().onPressDo({ asterion.mover(izquierda) })
 	keyboard.right().onPressDo({ asterion.mover(derecha) })
-	keyboard.q().onPressDo({ asterion.agarrar(cosa) }) // modificar
-	keyboard.z().onPressDo({ asterion.soltar(cosa) }) // modificar
+	keyboard.q().onPressDo({ asterion.agarrarYEquipar(asterion.objetoEnPosActual()) })
+	keyboard.z().onPressDo({ asterion.soltarSiPuede(asterion.objetoEnPosActual()) })
 	game.start()
 }
