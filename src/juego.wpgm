@@ -1,18 +1,17 @@
 import wollok.game.*
 import pepita.*
 import posiciones.*
+import habitacion.*
 
-program juego {
 
-	game.addVisual(zeldita)	
-	game.title("nivel 1")
-	game.height(10)
-	game.width(10)
-	game.ground("suelo.png") 
-	keyboard.down().onPressDo({ zeldita.mover(abajo) })
-	keyboard.up().onPressDo({ zeldita.mover(arriba) })
-	keyboard.left().onPressDo({ zeldita.mover(izquierda) })
-	keyboard.right().onPressDo({ zeldita.mover(derecha) })
+program juego { 
+	
+	const nivel1 = new Habitacion(numeroHabitacion = 1)
+	const nivel2 = new Habitacion(numeroHabitacion = 2)
+	const puerta = new Puerta(siguienteHabitacion = nivel2);
+	nivel1.agregarPuerta(puerta)
+	
+	habitacionManager.cargarHabitacion(nivel1)
 
 	game.start()
 }
