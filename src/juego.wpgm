@@ -5,14 +5,13 @@ import habitacion.*
 
 
 program juego {
-
-	const nivel1 = new Habitacion(puertas= new Puerta(position= game.at(3,2)))
-	const nivel2 = new Habitacion(puertas= new Puerta(position= game.at(2,2)))
 	
+	const nivel1 = new Habitacion(numeroHabitacion = 1)
+	const nivel2 = new Habitacion(numeroHabitacion = 2)
+	const puerta = new Puerta(siguienteHabitacion = nivel2);
+	nivel1.agregarPuerta(puerta)
 	
-	const habitacionesAJugar = [nivel1, nivel2]
-	habitacionManager.habitaciones(habitacionesAJugar)
-	habitacionManager.cargarHabitacion(0)
+	habitacionManager.cargarHabitacion(nivel1)
 
 	game.start()
 }

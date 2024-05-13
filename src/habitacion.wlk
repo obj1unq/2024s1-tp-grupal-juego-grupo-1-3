@@ -4,12 +4,14 @@ import posiciones.*
 
 object habitacionManager{
 	
-	var property habitaciones = []
+
+	var property habitacionActual = null
 	
-	method cargarHabitacion(numero){
+	method cargarHabitacion(habitacion){
 		
 		self.limpiarNivel()
-		keyboard.p().onPressDo({self.cargarHabitacion(1)}) // Chequear donde tiene que ir esto
+		
+		keyboard.p().onPressDo({zeldita.atravesar()})
 
 		game.title("nivel 1")
 		game.height(10)
@@ -20,7 +22,8 @@ object habitacionManager{
 		keyboard.right().onPressDo({ zeldita.mover(derecha) })
 
 		
-		habitaciones.get(numero).init()
+		habitacion.init(self)
+		
 		self.inicializarJuego()
 	}
 	
@@ -40,21 +43,30 @@ class Habitacion {
 	const property objetivo = null 
 	const property enemigos = null
 	const property cosas  = null
-	const property puertas
+	const property puertas = #{}
 	const ground = "ground5.png"
+	const property numeroHabitacion
 	
-	
-	method init(){
+	method agregarPuerta(puerta){
+		puertas.add(puerta)
+	}
+	method mostrarPuerta(){
+		puertas.forEach({puerta => game.addVisual(puerta)})
+	}
+	method init(manager){
+		
 		game.ground(ground)
-		game.addVisual(puertas)
+		//game.addVisual(puertas)
+		self.mostrarPuerta()
+		manager.habitacionActual(self)
 	}
 }
 
 class Puerta {
 	
-	const property position = game.center()
+	var property position = game.center()
 
-    const siguienteHabitacion = ""
+    const property siguienteHabitacion 
     const estadoPuerta = loot 
     
     method image() = return "door-up.png"
@@ -71,8 +83,12 @@ class Puerta {
     	return ""
     }
     
+    method esAtravesable(){
+    	return true
+    }
+    
     method atravesar(){
-    	return ""
+     habitacionManager.cargarHabitacion(self.siguienteHabitacion())
     }
 }
 

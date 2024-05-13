@@ -13,6 +13,14 @@ object zeldita {
 			position = direccion.siguiente(self.position())
 		}
 	}
+	method esAtravesable(){
+		return false
+	}
+	method atravesar(){
+	
+	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
+	 	puerta.atravesar()	
+	}
 
 
 }
