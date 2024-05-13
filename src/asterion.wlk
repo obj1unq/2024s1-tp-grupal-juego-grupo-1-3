@@ -1,6 +1,7 @@
 import wollok.game.*
 import artefactos.*
 import posiciones.*
+import habitacion.*
 
 object asterion {
 
@@ -12,9 +13,20 @@ object asterion {
 	const poderBase = 10
 
 	method image() = "minotaur4x.png"
-
+	
 	method mover(direccion) {
-		position = direccion.siguiente(self.position())
+		
+		if(tablero.puedeIr(self.position(), direccion)){
+			position = direccion.siguiente(self.position())
+		}
+	}
+	method esAtravesable(){
+		return false
+	}
+	method atravesar(){
+	
+	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
+	 	puerta.atravesar()	
 	}
 
 	method poderPelea() {

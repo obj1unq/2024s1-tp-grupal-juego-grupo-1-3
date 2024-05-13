@@ -1,5 +1,5 @@
 import wollok.game.*
-import pepita.*
+import asterion.*
 import posiciones.*
 
 object habitacionManager{
@@ -11,15 +11,17 @@ object habitacionManager{
 		
 		self.limpiarNivel()
 		
-		keyboard.p().onPressDo({zeldita.atravesar()})
+		keyboard.p().onPressDo({asterion.atravesar()})
 
 		game.title("nivel 1")
 		game.height(10)
 		game.width(10)
-		keyboard.down().onPressDo({ zeldita.mover(abajo) })
-		keyboard.up().onPressDo({ zeldita.mover(arriba) })
-		keyboard.left().onPressDo({ zeldita.mover(izquierda) })
-		keyboard.right().onPressDo({ zeldita.mover(derecha) })
+		keyboard.down().onPressDo({ asterion.mover(abajo) })
+		keyboard.up().onPressDo({ asterion.mover(arriba) })
+		keyboard.left().onPressDo({ asterion.mover(izquierda) })
+		keyboard.right().onPressDo({ asterion.mover(derecha) })
+		keyboard.q().onPressDo({ asterion.agarrarYEquipar(asterion.objetoEnPosActual()) })
+		keyboard.z().onPressDo({ asterion.soltarSiPuede(asterion.objetoEnPosActual()) })
 
 		
 		habitacion.init(self)
@@ -32,7 +34,7 @@ object habitacionManager{
 	}
 	
 	method inicializarJuego(){
-		game.addVisual(zeldita)	
+		game.addVisual(asterion)	
 	}
 }
 

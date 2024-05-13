@@ -1,30 +1,8 @@
 import wollok.game.*
 import asterion.*
 import posiciones.*
-<<<<<<< HEAD
 import artefactos.*
-=======
 import habitacion.*
->>>>>>> refs/heads/master
-
-<<<<<<< HEAD
-program juego {
-	// CONFIG	
-	game.title("nivel 1")
-	game.height(10)
-	game.width(10)
-	game.ground("suelo.png")
-		// PERSONAJE
-	game.addVisual(asterion)
-	game.addVisual(espadaDeNederita)
-		// MOVILIDAD
-	keyboard.down().onPressDo({ asterion.mover(abajo) })
-	keyboard.up().onPressDo({ asterion.mover(arriba) })
-	keyboard.left().onPressDo({ asterion.mover(izquierda) })
-	keyboard.right().onPressDo({ asterion.mover(derecha) })
-	keyboard.q().onPressDo({ asterion.agarrarYEquipar(asterion.objetoEnPosActual()) })
-	keyboard.z().onPressDo({ asterion.soltarSiPuede(asterion.objetoEnPosActual()) })
-=======
 
 program juego { 
 	
@@ -35,6 +13,5 @@ program juego {
 	
 	habitacionManager.cargarHabitacion(nivel1)
 
->>>>>>> refs/heads/master
 	game.start()
 }

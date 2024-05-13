@@ -30,11 +30,6 @@ object derecha {
 	method siguiente(position) {
 		return position.right(1)
 	}
-
-}
-<<<<<<< HEAD
-
-=======
 }
 
 object tablero {
@@ -51,4 +46,3 @@ object tablero {
 	}
 	
 }
->>>>>>> refs/heads/master
