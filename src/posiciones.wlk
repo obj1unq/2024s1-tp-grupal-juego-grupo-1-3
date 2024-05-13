@@ -1,4 +1,6 @@
-//DIRECCIONES 
+
+import wollok.game.*
+
 object arriba {
 
 	method siguiente(position) {
@@ -30,4 +32,23 @@ object derecha {
 	}
 
 }
+<<<<<<< HEAD
 
+=======
+}
+
+object tablero {
+	
+	method pertenece(position) {
+		return position.x().between(0, game.width() - 1) &&
+			   position.y().between(0, game.height() -1 ) 
+	}
+	
+	method puedeIr(desde, direccion) {
+		const aDondeVoy = direccion.siguiente(desde) 
+		return self.pertenece(aDondeVoy)
+				 
+	}
+	
+}
+>>>>>>> refs/heads/master
