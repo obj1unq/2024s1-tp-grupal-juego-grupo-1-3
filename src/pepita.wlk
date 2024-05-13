@@ -1,4 +1,5 @@
 import wollok.game.*
+import posiciones.*
 
 object zeldita {
 
@@ -7,9 +8,11 @@ object zeldita {
 	method image() = "minotaur4x.png"
 	
 	method mover(direccion) {
-
-		position = direccion.siguiente(self.position())
-	
+		
+		if(tablero.puedeIr(self.position(), direccion)){
+			position = direccion.siguiente(self.position())
+		}
 	}
+
 
 }

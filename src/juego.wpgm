@@ -5,44 +5,14 @@ import habitacion.*
 
 
 program juego {
-	//game.title("nivel 1")
-	//game.height(10)
-	//game.width(10)
-	//keyboard.down().onPressDo({ zeldita.mover(abajo) })
-	//keyboard.up().onPressDo({ zeldita.mover(arriba) })
-	//keyboard.left().onPressDo({ zeldita.mover(izquierda) })
-	//keyboard.right().onPressDo({ zeldita.mover(derecha) })
-	
-	//const habitacion1 = new Habitacion(ground = "ground5.png", position = game.center(),cosas = [], enemigos = [], objetivo = "", puertas = []);
-	//habitacion1.init()
+
 	const nivel1 = new Habitacion(puertas= new Puerta(position= game.at(3,2)))
 	const nivel2 = new Habitacion(puertas= new Puerta(position= game.at(2,2)))
+	
+	
 	const habitacionesAJugar = [nivel1, nivel2]
 	habitacionManager.habitaciones(habitacionesAJugar)
 	habitacionManager.cargarHabitacion(0)
-	
-	/*
-	 var habitacionesPorExplorar = niveles.todasLasHabitaciones()// return de todas las habitaciones inicializadas	 
-	 habitacionPorExplorar[0].init() 
-	
-	 EN HABITACION
-	 method init(){
-		game.ground(ground)
-		game.addVisual(new Puerta())
-		self.inicializaObjetivo()
-		
-		if( self.finalizaObjetivo() ){
-			self.siguienteHabitacion() //habitacionPorExplorar[1]
-			
-		}		
-	
-		
-	*/
-	
-	
-	
-	//game.addVisual(zeldita)	
 
-
-	//game.start()
+	game.start()
 }

@@ -8,10 +8,9 @@ object habitacionManager{
 	
 	method cargarHabitacion(numero){
 		
-		console.println("las habitaciones: " + habitaciones)
 		self.limpiarNivel()
 		keyboard.p().onPressDo({self.cargarHabitacion(1)}) // Chequear donde tiene que ir esto
-		console.println('el numero es: '  + numero)
+
 		game.title("nivel 1")
 		game.height(10)
 		game.width(10)
@@ -30,11 +29,7 @@ object habitacionManager{
 	}
 	
 	method inicializarJuego(){
-		
-	
 		game.addVisual(zeldita)	
-		
-		game.start()
 	}
 }
 
@@ -52,16 +47,7 @@ class Habitacion {
 	method init(){
 		game.ground(ground)
 		game.addVisual(puertas)
-		// posiciones de las puertas
-		// objetivo----->depende del estado de la habitación o no : Enemigos.size == 0 method de objectivo cumplido en habitación
-		// enemigo -----> agregar visual del enemeigo
-		// puertas ---> Position
-		// el wollok game tiene que tener una lista de habitaciónes
-		// limites de la habitación
-		
-	
 	}
-	
 }
 
 class Puerta {
@@ -69,7 +55,7 @@ class Puerta {
 	const property position = game.center()
 
     const siguienteHabitacion = ""
-    const estadoPuerta = loot // estado puerta
+    const estadoPuerta = loot 
     
     method image() = return "door-up.png"
     
@@ -91,26 +77,6 @@ class Puerta {
 }
 
 // 
-
-object tablero {
-	
-	method pertenece(position) {
-		return position.x().between(0, game.width() - 1) &&
-			   position.y().between(0, game.height() -1 ) 
-	}
-	
-	method puedeIr(desde, direccion) {
-		const aDondeVoy = direccion.siguiente(desde) 
-		return self.pertenece(aDondeVoy)
-				&& not self.hayObstaculo(aDondeVoy) 
-	}
-	
-	method hayObstaculo(position) {
-		const visuales = game.getObjectsIn(position)
-		return visuales.any({visual => not visual.esAtravesable()})
-	}
-	
-}
 
 
 
