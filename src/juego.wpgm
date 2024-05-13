@@ -4,7 +4,7 @@ import posiciones.*
 import habitacion.*
 
 
-program juego {
+program juego { 
 	
 	const nivel1 = new Habitacion(numeroHabitacion = 1)
 	const nivel2 = new Habitacion(numeroHabitacion = 2)

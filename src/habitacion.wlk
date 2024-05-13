@@ -24,7 +24,7 @@ object habitacionManager{
 		
 		habitacion.init(self)
 		
-		self.inicializarJuego()
+		self.inicializarJuego() 
 	}
 	
 	method limpiarNivel(){
