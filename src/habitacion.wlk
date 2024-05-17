@@ -2,18 +2,16 @@ import wollok.game.*
 import pepita.*
 import posiciones.*
 
-object habitacionManager{
-	
 
-	var property habitacionActual = null
-	
+object habitacionManager{
+			
 	method cargarHabitacion(habitacion){
 		
 		self.limpiarNivel()
 		
 		keyboard.p().onPressDo({zeldita.atravesar()})
 
-		game.title("nivel 1")
+		game.title("El juego de Asterion")
 		game.height(10)
 		game.width(10)
 		keyboard.down().onPressDo({ zeldita.mover(abajo) })
@@ -45,69 +43,146 @@ class Habitacion {
 	const property cosas  = null
 	const property puertas = #{}
 	const ground = "ground5.png"
-	const property numeroHabitacion
 	
 	method agregarPuerta(puerta){
 		puertas.add(puerta)
+		puerta.habitacionActual(self)
 	}
-	method mostrarPuerta(){
+	method mostrarPuertas(){
 		puertas.forEach({puerta => game.addVisual(puerta)})
 	}
 	method init(manager){
-		
 		game.ground(ground)
-		//game.addVisual(puertas)
-		self.mostrarPuerta()
-		manager.habitacionActual(self)
+		self.mostrarPuertas()
 	}
 }
 
-class Puerta {
+object posicionSuperior{
+	const positionStategy = positionUp
 	
-	var property position = game.center()
+	method image() = "door-down.png"
+	
+	 method position() {
+		return positionStategy.position()
+	}
+	
+	method nextPosition(){
+		return positionStategy.nextPosition()
+	}
+	
+}
+
+object posicionInferior{
+	const positionStategy = positionDown
+	
+	 method image() = "door-up.png"
+	
+	 method position() {
+		return positionStategy.position()
+	}
+	
+	method nextPosition(){
+		return positionStategy.nextPosition()
+	}
+}
+
+object posicionEste{
+	const positionStategy = positionRight
+	
+	 method image() = "door-left.png"
+	
+	 method position() {
+		return positionStategy.position()
+	}
+	
+	method nextPosition(){
+		return positionStategy.nextPosition()
+	}
+}
+
+object posicionOeste{
+	const positionStategy = positionLeft
+	
+	 method image() = "door-right.png"
+	
+	 method position() {
+		return positionStategy.position()
+	}
+	
+	method nextPosition(){
+		return positionStategy.nextPosition()
+	}
+}
+
+
+
+class Puerta {
 
     const property siguienteHabitacion 
-    const estadoPuerta = loot 
+    const property posicionPuerta
+    var property habitacionActual = null
     
-    method image() = return "door-up.png"
+    method image() = posicionPuerta.image()
     
-    method bloquear (){
-    	return ""
-    }
-    
-    method desbloquear(){
-    	return ""
-    }
-    
-    method puedePasar(){
-    	return ""
-    }
+    method position() = posicionPuerta.position()
     
     method esAtravesable(){
     	return true
     }
     
-    method atravesar(){
+    method validarAtravesar(personaje, habitacion){ }
+    
+    method atravesar(personaje){
+     self.validarAtravesar(personaje, self.habitacionActual())
      habitacionManager.cargarHabitacion(self.siguienteHabitacion())
+     personaje.position(posicionPuerta.nextPosition())
     }
 }
 
-// 
 
 
 
-//OBJETIVOS: loot - killAll
-object loot{
+class PuertaLoot inherits Puerta {
+	var property lootear = #{}
 	
-	method siguienteHabitacion(){
-		
-	}
-	
-}
-
-object killAll{
-	
-	method siguienteHabitacion(){
+	override method validarAtravesar(personaje, habitacion){
 		
 	}
 }
+
+
+class PuertaKill inherits Puerta {
+	var property kill = #{}
+	
+	override method validarAtravesar(personaje, habitacion){
+		
+	}
+}
+
+object habitacionFactory {
+	
+	method init(){
+	const nivel1 = new Habitacion()
+	const nivel2 = new Habitacion()
+	const nivel3 = new Habitacion()
+	const nivel4 = new Habitacion()
+	
+	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior)
+	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior)
+	const puerta23 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste)
+	const puerta32 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionEste)
+	const puerta34 = new Puerta(siguienteHabitacion= nivel4, posicionPuerta= posicionInferior)
+	const puerta43 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionSuperior)
+	
+	
+	nivel1.agregarPuerta(puerta12)
+	nivel2.agregarPuerta(puerta21)
+	nivel2.agregarPuerta(puerta23)
+	nivel3.agregarPuerta(puerta32)
+	nivel3.agregarPuerta(puerta34)
+	nivel4.agregarPuerta(puerta43)
+	
+	habitacionManager.cargarHabitacion(nivel1)
+	}
+}
+

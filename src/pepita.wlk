@@ -19,7 +19,7 @@ object zeldita {
 	method atravesar(){
 	
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
-	 	puerta.atravesar()	
+	 	puerta.atravesar(self)	
 	}
 
 
