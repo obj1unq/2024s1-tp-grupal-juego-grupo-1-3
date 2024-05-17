@@ -164,11 +164,23 @@ object habitacionFactory {
 	method init(){
 	const nivel1 = new Habitacion()
 	const nivel2 = new Habitacion()
-	const puerta = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior)
-	const puerta2 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior)
+	const nivel3 = new Habitacion()
+	const nivel4 = new Habitacion()
 	
-	nivel1.agregarPuerta(puerta)
-	nivel2.agregarPuerta(puerta2)
+	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior)
+	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior)
+	const puerta23 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste)
+	const puerta32 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionEste)
+	const puerta34 = new Puerta(siguienteHabitacion= nivel4, posicionPuerta= posicionInferior)
+	const puerta43 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionSuperior)
+	
+	
+	nivel1.agregarPuerta(puerta12)
+	nivel2.agregarPuerta(puerta21)
+	nivel2.agregarPuerta(puerta23)
+	nivel3.agregarPuerta(puerta32)
+	nivel3.agregarPuerta(puerta34)
+	nivel4.agregarPuerta(puerta43)
 	
 	habitacionManager.cargarHabitacion(nivel1)
 	}
