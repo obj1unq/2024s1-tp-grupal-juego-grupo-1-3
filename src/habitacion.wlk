@@ -1,6 +1,7 @@
 import wollok.game.*
 import asterion.*
 import posiciones.*
+import artefactos.*
 
 object habitacionManager{
 	
@@ -21,7 +22,8 @@ object habitacionManager{
 		keyboard.left().onPressDo({ asterion.mover(izquierda) })
 		keyboard.right().onPressDo({ asterion.mover(derecha) })
 		keyboard.q().onPressDo({ asterion.agarrarYEquipar(asterion.objetoEnPosActual()) })
-		keyboard.z().onPressDo({ asterion.soltarSiPuede(asterion.objetoEnPosActual()) })
+		keyboard.z().onPressDo({ asterion.soltarSiPuede(asterion.arma()) })
+		keyboard.x().onPressDo({ asterion.soltarSiPuede(asterion.primerDefensa()) })
 
 		
 		habitacion.init(self)
@@ -34,7 +36,9 @@ object habitacionManager{
 	}
 	
 	method inicializarJuego(){
-		game.addVisual(asterion)	
+		game.addVisual(asterion)
+		game.addVisual(escudo) //buen tamaño 32x32 
+		game.addVisual(espadaDeNederita)	
 	}
 }
 

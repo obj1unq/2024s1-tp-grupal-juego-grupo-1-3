@@ -1,14 +1,30 @@
 import wollok.game.*
 import asterion.*
 
-object espadaDeNederita {
+class Artefacto {
+	var property position
+	
+	method esArtefacto() {
+		return true
+	}
+	
+	method drop(posicion) {
+		position = posicion
+		game.addVisual(self)
+	}
+	
+	method equipar(personaje)
+	
+	method desEquipar(personaje)
+	
+	method image()
+}
 
-	const property tipo = ataque
-	var property position = game.at(5, 5)
-	const property poderQueOtorga = 10
-	const property defensaQueOtorga = 0
-
-	method agragar(personaje) {
+class ArtefactoAtaque inherits Artefacto {
+	
+	method poderQueOtorga()
+	
+	method agregar(personaje) {
 		personaje.arma(self)
 	}
 
@@ -16,39 +32,23 @@ object espadaDeNederita {
 		personaje.arma(null)
 	}
 	
-	method image() {
-		return ""
-	}
-}
-
-object lanzaHechizada {
-
-	const property tipo = ataque
-	var property position = game.at(2, 2)
-	const property poderQueOtorga = 15
-	const property defensaQueOtorga = 0
-
-	method agragar(personaje) {
-		personaje.arma(self)
-	}
-
-	method sacar(personaje) {
-		personaje.arma(null)
+	method esArtefactoAtaque() {
+		return true
 	}
 	
-	method image() {
-		return ""
+	override method equipar(personaje) {
+		personaje.equiparArtefactoDeAtaque(self)
+	}
+	
+	override method desEquipar(personaje) {
+		personaje.dropearSiPuedeArma()
 	}
 }
 
-object escudo {
-
-	const property tipo = defensa
-	var property position = game.at(0, 1)
-	const property poderQueOtorga = 0
-	const property defensaQueOtorga = 30
-
-	method agragar(personaje) {
+class ArtefactoDefensa inherits Artefacto {
+	method defensaQueOtorga()
+	
+	method agregar(personaje) {
 		personaje.defenza().add(self)
 	}
 
@@ -56,34 +56,23 @@ object escudo {
 		personaje.defenza().remove(self)
 	}
 	
-	method image() {
-		return ""
-	}
-}
-
-object yelmo {
-
-	const property tipo = defensa
-	var property position = game.at(0, 0)
-	const property poderQueOtorga = 0
-	const property defensaQueOtorga = 20
-
-	method agragar(personaje) {
-		personaje.defenza().add(self)
-	}
-
-	method sacar(personaje) {
-		personaje.defenza().remove(self)
+	method esArtefactoDefensa() {
+		return true
 	}
 	
-	method image() {
-		return ""
+	override method equipar(personaje) {
+		personaje.equiparArtefactoDeDefensa(self)
+	}
+	
+	override method desEquipar(personaje) {
+		personaje.desEquiparDefensa(self)
 	}
 }
 
-class llave {
-
-	method agragar(personaje) {
+class Utilidad {
+	var property usos
+	
+	method agregar(personaje) {
 		personaje.utilidades().add(self)
 	}
 
@@ -91,24 +80,55 @@ class llave {
 		personaje.utilidades().remove(self)
 	}
 	
-	method image() {
+	method equipar(personaje) {
+		personaje.equiparArtefactoDeUtilidad(self)
+	}
+	
+	method image()
+}
+
+object espadaDeNederita inherits ArtefactoAtaque (position = game.at(3,5)) {
+	
+	override method poderQueOtorga() = 10
+	
+	override method image() {
+		return "espada.png"
+	}
+}
+
+object lanzaHechizada inherits ArtefactoAtaque (position = game.at(5,5)) {
+	
+	override method poderQueOtorga() = 15
+	
+	override method image() {
 		return ""
 	}
 }
 
-object ataque {
-
-	method armaDe() {
-		return self
+object escudo inherits ArtefactoDefensa (position = game.at(5,6)) {
+	
+	override method defensaQueOtorga() = 30
+	
+	override method image() {
+		return "gema.png"
 	}
-
 }
 
-object defensa {
+object yelmo inherits ArtefactoDefensa (position = game.at(7,6)) {
 
-	method armaDe() {
-		return self
+	override method position(position) = game.at(5,5)
+	
+	override method defensaQueOtorga() = 40
+	
+	override method image() {
+		return ""
 	}
+}
 
+object llave inherits Utilidad (usos = 3){
+
+	override method image() {
+		return "llave.png"
+	}
 }
 

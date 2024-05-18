@@ -11,6 +11,7 @@ program juego {
 	const puerta = new Puerta(siguienteHabitacion = nivel2);
 	nivel1.agregarPuerta(puerta)
 	
+	
 	habitacionManager.cargarHabitacion(nivel1)
 
 	game.start()

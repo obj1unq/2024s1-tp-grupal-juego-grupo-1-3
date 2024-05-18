@@ -6,10 +6,10 @@ import habitacion.*
 object asterion {
 
 	var property position = game.at(3, 8)
-	var vida = 100
+	//var vida = 100
 	const property utilidades = #{}
-	var property arma = espadaDeNederita // solo puede tener un arma en la mano (podriamos hacer que pueda llevar una segunda arma)
-	const property defenza = #{}
+	var property arma = null
+	const property defenza = []
 	const poderBase = 10
 
 	method image() = "minotaur4x.png"
@@ -24,7 +24,6 @@ object asterion {
 		return false
 	}
 	method atravesar(){
-	
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
 	 	puerta.atravesar()	
 	}
@@ -37,22 +36,65 @@ object asterion {
 		return defenza.forEach({ artefacto => artefacto.defensaQueOtorga().sum() })
 	}
 
-/////////////////////////////--FUNCIONALIDAD--////////////////////////////////
+
+//////////////////////////////////--FUNCIONALIDAD--///////////////////////////////////
+
+
 	method objetoEnPosActual() {
-		return game.getObjectsIn(self.position()).copyWithout(self).asList().get(0)
+		self.verificarSiHayObjeto()
+		return game.getObjectsIn(self.position()).find({cosa=> cosa.esArtefacto()})
+	}
+	
+	method dropearSiPuedeArma() {
+		if (self.arma() !== null) {
+			arma.drop(self.position())
+			arma= null
+		}
+	}
+	
+	method primerDefensa() {
+		self.validarQueTieneDefensa()
+		return defenza.first()
 	}
 
-///////////////////////////////--ACCIONES--/////////////////////////////////
+
+////////////////////////////////////--ACCIONES--////////////////////////////////////////
+
+
+	method equiparArtefactoDeAtaque(artefactoAtaq) {
+		self.dropearSiPuedeArma()
+		artefactoAtaq.agregar(self)
+		game.removeVisual(artefactoAtaq)
+	}
+	
+	method equiparArtefactoDeDefensa(artefactoDef) {
+		artefactoDef.agregar(self)
+		game.removeVisual(artefactoDef)
+	}
+	
+	method desEquiparDefensa(artefactoDef) {
+		if (not self.defenza().isEmpty()) {
+			artefactoDef.drop(self.position())
+			defenza.remove(artefactoDef)
+		}
+	}
+	
+//	method desEquiparUtilidad(utilidad) {
+//		
+//	}
+	
+	method equiparArtefactoDeUtilidad(artefactUti) {
+		artefactUti.agregar(self)
+		game.removeVisual(artefactUti)
+	}
+
 	method agarrarYEquipar(cosa) {
-		game.addVisual(arma) // dropea lo que tiene (agrega la visual al game)
-		cosa.agregar(self) // equipa el ara del suelo
-		game.removeVisual(cosa) // remueve el arma que agarro del suelo de las visuales del game
+		cosa.equipar(self)
 	}
 
 	method soltarSiPuede(cosa) {
 		self.verificarSiTieneElObjeto(cosa)
-		cosa.sacar(self)
-		game.addVisual(cosa)
+		cosa.desEquipar(self)
 	}
 
 	method usar(cosa) {
@@ -63,12 +105,26 @@ object asterion {
 	// hay que ver que arma lo golpea, cuanto hace de daño cada arma
 	}
 
+
 //////////////////////////--VERIFICACIONES--////////////////////////////////
+
+
 	method verificarSiTieneElObjeto(cosa) {
-		if (not defenza.find(cosa)) {
+		if (cosa == null) {
 			self.error("No tengo este objeto en mi poder")
 		}
 	}
-
+	
+	method validarQueTieneDefensa() {
+		if (defenza.size() == 0 ) {self.error("No tengo defensas")}
+	}
+	
+	method verificarSiHayObjeto() {
+		if (game.getObjectsIn(self.position()).findOrElse({cosa=> cosa.esArtefacto()}, {null}) == null) {self.error("No hay artefacto aca")}
+	}
+	
+	method esArtefacto() {
+		return false
+	}
 }
 
