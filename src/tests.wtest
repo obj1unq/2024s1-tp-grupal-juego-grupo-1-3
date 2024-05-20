@@ -5,13 +5,7 @@ import artefactos.*
 
 describe "asterion" {
 
-	method initialize() {
-		game.clear()
-		game.addVisual(asterion)
-	}
-
-	test "asterion agarra un objeto y lo añade a su inventario" {
-	}
+	
 
 }
 
