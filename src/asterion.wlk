@@ -4,12 +4,12 @@ import posiciones.*
 import habitacion.*
 
 object asterion {
-
 	var property position = game.at(3, 8)
+	var property habitacionActual = null
 	//var vida = 100
 	const property utilidades = #{}
-	var property arma = null
-	const property defenza = []
+	var property arma = manos
+	const property defensa = #{}
 	const poderBase = 10
 
 	method image() = "minotaur4x.png"
@@ -25,7 +25,7 @@ object asterion {
 	}
 	method atravesar(){
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
-	 	puerta.atravesar()	
+	 	puerta.atravesar(self)	
 	}
 
 	method poderPelea() {
@@ -33,98 +33,79 @@ object asterion {
 	}
 
 	method poderDefensa() {
-		return defenza.forEach({ artefacto => artefacto.defensaQueOtorga().sum() })
-	}
-
-
-//////////////////////////////////--FUNCIONALIDAD--///////////////////////////////////
-
-
-	method objetoEnPosActual() {
-		self.verificarSiHayObjeto()
-		return game.getObjectsIn(self.position()).find({cosa=> cosa.esArtefacto()})
+		return defensa.sum({artefacto => artefacto.defensaQueOtorga()})
 	}
 	
-	method dropearSiPuedeArma() {
-		if (self.arma() !== null) {
-			arma.drop(self.position())
-			arma= null
+	method artefactos(){
+		return game.getObjectsIn(self.position()).filter({visual => visual.esArtefacto()})
+	}
+	
+	method equipar(){
+		 self.artefactos().forEach({artefacto => artefacto.equipar(self)})
+	}
+	
+	method estaArmado(){
+		return self.arma() != manos
+	}
+	
+	method validarEquiparArma(){
+		if (self.estaArmado()){
+			self.error("Ya existe un arma equipada, es necesario dropear el armamento actual") 
 		}
 	}
 	
-	method primerDefensa() {
-		self.validarQueTieneDefensa()
-		return defenza.first()
-	}
-
-
-////////////////////////////////////--ACCIONES--////////////////////////////////////////
-
-
-	method equiparArtefactoDeAtaque(artefactoAtaq) {
-		self.dropearSiPuedeArma()
-		artefactoAtaq.agregar(self)
-		game.removeVisual(artefactoAtaq)
+	method equiparArma(_arma){
+		self.validarEquiparArma()
+		self.arma(_arma)
+		self.habitacionActual().sacarCosa(_arma)
 	}
 	
-	method equiparArtefactoDeDefensa(artefactoDef) {
-		artefactoDef.agregar(self)
-		game.removeVisual(artefactoDef)
+	method equiparDefensa(_defensa){
+		self.defensa().add(_defensa)
+		self.habitacionActual().sacarCosa(_defensa)
 	}
 	
-	method desEquiparDefensa(artefactoDef) {
-		if (not self.defenza().isEmpty()) {
-			artefactoDef.drop(self.position())
-			defenza.remove(artefactoDef)
+	method equiparUtilidad(utilidad){
+		self.utilidades().add(utilidad)
+		self.habitacionActual().sacarCosa(utilidad)
+	}
+	
+	method validarDropearArma(){
+		if (!self.estaArmado()){
+			self.error("No existe un arma para dropear")
 		}
 	}
 	
-//	method desEquiparUtilidad(utilidad) {
-//		
-//	}
-	
-	method equiparArtefactoDeUtilidad(artefactUti) {
-		artefactUti.agregar(self)
-		game.removeVisual(artefactUti)
-	}
-
-	method agarrarYEquipar(cosa) {
-		cosa.equipar(self)
-	}
-
-	method soltarSiPuede(cosa) {
-		self.verificarSiTieneElObjeto(cosa)
-		cosa.desEquipar(self)
-	}
-
-	method usar(cosa) {
-		cosa.sacar(self)
-	}
-
-	method golpear(enemigo) {
-	// hay que ver que arma lo golpea, cuanto hace de daño cada arma
-	}
-
-
-//////////////////////////--VERIFICACIONES--////////////////////////////////
-
-
-	method verificarSiTieneElObjeto(cosa) {
-		if (cosa == null) {
-			self.error("No tengo este objeto en mi poder")
-		}
+	method dropearArma(){
+		self.validarDropearArma()
+		self.arma().desEquipar(self)
+		self.arma(manos)
 	}
 	
-	method validarQueTieneDefensa() {
-		if (defenza.size() == 0 ) {self.error("No tengo defensas")}
+	method desequiparDefensa(_defensa){
+		
 	}
 	
-	method verificarSiHayObjeto() {
-		if (game.getObjectsIn(self.position()).findOrElse({cosa=> cosa.esArtefacto()}, {null}) == null) {self.error("No hay artefacto aca")}
+	method desequiparAtaque(_arma){
+		
 	}
+	
+	method desequiparUtilidad(_utilidad){
+		
+	}
+	
+	
 	
 	method esArtefacto() {
 		return false
+	}
+}
+
+
+object manos {
+	
+	method poderQueOtorga() {
+		return 0
 	}
 }
 

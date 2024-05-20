@@ -2,15 +2,20 @@ import wollok.game.*
 import asterion.*
 
 class Artefacto {
-	var property position
+	var property position = null
 	
 	method esArtefacto() {
 		return true
 	}
 	
+	
 	method drop(posicion) {
 		position = posicion
 		game.addVisual(self)
+	}
+	
+	method usar(personaje){
+		
 	}
 	
 	method equipar(personaje)
@@ -20,74 +25,54 @@ class Artefacto {
 	method image()
 }
 
-class ArtefactoAtaque inherits Artefacto {
+class Arma inherits Artefacto {
 	
 	method poderQueOtorga()
 	
-	method agregar(personaje) {
-		personaje.arma(self)
-	}
-
-	method sacar(personaje) {
-		personaje.arma(null)
-	}
 	
-	method esArtefactoAtaque() {
-		return true
+	override method usar(personaje){
+		
 	}
 	
 	override method equipar(personaje) {
-		personaje.equiparArtefactoDeAtaque(self)
+		personaje.equiparArma(self)
 	}
 	
 	override method desEquipar(personaje) {
-		personaje.dropearSiPuedeArma()
+		self.position(personaje.position())
+		personaje.habitacionActual().agregarCosa(self)
+		game.addVisual(self)
 	}
 }
 
-class ArtefactoDefensa inherits Artefacto {
+class Defensa inherits Artefacto {
 	method defensaQueOtorga()
 	
-	method agregar(personaje) {
-		personaje.defenza().add(self)
-	}
-
-	method sacar(personaje) {
-		personaje.defenza().remove(self)
-	}
-	
-	method esArtefactoDefensa() {
-		return true
-	}
-	
 	override method equipar(personaje) {
-		personaje.equiparArtefactoDeDefensa(self)
+		personaje.equiparDefensa(self)
 	}
 	
 	override method desEquipar(personaje) {
 		personaje.desEquiparDefensa(self)
 	}
+	
 }
 
-class Utilidad {
-	var property usos
+class Cosa inherits Artefacto {
+	var property usos = null
 	
-	method agregar(personaje) {
-		personaje.utilidades().add(self)
-	}
 
-	method sacar(personaje) {
-		personaje.utilidades().remove(self)
+	method desEquipar(personaje) {
+		personaje.desEquiparUtilidad(self)
 	}
 	
 	method equipar(personaje) {
-		personaje.equiparArtefactoDeUtilidad(self)
+		personaje.equiparUtilidad(self)
 	}
 	
-	method image()
 }
 
-object espadaDeNederita inherits ArtefactoAtaque (position = game.at(3,5)) {
+object espadaDeNederita inherits Arma {
 	
 	override method poderQueOtorga() = 10
 	
@@ -96,7 +81,7 @@ object espadaDeNederita inherits ArtefactoAtaque (position = game.at(3,5)) {
 	}
 }
 
-object lanzaHechizada inherits ArtefactoAtaque (position = game.at(5,5)) {
+object lanzaHechizada inherits Arma {
 	
 	override method poderQueOtorga() = 15
 	
@@ -105,18 +90,17 @@ object lanzaHechizada inherits ArtefactoAtaque (position = game.at(5,5)) {
 	}
 }
 
-object escudo inherits ArtefactoDefensa (position = game.at(5,6)) {
+object escudo inherits Defensa {
 	
 	override method defensaQueOtorga() = 30
 	
 	override method image() {
 		return "gema.png"
 	}
+	
 }
 
-object yelmo inherits ArtefactoDefensa (position = game.at(7,6)) {
-
-	override method position(position) = game.at(5,5)
+object yelmo inherits Defensa {
 	
 	override method defensaQueOtorga() = 40
 	
@@ -125,7 +109,7 @@ object yelmo inherits ArtefactoDefensa (position = game.at(7,6)) {
 	}
 }
 
-object llave inherits Utilidad (usos = 3){
+object llave inherits Cosa {
 
 	override method image() {
 		return "llave.png"
