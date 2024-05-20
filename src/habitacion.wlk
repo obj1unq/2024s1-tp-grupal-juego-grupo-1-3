@@ -1,6 +1,7 @@
 import wollok.game.*
-import pepita.*
+import asterion.*
 import posiciones.*
+import artefactos.*
 
 
 object habitacionManager{
@@ -9,15 +10,17 @@ object habitacionManager{
 		
 		self.limpiarNivel()
 		
-		keyboard.p().onPressDo({zeldita.atravesar()})
+		keyboard.p().onPressDo({asterion.atravesar()})
 
 		game.title("El juego de Asterion")
 		game.height(10)
 		game.width(10)
-		keyboard.down().onPressDo({ zeldita.mover(abajo) })
-		keyboard.up().onPressDo({ zeldita.mover(arriba) })
-		keyboard.left().onPressDo({ zeldita.mover(izquierda) })
-		keyboard.right().onPressDo({ zeldita.mover(derecha) })
+		keyboard.down().onPressDo({ asterion.mover(abajo) })
+		keyboard.up().onPressDo({ asterion.mover(arriba) })
+		keyboard.left().onPressDo({ asterion.mover(izquierda) })
+		keyboard.right().onPressDo({ asterion.mover(derecha) })
+		keyboard.q().onPressDo({ asterion.equipar() })
+		keyboard.z().onPressDo({ asterion.dropearArma() })
 
 		
 		habitacion.init(self)
@@ -30,7 +33,9 @@ object habitacionManager{
 	}
 	
 	method inicializarJuego(){
-		game.addVisual(zeldita)	
+		game.addVisual(asterion)
+		// game.addVisual(escudo) //buen tamaño 32x32 
+		// game.addVisual(espadaDeNederita)	
 	}
 }
 
@@ -40,7 +45,7 @@ class Habitacion {
 	const property position = game.center()
 	const property objetivo = null 
 	const property enemigos = null
-	const property cosas  = null
+	const property cosas  = #{}
 	const property puertas = #{}
 	const ground = "ground5.png"
 	
@@ -51,9 +56,24 @@ class Habitacion {
 	method mostrarPuertas(){
 		puertas.forEach({puerta => game.addVisual(puerta)})
 	}
+	
+	method agregarCosa(cosa){
+		cosas.add(cosa)
+	}
+	
+	method mostrarCosas(){
+		cosas.forEach({cosa => game.addVisual(cosa)})
+	}
+	
+	method sacarCosa(cosa){
+		self.cosas().remove(cosa)
+		game.removeVisual(cosa)
+	}
+	
 	method init(manager){
 		game.ground(ground)
 		self.mostrarPuertas()
+		self.mostrarCosas()
 	}
 }
 
@@ -135,6 +155,7 @@ class Puerta {
     method atravesar(personaje){
      self.validarAtravesar(personaje, self.habitacionActual())
      habitacionManager.cargarHabitacion(self.siguienteHabitacion())
+     personaje.habitacionActual(self.siguienteHabitacion())
      personaje.position(posicionPuerta.nextPosition())
     }
 }
@@ -175,6 +196,9 @@ object habitacionFactory {
 	const puerta43 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionSuperior)
 	
 	
+	const espada = espadaDeNederita
+	espada.position(game.at(3,5))
+	
 	nivel1.agregarPuerta(puerta12)
 	nivel2.agregarPuerta(puerta21)
 	nivel2.agregarPuerta(puerta23)
@@ -182,7 +206,10 @@ object habitacionFactory {
 	nivel3.agregarPuerta(puerta34)
 	nivel4.agregarPuerta(puerta43)
 	
+	nivel1.agregarCosa(espada)
+	
 	habitacionManager.cargarHabitacion(nivel1)
+	asterion.habitacionActual(nivel1)
 	}
 }
 

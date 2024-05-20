@@ -1,6 +1,11 @@
+import wollok.game.*
+import asterion.*
+import posiciones.*
+import artefactos.*
 
-test "testX" {
+describe "asterion" {
 
-	assert.that(true)
+	
 
 }
+

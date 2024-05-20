@@ -42,6 +42,7 @@ object positionUp{
 	method nextPosition(){
 		return positionDown.position()
 	}
+
 }
 
 object positionDown {

@@ -1,12 +1,11 @@
 import wollok.game.*
-import pepita.*
+import asterion.*
 import posiciones.*
+import artefactos.*
 import habitacion.*
-
 
 program juego { 
 	
 	habitacionFactory.init()
-
 	game.start()
 }
