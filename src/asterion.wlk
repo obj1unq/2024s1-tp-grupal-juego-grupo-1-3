@@ -6,7 +6,7 @@ import habitacion.*
 object asterion {
 	var property position = game.at(3, 8)
 	var property habitacionActual = null
-	//var vida = 100
+	// var vida = 100
 	const property utilidades = #{}
 	var property arma = manos
 	const property defensa = #{}
@@ -76,9 +76,13 @@ object asterion {
 		}
 	}
 	
+	method dropear(cosa){
+		self.habitacionActual().agregarCosa(cosa)
+		cosa.drop(self.position())
+	}
 	method dropearArma(){
 		self.validarDropearArma()
-		self.arma().desEquipar(self)
+		self.dropear(self.arma())
 		self.arma(manos)
 	}
 	
@@ -92,6 +96,10 @@ object asterion {
 	
 	method desequiparUtilidad(_utilidad){
 		
+	}
+	
+	method golpear(enemigo){
+		enemigo.esGolpeado(self)
 	}
 	
 	
@@ -109,3 +117,79 @@ object manos {
 	}
 }
 
+
+
+class Enemigo {
+	var property artefactoADropear = aire
+	var property position = null
+	var property vida = 50	
+	
+	method esGolpeado(personaje) // abstracto
+	
+	method morir(){
+		game.removeVisual(self)
+		artefactoADropear.drop(self.position())
+	}
+	
+	method golpear(personaje){
+		personaje.esGolpeado(self)
+	}
+	
+	method poderBase(){
+		return 10
+	}
+	
+	method image() // abstracto
+	
+	method poderPelea(){
+		return self.poderBase()
+	}
+}
+
+
+class Humano inherits Enemigo {
+	var property poderDefensa = 10
+	var property arma = manos
+	
+	override method image() {
+		
+	}
+	
+	
+	method vidaAlSerGolpeado(personaje){
+		return 0.max(self.vida() + self.poderDefensa()-personaje.poderPelea())
+	}
+	
+	method estaMuerto(){
+		return self.vida() <= 0
+	}
+	
+	override method esGolpeado(personaje){
+		self.vida(self.vidaAlSerGolpeado(personaje))
+			if (self.estaMuerto()){
+				self.morir()
+			} else {
+				self.golpear(personaje)
+			}
+	}
+	
+	override method poderPelea(){
+		return super() + arma.poderQueOtorga()
+	}
+	
+	
+}
+
+
+class Espectro inherits Enemigo {
+	var property estado
+	
+	override method image(){
+		return estado.image()
+	}
+	
+	override method esGolpeado(personaje){
+		self.morir()
+	}
+	
+}
