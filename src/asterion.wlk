@@ -3,16 +3,79 @@ import artefactos.*
 import posiciones.*
 import habitacion.*
 
-object asterion {
+
+class Personaje {
+	
+	method vida()
+	
+	method vida(_vida)
+		
+	method image() // abstracto
+	
+	method position() // abstracto
+	
+	method poderPelea() // abstracto
+	
+	method poderDefensa() // abstracto
+	
+	method morir() {
+		game.say(self, "me mori")
+		game.removeVisual(self)
+	}
+	
+	method golpear(enemigo){
+			enemigo.esGolpeado(self)
+	}
+	
+	method vidaARestarPorGolpe(poderGolpe){
+		return 0.max(poderGolpe - self.poderDefensa())
+	}
+	
+	method vidaAlSerGolpeadoPor(personaje){
+		return 0.max(self.vida() - self.vidaARestarPorGolpe(personaje.poderPelea()))
+	}
+	
+	method recibirGolpe(personaje){
+		self.vida(self.vidaAlSerGolpeadoPor(personaje))
+	}
+	
+	method tieneVida(){
+		return self.vida() > 0
+	}
+	
+	method esGolpeado(enemigo){
+		console.println("recibiendo golpe")
+		self.recibirGolpe(enemigo)
+		console.println("golpe recibido, mi vida es: ")
+		console.println(self.vida())
+	}
+	
+	method dropear(cosa){
+		cosa.drop(self.position())
+	}
+	
+	method esArtefacto(){
+		return false
+	}
+	
+	method esAtravesable(){
+		return false
+	}
+	
+}
+
+
+
+object asterion inherits Personaje {
 	var property position = game.at(3, 8)
 	var property habitacionActual = null
-	// var vida = 100
+    var property vida = 100
 	const property utilidades = #{}
 	var property arma = manos
 	const property defensa = #{}
 	const poderBase = 10
 
-	method image() = "minotaur4x.png"
+	override method image() = "minotaur4x.png"
 	
 	method mover(direccion) {
 		
@@ -20,19 +83,17 @@ object asterion {
 			position = direccion.siguiente(self.position())
 		}
 	}
-	method esAtravesable(){
-		return false
-	}
+	
 	method atravesar(){
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
 	 	puerta.atravesar(self)	
 	}
 
-	method poderPelea() {
+	override method poderPelea() {
 		return arma.poderQueOtorga() + poderBase
 	}
 
-	method poderDefensa() {
+	override method poderDefensa() {
 		return defensa.sum({artefacto => artefacto.defensaQueOtorga()})
 	}
 	
@@ -42,6 +103,14 @@ object asterion {
 	
 	method equipar(){
 		 self.artefactos().forEach({artefacto => artefacto.equipar(self)})
+	}
+	
+	method enemigosEnPosicion(){
+		return game.colliders(self).filter({visual => not (visual.esArtefacto() || visual.esAtravesable())})
+	}
+	
+	method golpear(){
+		self.enemigosEnPosicion().forEach({enemigo => self.golpear(enemigo)})
 	}
 	
 	method estaArmado(){
@@ -76,9 +145,9 @@ object asterion {
 		}
 	}
 	
-	method dropear(cosa){
+	override method dropear(cosa){
 		self.habitacionActual().agregarCosa(cosa)
-		cosa.drop(self.position())
+		super(cosa)
 	}
 	method dropearArma(){
 		self.validarDropearArma()
@@ -98,15 +167,24 @@ object asterion {
 		
 	}
 	
-	method golpear(enemigo){
-		enemigo.esGolpeado(self)
+	override method morir(){
+		super()
+		// terminarjuego
+	}
+	
+	method reaccionarTrasGolpe(enemigo){
+		if (!self.tieneVida()){
+			self.morir()
+		}
 	}
 	
 	
-	
-	method esArtefacto() {
-		return false
+	override method esGolpeado(enemigo){
+		super(enemigo)
+		self.reaccionarTrasGolpe(enemigo)
 	}
+	
+	
 }
 
 
@@ -119,29 +197,22 @@ object manos {
 
 
 
-class Enemigo {
+class Enemigo inherits Personaje {
 	var property artefactoADropear = aire
 	var property position = null
 	var property vida = 50	
-	
-	method esGolpeado(personaje) // abstracto
-	
-	method morir(){
-		game.removeVisual(self)
-		artefactoADropear.drop(self.position())
+		
+	override method morir(){
+		super()
+		self.dropear(self.artefactoADropear())
 	}
 	
-	method golpear(personaje){
-		personaje.esGolpeado(self)
-	}
 	
 	method poderBase(){
 		return 10
 	}
-	
-	method image() // abstracto
-	
-	method poderPelea(){
+		
+	override method poderPelea(){
 		return self.poderBase()
 	}
 }
@@ -151,26 +222,19 @@ class Humano inherits Enemigo {
 	var property poderDefensa = 10
 	var property arma = manos
 	
-	override method image() {
-		
-	}
+	override method image() = "wpierdol.png"
 	
-	
-	method vidaAlSerGolpeado(personaje){
-		return 0.max(self.vida() + self.poderDefensa()-personaje.poderPelea())
-	}
-	
-	method estaMuerto(){
-		return self.vida() <= 0
+	method reaccionarTrasGolpe(personaje){
+		if (self.tieneVida()){
+			self.golpear(personaje)
+		} else {
+			self.morir()
+		}
 	}
 	
 	override method esGolpeado(personaje){
-		self.vida(self.vidaAlSerGolpeado(personaje))
-			if (self.estaMuerto()){
-				self.morir()
-			} else {
-				self.golpear(personaje)
-			}
+		super(personaje)
+		self.reaccionarTrasGolpe(personaje)
 	}
 	
 	override method poderPelea(){

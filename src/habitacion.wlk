@@ -21,6 +21,7 @@ object habitacionManager{
 		keyboard.right().onPressDo({ asterion.mover(derecha) })
 		keyboard.q().onPressDo({ asterion.equipar() })
 		keyboard.z().onPressDo({ asterion.dropearArma() })
+		keyboard.f().onPressDo({asterion.golpear()})
 
 		
 		habitacion.init(self)
@@ -44,7 +45,7 @@ object habitacionManager{
 class Habitacion {
 	const property position = game.center()
 	const property objetivo = null 
-	const property enemigos = null
+	const property enemigos = []
 	const property cosas  = #{}
 	const property puertas = #{}
 	const ground = "ground5.png"
@@ -70,10 +71,20 @@ class Habitacion {
 		game.removeVisual(cosa)
 	}
 	
+	method agregarEnemigo(enemigo){
+		enemigos.add(enemigo)
+	}
+	
+	method mostrarEnemigos(){
+		enemigos.forEach({enemigo => game.addVisual(enemigo)})
+	}
+	
+	
 	method init(manager){
 		game.ground(ground)
 		self.mostrarPuertas()
 		self.mostrarCosas()
+		self.mostrarEnemigos()
 	}
 }
 
@@ -199,6 +210,8 @@ object habitacionFactory {
 	const espada = espadaDeNederita
 	espada.position(game.at(3,5))
 	
+	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
+	
 	nivel1.agregarPuerta(puerta12)
 	nivel2.agregarPuerta(puerta21)
 	nivel2.agregarPuerta(puerta23)
@@ -207,6 +220,7 @@ object habitacionFactory {
 	nivel4.agregarPuerta(puerta43)
 	
 	nivel1.agregarCosa(espada)
+	nivel2.agregarEnemigo(humano)
 	
 	habitacionManager.cargarHabitacion(nivel1)
 	asterion.habitacionActual(nivel1)
