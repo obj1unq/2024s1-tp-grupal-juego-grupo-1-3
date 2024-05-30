@@ -20,8 +20,6 @@ class Artefacto {
 	
 	method equipar(personaje)
 	
-	method desEquipar(personaje)
-	
 	method image()
 }
 
@@ -31,18 +29,14 @@ class Arma inherits Artefacto {
 	
 	
 	override method usar(personaje){
-		
+		const enemigos = game.colliders(personaje).filter({visual => !visual.esAtravesable() && !visual.esArtefacto()})
+		enemigos.forEach({enemigo => personaje.golpear(enemigo)})
 	}
 	
 	override method equipar(personaje) {
 		personaje.equiparArma(self)
 	}
 	
-	override method desEquipar(personaje) {
-		self.position(personaje.position())
-		personaje.habitacionActual().agregarCosa(self)
-		game.addVisual(self)
-	}
 }
 
 class Defensa inherits Artefacto {
@@ -52,21 +46,14 @@ class Defensa inherits Artefacto {
 		personaje.equiparDefensa(self)
 	}
 	
-	override method desEquipar(personaje) {
-		personaje.desEquiparDefensa(self)
-	}
 	
 }
 
 class Cosa inherits Artefacto {
 	var property usos = null
 	
-
-	method desEquipar(personaje) {
-		personaje.desEquiparUtilidad(self)
-	}
 	
-	method equipar(personaje) {
+	override method equipar(personaje) {
 		personaje.equiparUtilidad(self)
 	}
 	
@@ -116,3 +103,9 @@ object llave inherits Cosa {
 	}
 }
 
+object aire inherits Cosa {
+	
+	override method drop(posicion){}
+	
+	override method image(){}
+}
