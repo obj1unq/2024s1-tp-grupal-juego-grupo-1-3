@@ -79,6 +79,13 @@ class Habitacion {
 		enemigos.forEach({enemigo => game.addVisual(enemigo)})
 	}
 	
+	method sacarEnemigo(enemigoEncontrado){
+		const enemigoSeleccionado = self.enemigos().find({enemigo => enemigo == enemigoEncontrado})
+		console.println('enemigo seleccionado ' +  enemigoSeleccionado)
+		enemigos.remove(enemigoSeleccionado)
+		game.removeVisual(enemigoSeleccionado)
+	}
+	
 	
 	method init(manager){
 		game.ground(ground)
@@ -224,6 +231,7 @@ object habitacionFactory {
 	
 	habitacionManager.cargarHabitacion(nivel1)
 	asterion.habitacionActual(nivel1)
+	humano.habitacionActual(nivel2)
 	}
 }
 
