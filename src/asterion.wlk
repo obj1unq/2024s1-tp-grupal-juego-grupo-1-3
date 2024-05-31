@@ -5,7 +5,7 @@ import habitacion.*
 
 
 class Personaje {
-	
+	var property habitacionActual = null
 	method vida()
 	
 	method vida(_vida)
@@ -20,7 +20,9 @@ class Personaje {
 	
 	method morir() {
 		game.say(self, "me mori")
+		habitacionActual.sacarEnemigo(self)
 		game.removeVisual(self)
+	 //el método morir() debería recordar la habitación actual
 	}
 	
 	method golpear(enemigo){
@@ -68,7 +70,7 @@ class Personaje {
 
 object asterion inherits Personaje {
 	var property position = game.at(3, 8)
-	var property habitacionActual = null
+
     var property vida = 100
 	const property utilidades = #{}
 	var property arma = manos
@@ -86,6 +88,7 @@ object asterion inherits Personaje {
 	
 	method atravesar(){
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
+	 	puerta.habitacionActual(self.habitacionActual())  // Setear habitacion actual
 	 	puerta.atravesar(self)	
 	}
 
@@ -201,11 +204,13 @@ class Enemigo inherits Personaje {
 	var property artefactoADropear = aire
 	var property position = null
 	var property vida = 50	
-		
+
+	
 	override method morir(){
 		super()
+		
 		self.dropear(self.artefactoADropear())
-	}
+	} 
 	
 	
 	method poderBase(){
@@ -221,6 +226,7 @@ class Enemigo inherits Personaje {
 class Humano inherits Enemigo {
 	var property poderDefensa = 10
 	var property arma = manos
+	//var property habitacionActual = null // el personaje tiene que conocer la habitacion
 	
 	override method image() = "wpierdol.png"
 	
@@ -229,6 +235,7 @@ class Humano inherits Enemigo {
 			self.golpear(personaje)
 		} else {
 			self.morir()
+			
 		}
 	}
 	

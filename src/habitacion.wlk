@@ -75,9 +75,23 @@ class Habitacion {
 		enemigos.add(enemigo)
 	}
 	
+	method sacarEnemigo(enemigoEncontrado){
+		const enemigoSeleccionado = self.enemigos().find({enemigo => enemigo == enemigoEncontrado})
+		console.println('enemigo seleccionado ' +  enemigoSeleccionado)
+		enemigos.remove(enemigoSeleccionado)
+		game.removeVisual(enemigoSeleccionado)
+	}
+	
+	
+	
 	method mostrarEnemigos(){
 		enemigos.forEach({enemigo => game.addVisual(enemigo)})
 	}
+	
+	method esObjetivoCumplido(){
+		return true
+	}
+	
 	
 	
 	method init(manager){
@@ -152,6 +166,8 @@ class Puerta {
     const property siguienteHabitacion 
     const property posicionPuerta
     var property habitacionActual = null
+    var property habitacionCompletada = null
+    var property esCompletada = true
     
     method image() = posicionPuerta.image()
     
@@ -164,10 +180,36 @@ class Puerta {
     method validarAtravesar(personaje, habitacion){ }
     
     method atravesar(personaje){
+    	//esto esta bien?
+  
+  
      self.validarAtravesar(personaje, self.habitacionActual())
      habitacionManager.cargarHabitacion(self.siguienteHabitacion())
      personaje.habitacionActual(self.siguienteHabitacion())
      personaje.position(posicionPuerta.nextPosition())
+  
+  /*    self.validarAtravesar(personaje, self.habitacionActual())
+     console.println('es objetivo cumpleido: ' +self.habitacionActual().esObjetivoCumplido() )
+     
+     if(self.habitacionActual().esObjetivoCumplido() && self.esCompletada()){
+		console.println('en el if del atravesar')
+     	self.habitacionCompletada(self.habitacionActual())
+     	self.esCompletada(false)
+     	
+     	habitacionManager.cargarHabitacion(self.siguienteHabitacion())
+     	personaje.habitacionActual(self.siguienteHabitacion())
+     	personaje.position(posicionPuerta.nextPosition())
+     	
+     }else{
+     	console.println('en el else del atravesar')
+     	habitacionManager.cargarHabitacion(self.habitacionCompletada())	
+     }
+     */
+
+     
+     
+     
+    
     }
 }
 
@@ -199,17 +241,17 @@ object habitacionFactory {
 	const nivel3 = new Habitacion()
 	const nivel4 = new Habitacion()
 	
-	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior)
-	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior)
-	const puerta23 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste)
-	const puerta32 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionEste)
-	const puerta34 = new Puerta(siguienteHabitacion= nivel4, posicionPuerta= posicionInferior)
-	const puerta43 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionSuperior)
+	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior, habitacionCompletada = nivel2 )
+	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior, habitacionCompletada = nivel2)
+	const puerta23 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste, habitacionCompletada = nivel2)//aca estaria completada la habitacion2
+	const puerta32 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionEste, habitacionCompletada = nivel2)
+	const puerta34 = new Puerta(siguienteHabitacion= nivel4, posicionPuerta= posicionInferior, habitacionCompletada = nivel2)
+	const puerta43 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionSuperior, habitacionCompletada = nivel2)
 	
 	
 	const espada = espadaDeNederita
 	espada.position(game.at(3,5))
-	
+
 	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
 	
 	nivel1.agregarPuerta(puerta12)
@@ -224,6 +266,7 @@ object habitacionFactory {
 	
 	habitacionManager.cargarHabitacion(nivel1)
 	asterion.habitacionActual(nivel1)
+	humano.habitacionActual(nivel2)
 	}
 }
 
