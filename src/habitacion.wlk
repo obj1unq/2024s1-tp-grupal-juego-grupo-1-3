@@ -90,6 +90,7 @@ class Habitacion {
 		self.mostrarPuertas()
 		self.mostrarCosas()
 		self.mostrarEnemigos()
+		game.addVisual(barraVida)
 	}
 }
 

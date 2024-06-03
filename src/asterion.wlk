@@ -15,9 +15,18 @@ class Personaje {
 	
 	method position() // abstracto
 	
+	method position(_position)
+	
 	method poderPelea() // abstracto
 	
 	method poderDefensa() // abstracto
+	
+	method mover(direccion) {
+		
+		if(tablero.puedeIr(self.position(), direccion)){
+			self.position(direccion.siguiente(self.position()))
+		}
+	}
 	
 	method morir() {
 		game.say(self, "me mori")
@@ -28,12 +37,12 @@ class Personaje {
 			enemigo.esGolpeado(self)
 	}
 	
-	method vidaARestarPorGolpe(poderGolpe){
-		return 0.max(poderGolpe - self.poderDefensa())
+	method vidaARestarPorGolpe(personaje){
+		return 0.max(personaje.poderPelea() - self.poderDefensa())
 	}
 	
 	method vidaAlSerGolpeadoPor(personaje){
-		return 0.max(self.vida() - self.vidaARestarPorGolpe(personaje.poderPelea()))
+		return 0.max(self.vida() - self.vidaARestarPorGolpe(personaje))
 	}
 	
 	method recibirGolpe(personaje){
@@ -45,10 +54,7 @@ class Personaje {
 	}
 	
 	method esGolpeado(enemigo){
-		console.println("recibiendo golpe")
 		self.recibirGolpe(enemigo)
-		console.println("golpe recibido, mi vida es: ")
-		console.println(self.vida())
 	}
 	
 	method dropear(cosa){
@@ -77,12 +83,6 @@ object asterion inherits Personaje {
 
 	override method image() = "minotaur4x.png"
 	
-	method mover(direccion) {
-		
-		if(tablero.puedeIr(self.position(), direccion)){
-			position = direccion.siguiente(self.position())
-		}
-	}
 	
 	method atravesar(){
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
@@ -169,7 +169,7 @@ object asterion inherits Personaje {
 	
 	override method morir(){
 		super()
-		// terminarjuego
+		game.schedule(2000, { game.stop()})
 	}
 	
 	method reaccionarTrasGolpe(enemigo){
@@ -235,6 +235,7 @@ class Humano inherits Enemigo {
 	
 	override method esGolpeado(personaje){
 		super(personaje)
+		game.say(self, "daño:" + self.vidaARestarPorGolpe(personaje) +" vida:" + self.vida() )
 		self.reaccionarTrasGolpe(personaje)
 	}
 	
@@ -256,5 +257,15 @@ class Espectro inherits Enemigo {
 	override method esGolpeado(personaje){
 		self.morir()
 	}
+	
+}
+
+
+
+object barraVida {
+	method position() = game.at(7, 0)
+	
+	method image() = "VIDA_" + asterion.vida() + ".png"
+	
 	
 }
