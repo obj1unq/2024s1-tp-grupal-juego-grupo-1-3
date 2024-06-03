@@ -5,6 +5,7 @@ import habitacion.*
 
 
 class Personaje {
+	var property habitacionActual = null
 	
 	method vida()
 	
@@ -68,7 +69,6 @@ class Personaje {
 
 object asterion inherits Personaje {
 	var property position = game.at(3, 8)
-	var property habitacionActual = null
     var property vida = 100
 	const property utilidades = #{}
 	var property arma = manos
@@ -205,6 +205,7 @@ class Enemigo inherits Personaje {
 	override method morir(){
 		super()
 		self.dropear(self.artefactoADropear())
+		habitacionActual.sacarEnemigo(self)
 	}
 	
 	

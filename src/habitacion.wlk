@@ -73,6 +73,11 @@ class Habitacion {
 	
 	method agregarEnemigo(enemigo){
 		enemigos.add(enemigo)
+		enemigo.habitacionActual(self)
+	}
+	
+	method sacarEnemigo(enemigo){
+		self.enemigos().remove(enemigo)
 	}
 	
 	method mostrarEnemigos(){
