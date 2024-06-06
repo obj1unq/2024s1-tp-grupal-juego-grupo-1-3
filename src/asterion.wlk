@@ -21,7 +21,7 @@ class Personaje {
 	method morir() {
 		game.say(self, "me mori")
 		habitacionActual.sacarEnemigo(self)
-		game.removeVisual(self)
+		//game.removeVisual(self)
 	 //el método morir() debería recordar la habitación actual
 	}
 	
@@ -54,6 +54,7 @@ class Personaje {
 	
 	method dropear(cosa){
 		cosa.drop(self.position())
+		habitacionActual.agregarCosa(cosa)
 	}
 	
 	method esArtefacto(){
@@ -156,6 +157,11 @@ object asterion inherits Personaje {
 		self.validarDropearArma()
 		self.dropear(self.arma())
 		self.arma(manos)
+	}
+	
+	method tieneArtefacto(artefactoPorLootear){
+		console.println('adentro del tiene artefacto: ' + artefactoPorLootear )
+	 	return self.utilidades().contains(artefactoPorLootear)
 	}
 	
 	method desequiparDefensa(_defensa){
