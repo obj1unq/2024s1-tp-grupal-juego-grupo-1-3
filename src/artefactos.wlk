@@ -21,6 +21,10 @@ class Artefacto {
 	method equipar(personaje)
 	
 	method image()
+	
+	method esAtravesable(){
+		return false
+	}
 }
 
 class Arma inherits Artefacto {
