@@ -217,7 +217,9 @@ class Enemigo inherits Personaje {
 		return self.poderBase()
 	}
 	
-	method init(){}
+	method init(){
+		game.addVisual(self)
+	}
 }
 
 
@@ -284,6 +286,7 @@ class Espectro inherits Enemigo {
 	}
 	
 	override method init(){
+		super()
 		game.onTick(2000, "Espectro"+ self.identity(), {self.position(randomizer.position())})
 		game.onCollideDo(self, {visual => self.atacar()})
 	}

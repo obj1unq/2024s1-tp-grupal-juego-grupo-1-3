@@ -81,7 +81,7 @@ class Habitacion {
 	}
 	
 	method mostrarEnemigos(){
-		enemigos.forEach({enemigo => game.addVisual(enemigo) enemigo.init()})
+		enemigos.forEach({enemigo => enemigo.init()})
 	}
 	
 	
