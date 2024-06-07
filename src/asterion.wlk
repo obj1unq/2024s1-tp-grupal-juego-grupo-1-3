@@ -199,7 +199,7 @@ object manos {
 
 class Enemigo inherits Personaje {
 	var property artefactoADropear = aire
-	var property position = null
+	var property position = game.center()
 	var property vida = 50	
 		
 	override method morir(){
@@ -216,6 +216,8 @@ class Enemigo inherits Personaje {
 	override method poderPelea(){
 		return self.poderBase()
 	}
+	
+	method init(){}
 }
 
 
@@ -246,17 +248,49 @@ class Humano inherits Enemigo {
 	
 }
 
+object ghost {
+	
+	method image(){
+		return "ghost.png"
+	}
+}
+
 
 class Espectro inherits Enemigo {
-	var property estado
+	var property estado = ghost
 	
 	override method image(){
 		return estado.image()
 	}
 	
 	override method esGolpeado(personaje){
+		game.removeTickEvent("Espectro"+ self.identity())
 		self.morir()
 	}
+	
+	override method poderDefensa(){
+		return 0
+	}
+	
+	method estaAsterion(){
+		return game.colliders(self).any({visual => visual == asterion})
+	}
+
+	
+	method atacar(){
+		if (self.estaAsterion()){
+			self.golpear(asterion)
+		}
+	}
+	
+	override method init(){
+		game.onTick(2000, "Espectro"+ self.identity(), {self.position(randomizer.position())})
+		game.onCollideDo(self, {visual => self.atacar()})
+	}
+	
+}
+
+object ghostito inherits Espectro {
 	
 }
 

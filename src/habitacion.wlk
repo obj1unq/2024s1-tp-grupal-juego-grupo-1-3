@@ -81,7 +81,7 @@ class Habitacion {
 	}
 	
 	method mostrarEnemigos(){
-		enemigos.forEach({enemigo => game.addVisual(enemigo)})
+		enemigos.forEach({enemigo => game.addVisual(enemigo) enemigo.init()})
 	}
 	
 	
@@ -227,6 +227,7 @@ object habitacionFactory {
 	
 	nivel1.agregarCosa(espada)
 	nivel2.agregarEnemigo(humano)
+	nivel2.agregarEnemigo(ghostito)
 	
 	habitacionManager.cargarHabitacion(nivel1)
 	asterion.habitacionActual(nivel1)
