@@ -7,11 +7,31 @@ import artefactos.*
 describe "asterion" {
 
 	const habitacion = new Habitacion()
+	const nivel1 = new Habitacion()
+	const nivel2 = new Habitacion()
+	const nivel3 = new Habitacion()
+	
+	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior)
+	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior)
+	const puerta23 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste)
+	
+	const espada = espadaDeNederita
+	
+	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
 	
 	method initialize() {
 		habitacionFactory.init()
-		habitacionManager.cargarHabitacion(habitacion)
-		game.addVisual(espadaDeNederita)
+		espada.position(game.at(3,5))
+		
+		nivel1.agregarPuerta(puerta12)
+		nivel2.agregarPuerta(puerta21)
+		nivel2.agregarPuerta(puerta23)	
+		
+		nivel1.agregarCosa(espada)
+		nivel2.agregarEnemigo(humano)
+	
+		habitacionManager.cargarHabitacion(nivel1)
+		asterion.habitacionActual(nivel1)
 	}
 	
 	
@@ -27,6 +47,12 @@ describe "asterion" {
 		assert.throwsException({asterion.dropearArma()})
 	}
 	
-
+	test "asterion pasa a la siguiente habitacion" {
+		//assert.equals(0, asterion.habitacionActual())
+		asterion.position(game.at(5,9))
+		console.println(asterion.position())
+		asterion.atravesar()
+		assert.equals(nivel1, asterion.habitacionActual())
+	}	
 }
 

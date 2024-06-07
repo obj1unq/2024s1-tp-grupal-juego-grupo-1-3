@@ -149,6 +149,7 @@ object asterion inherits Personaje {
 		self.habitacionActual().agregarCosa(cosa)
 		super(cosa)
 	}
+	
 	method dropearArma(){
 		self.validarDropearArma()
 		self.dropear(self.arma())
@@ -183,7 +184,6 @@ object asterion inherits Personaje {
 		super(enemigo)
 		self.reaccionarTrasGolpe(enemigo)
 	}
-	
 	
 }
 
