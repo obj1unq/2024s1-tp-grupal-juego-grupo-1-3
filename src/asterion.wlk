@@ -5,6 +5,7 @@ import habitacion.*
 
 
 class Personaje {
+	var property habitacionActual = null
 	
 	method vida()
 	
@@ -14,9 +15,18 @@ class Personaje {
 	
 	method position() // abstracto
 	
+	method position(_position)
+	
 	method poderPelea() // abstracto
 	
 	method poderDefensa() // abstracto
+	
+	method mover(direccion) {
+		
+		if(tablero.puedeIr(self.position(), direccion)){
+			self.position(direccion.siguiente(self.position()))
+		}
+	}
 	
 	method morir() {
 		game.say(self, "me mori")
@@ -27,12 +37,12 @@ class Personaje {
 			enemigo.esGolpeado(self)
 	}
 	
-	method vidaARestarPorGolpe(poderGolpe){
-		return 0.max(poderGolpe - self.poderDefensa())
+	method vidaARestarPorGolpe(personaje){
+		return 0.max(personaje.poderPelea() - self.poderDefensa())
 	}
 	
 	method vidaAlSerGolpeadoPor(personaje){
-		return 0.max(self.vida() - self.vidaARestarPorGolpe(personaje.poderPelea()))
+		return 0.max(self.vida() - self.vidaARestarPorGolpe(personaje))
 	}
 	
 	method recibirGolpe(personaje){
@@ -44,10 +54,7 @@ class Personaje {
 	}
 	
 	method esGolpeado(enemigo){
-		console.println("recibiendo golpe")
 		self.recibirGolpe(enemigo)
-		console.println("golpe recibido, mi vida es: ")
-		console.println(self.vida())
 	}
 	
 	method dropear(cosa){
@@ -67,7 +74,6 @@ class Personaje {
 
 object asterion inherits Personaje {
 	var property position = game.at(3, 8)
-	var property habitacionActual = null
     var property vida = 100
 	const property utilidades = #{}
 	var property arma = manos
@@ -76,12 +82,6 @@ object asterion inherits Personaje {
 
 	override method image() = "minotaur4x.png"
 	
-	method mover(direccion) {
-		
-		if(tablero.puedeIr(self.position(), direccion)){
-			position = direccion.siguiente(self.position())
-		}
-	}
 	
 	method atravesar(){
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
@@ -169,7 +169,7 @@ object asterion inherits Personaje {
 	
 	override method morir(){
 		super()
-		// terminarjuego
+		game.schedule(2000, { game.stop()})
 	}
 	
 	method reaccionarTrasGolpe(enemigo){
@@ -198,12 +198,13 @@ object manos {
 
 class Enemigo inherits Personaje {
 	var property artefactoADropear = aire
-	var property position = null
+	var property position = game.center()
 	var property vida = 50	
 		
 	override method morir(){
 		super()
 		self.dropear(self.artefactoADropear())
+		habitacionActual.sacarEnemigo(self)
 	}
 	
 	
@@ -213,6 +214,10 @@ class Enemigo inherits Personaje {
 		
 	override method poderPelea(){
 		return self.poderBase()
+	}
+	
+	method init(){
+		game.addVisual(self)
 	}
 }
 
@@ -233,6 +238,7 @@ class Humano inherits Enemigo {
 	
 	override method esGolpeado(personaje){
 		super(personaje)
+		game.say(self, "daño:" + self.vidaARestarPorGolpe(personaje) +" vida:" + self.vida() )
 		self.reaccionarTrasGolpe(personaje)
 	}
 	
@@ -243,16 +249,59 @@ class Humano inherits Enemigo {
 	
 }
 
+object ghost {
+	
+	method image(){
+		return "ghost.png"
+	}
+}
+
 
 class Espectro inherits Enemigo {
-	var property estado
+	var property estado = ghost
 	
 	override method image(){
 		return estado.image()
 	}
 	
 	override method esGolpeado(personaje){
+		game.removeTickEvent("Espectro"+ self.identity())
 		self.morir()
 	}
+	
+	override method poderDefensa(){
+		return 0
+	}
+	
+	method estaAsterion(){
+		return game.colliders(self).any({visual => visual == asterion})
+	}
+
+	
+	method atacar(){
+		if (self.estaAsterion()){
+			self.golpear(asterion)
+		}
+	}
+	
+	override method init(){
+		super()
+		game.onTick(2000, "Espectro"+ self.identity(), {self.position(randomizer.position())})
+		game.onCollideDo(self, {visual => self.atacar()})
+	}
+	
+}
+
+object ghostito inherits Espectro {
+	
+}
+
+
+
+object barraVida {
+	method position() = game.at(7, 0)
+	
+	method image() = "VIDA_" + asterion.vida() + ".png"
+	
 	
 }
