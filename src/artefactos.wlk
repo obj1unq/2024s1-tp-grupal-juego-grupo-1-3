@@ -113,3 +113,17 @@ object aire inherits Cosa {
 	
 	override method image(){}
 }
+
+object pocimaVida inherits Artefacto {
+	
+	var property puntosDeVida = 40
+	
+	override method image(){
+		return ""
+	}
+	
+	override method equipar(personaje) {
+		personaje.vida(personaje.vida() + puntosDeVida)
+		game.removeVisual(self)
+	}
+}

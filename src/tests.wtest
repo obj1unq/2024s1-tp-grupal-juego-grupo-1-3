@@ -81,5 +81,3 @@ describe "asterion" {
 //		assert.equals(, asterion.poderDefensa())
 //	}
 }
-
-
