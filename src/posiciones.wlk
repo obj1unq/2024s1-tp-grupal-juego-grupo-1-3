@@ -92,3 +92,15 @@ object tablero {
 	}
 	
 }
+
+
+object randomizer {
+		
+	method position() {
+		return 	game.at( 
+					(1 .. game.width() - 2).anyOne(),
+					(1..  game.height() - 2).anyOne()
+		) 
+	}
+	
+}

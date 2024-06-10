@@ -73,6 +73,11 @@ class Habitacion {
 	
 	method agregarEnemigo(enemigo){
 		enemigos.add(enemigo)
+		enemigo.habitacionActual(self)
+	}
+	
+	method sacarEnemigo(enemigo){
+		self.enemigos().remove(enemigo)
 	}
 	
 	method sacarEnemigo(enemigoEncontrado){
@@ -85,7 +90,7 @@ class Habitacion {
 	
 	
 	method mostrarEnemigos(){
-		enemigos.forEach({enemigo => game.addVisual(enemigo)})
+		enemigos.forEach({enemigo => enemigo.init()})
 	}
 	
 	method esObjetivoCumplido(){
@@ -99,6 +104,7 @@ class Habitacion {
 		self.mostrarPuertas()
 		self.mostrarCosas()
 		self.mostrarEnemigos()
+		game.addVisual(barraVida)
 	}
 }
 
@@ -265,6 +271,7 @@ object habitacionFactory {
 	
 	nivel1.agregarCosa(espada)
 	nivel2.agregarEnemigo(humano)
+	nivel2.agregarEnemigo(ghostito)
 	
 	habitacionManager.cargarHabitacion(nivel1)
 	asterion.habitacionActual(nivel1)
