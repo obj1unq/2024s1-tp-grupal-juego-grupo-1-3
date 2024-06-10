@@ -61,7 +61,6 @@ class Personaje {
 	method esAtravesable(){
 		return false
 	}
-	
 }
 
 

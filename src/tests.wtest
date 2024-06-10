@@ -16,26 +16,28 @@ describe "asterion" {
 	const puerta23 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste)
 	
 	const espada = espadaDeNederita
+	const escudoDef = escudo
 	
 	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
 	
 	method initialize() {
 		habitacionFactory.init()
 		espada.position(game.at(3,5))
+		escudoDef.position(game.at(4,5))
 		
 		nivel1.agregarPuerta(puerta12)
 		nivel2.agregarPuerta(puerta21)
 		nivel2.agregarPuerta(puerta23)	
 		
 		nivel1.agregarCosa(espada)
+		nivel1.agregarCosa(escudoDef)
 		nivel2.agregarEnemigo(humano)
 	
 		habitacionManager.cargarHabitacion(nivel1)
-		asterion.habitacionActual(nivel1)
+		asterion.habitacionActual(nivel1)		
 	}
 	
-	
-	test "asterion equipa un arma, quedando su poderPelea() en 20 10 de base y 10 de la espada, puede dropearla quedandose con manos" {
+	test "asterion equipa un arma, quedando su poderPelea() en 20, 10 de base y 10 de la espada, puede dropearla quedandose con manos" {
 		asterion.equiparArma(espadaDeNederita)
 		assert.that(asterion.arma() == espadaDeNederita)
 		assert.equals(20, asterion.poderPelea())
@@ -43,17 +45,42 @@ describe "asterion" {
 		assert.that(asterion.arma() == manos)
 	}
 	
+	test "asterion equipa un escudo, quedando su poderDefensa() en 30" {
+		asterion.equiparDefensa(escudoDef)
+		assert.that(asterion.defensa() == #{escudoDef})
+		assert.equals(30, asterion.poderDefensa())
+	}
+	
 	test "asterion intenta sacarse un arma teniendo manos y no puede por que no tiene armas" {
 		assert.throwsException({asterion.dropearArma()})
 	}
 	
 	test "asterion pasa a la siguiente habitacion" {
-		//assert.equals(0, asterion.habitacionActual())
-		asterion.position(game.at(5,9))
-		console.println(asterion.position())
-		asterion.atravesar()
 		assert.equals(nivel1, asterion.habitacionActual())
-	}	
+		asterion.position(game.at(5,9))
+		asterion.atravesar()
+		assert.equals(nivel2, asterion.habitacionActual())
+	}
+	
+	test "Asterion golpea un enemigo y dropea un objeto (desapareciendo el visual del enemigo)" {
+		asterion.position(game.at(3,5))
+		asterion.equipar()
+		asterion.position(game.at(5,9))
+		asterion.atravesar()
+		asterion.position(game.at(3,6))
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		assert.equals(llave, tablero.objetoEnPosDe(asterion))
+	}
+	
+	test "Asterion no puede moverse mas alla de los bordes que delimita el juego" {
+		asterion.position(game.at(9,9))
+		asterion.mover(derecha)
+		assert.equals(, asterion.poderDefensa())
+	}
 }
 
 
