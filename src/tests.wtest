@@ -6,7 +6,6 @@ import artefactos.*
 
 describe "asterion" {
 
-	const habitacion = new Habitacion()
 	const nivel1 = new Habitacion()
 	const nivel2 = new Habitacion()
 	const nivel3 = new Habitacion()
@@ -76,11 +75,11 @@ describe "asterion" {
 		assert.equals(llave, tablero.objetoEnPosDe(asterion))
 	}
 	
-	test "Asterion no puede moverse mas alla de los bordes que delimita el juego" {
-		asterion.position(game.at(9,9))
-		asterion.mover(derecha)
-		assert.equals(, asterion.poderDefensa())
-	}
+//	test "Asterion no puede moverse mas alla de los bordes que delimita el juego" {
+//		asterion.position(game.at(9,9))
+//		asterion.mover(derecha)
+//		assert.equals(, asterion.poderDefensa())
+//	}
 }
 
 
