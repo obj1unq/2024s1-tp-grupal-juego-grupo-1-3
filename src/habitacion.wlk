@@ -214,6 +214,8 @@ object habitacionFactory {
 	
 	
 	const espada = espadaDeNederita
+	const pocion = pocionVida
+	pocion.position(game.at(4,5))
 	espada.position(game.at(3,5))
 	
 	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
@@ -227,6 +229,7 @@ object habitacionFactory {
 	
 	nivel1.agregarCosa(espada)
 	nivel2.agregarEnemigo(humano)
+	nivel2.agregarCosa(pocion)
 	nivel2.agregarEnemigo(ghostito)
 	
 	habitacionManager.cargarHabitacion(nivel1)
