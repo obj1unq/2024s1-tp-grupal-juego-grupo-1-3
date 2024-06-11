@@ -9,8 +9,9 @@ class Artefacto {
 	}
 	
 	
-	method drop(posicion) {
+	method drop(posicion,habitacion) {
 		position = posicion
+		habitacion.agregarCosa(self)
 		game.addVisual(self)
 	}
 	
@@ -107,9 +108,9 @@ object llave inherits Cosa {
 	}
 }
 
-object aire inherits Cosa {
+object aire inherits Cosa { 
 	
-	override method drop(posicion){}
+	override method drop(posicion,habitacion){}
 	
 	override method image(){}
 }

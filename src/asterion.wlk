@@ -6,6 +6,7 @@ import habitacion.*
 
 class Personaje {
 	var property habitacionActual = null
+	
 	method vida()
 	
 	method vida(_vida)
@@ -57,9 +58,7 @@ class Personaje {
 	}
 	
 	method dropear(cosa){
-		cosa.drop(self.position())
-		console.println('habitacion actual: ' + habitacionActual)
-		self.habitacionActual().agregarCosa(cosa)
+		cosa.drop(self.position(), self.habitacionActual())
 	}
 	
 	method esArtefacto(){
@@ -76,7 +75,6 @@ class Personaje {
 
 object asterion inherits Personaje {
 	var property position = game.at(3, 8)
-
     var property vida = 100
 	const property utilidades = #{}
 	var property arma = manos
@@ -88,7 +86,6 @@ object asterion inherits Personaje {
 	
 	method atravesar(){
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
-	// 	puerta.habitacionActual(self.habitacionActual())  // Setear habitacion actual
 	 	puerta.atravesar(self)	
 	}
 
@@ -148,10 +145,6 @@ object asterion inherits Personaje {
 		}
 	}
 	
-	override method dropear(cosa){
-		self.habitacionActual().agregarCosa(cosa)
-		super(cosa)
-	}
 	method dropearArma(){
 		self.validarDropearArma()
 		self.dropear(self.arma())
@@ -165,7 +158,7 @@ object asterion inherits Personaje {
 	
 	method desequiparDefensa(_defensa){
 		
-	}
+	} 
 	
 	method desequiparAtaque(_arma){
 		
@@ -209,16 +202,12 @@ class Enemigo inherits Personaje {
 	var property artefactoADropear = aire
 	var property position = game.center()
 	var property vida = 50	
-
-	
+		
 	override method morir(){
 		super()
-		
 		self.dropear(self.artefactoADropear())
-
 		habitacionActual.sacarEnemigo(self)
 	}
-
 	
 	
 	method poderBase(){
@@ -250,7 +239,7 @@ class Humano inherits Enemigo {
 			
 		}
 	}
-	
+
 	override method esGolpeado(personaje){
 		super(personaje)
 		game.say(self, "daño:" + self.vidaARestarPorGolpe(personaje) +" vida:" + self.vida() )
