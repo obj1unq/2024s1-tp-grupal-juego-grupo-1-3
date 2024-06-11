@@ -151,9 +151,8 @@ object asterion inherits Personaje {
 		self.arma(manos)
 	}
 	
-	method tieneArtefacto(artefactoPorLootear){
-		console.println('adentro del tiene artefacto: ' + artefactoPorLootear )
-	 	return self.utilidades().contains(artefactoPorLootear)
+	method tieneArtefacto(artefacto){
+	 	return self.utilidades().contains(artefacto)
 	}
 	
 	method desequiparDefensa(_defensa){
@@ -227,7 +226,6 @@ class Enemigo inherits Personaje {
 class Humano inherits Enemigo {
 	var property poderDefensa = 10
 	var property arma = manos
-	//var property habitacionActual = null // el personaje tiene que conocer la habitacion
 	
 	override method image() = "wpierdol.png"
 	

@@ -93,10 +93,7 @@ class Habitacion {
 		enemigos.forEach({enemigo => enemigo.init()})
 	}
 	
-	method esObjetivoCumplido(){
-		return true
-	}
-	
+
 	
 	
 	method init(manager){
@@ -172,8 +169,8 @@ class Puerta {
     const property siguienteHabitacion 
     const property posicionPuerta
     var property habitacionActual = null
-    var property habitacionCompletada = null
-    var property esCompletada = true
+
+    
     
     method image() = posicionPuerta.image()
     
@@ -233,7 +230,7 @@ class PuertaKill inherits Puerta {
 
 		override method validarAtravesar(personaje, habitacion){
 		if (habitacion.enemigos().size() > 0){
-			self.error('Debes derrotar a todos los enemigos')
+			self.error('Debes derrotar a los enemigos que restan: ' + habitacion.enemigos().size())
 		}
 	}
 	
@@ -247,12 +244,12 @@ object habitacionFactory {
 	const nivel3 = new Habitacion()
 	const nivel4 = new Habitacion()
 	
-	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior, habitacionCompletada = nivel2 )
-	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior, habitacionCompletada = nivel2)
-	const puerta23 = new PuertaKill(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste, habitacionCompletada = nivel2)//Puerta Kill
-	const puerta32 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionEste, habitacionCompletada = nivel2)
-	const puerta34 = new PuertaLoot(siguienteHabitacion= nivel4, posicionPuerta= posicionInferior, habitacionCompletada = nivel2,artefactoPorLootear=llave) //Puerta de loot
-	const puerta43 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionSuperior, habitacionCompletada = nivel2)
+	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior)
+	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior)
+	const puerta23 = new PuertaKill(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste)//Puerta Kill
+	const puerta32 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionEste)
+	const puerta34 = new PuertaLoot(siguienteHabitacion= nivel4, posicionPuerta= posicionInferior,artefactoPorLootear=llave) //Puerta de loot
+	const puerta43 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionSuperior)
 	
 	
 	const espada = espadaDeNederita
