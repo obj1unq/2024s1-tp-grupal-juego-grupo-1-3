@@ -58,7 +58,7 @@ class Personaje {
 	}
 	
 	method dropear(cosa){
-		cosa.drop(self.position())
+		cosa.drop(self.position(),self.habitacionActual())
 	}
 	
 	method esArtefacto(){
@@ -144,20 +144,15 @@ object asterion inherits Personaje {
 		}
 	}
 	
-	override method dropear(cosa){
-		self.habitacionActual().agregarCosa(cosa)
-		super(cosa)
-	}
-	
 	method dropearArma(){
 		self.validarDropearArma()
-		self.dropear(self.arma())
+		self.dropear(self.arma()) 
 		self.arma(manos)
 	}
 	
 	method desequiparDefensa(_defensa){
 		
-	}
+	} 
 	
 	method desequiparAtaque(_arma){
 		
@@ -207,7 +202,7 @@ class Enemigo inherits Personaje {
 		habitacionActual.sacarEnemigo(self)
 	}
 	
-	
+
 	method poderBase(){
 		return 10
 	}
@@ -235,7 +230,7 @@ class Humano inherits Enemigo {
 			self.morir()
 		}
 	}
-	
+
 	override method esGolpeado(personaje){
 		super(personaje)
 		game.say(self, "daño:" + self.vidaARestarPorGolpe(personaje) +" vida:" + self.vida() )
