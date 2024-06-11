@@ -58,7 +58,8 @@ class Personaje {
 	
 	method dropear(cosa){
 		cosa.drop(self.position())
-		habitacionActual.agregarCosa(cosa)
+		console.println('habitacion actual: ' + habitacionActual)
+		self.habitacionActual().agregarCosa(cosa)
 	}
 	
 	method esArtefacto(){
@@ -87,7 +88,7 @@ object asterion inherits Personaje {
 	
 	method atravesar(){
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
-	 	puerta.habitacionActual(self.habitacionActual())  // Setear habitacion actual
+	// 	puerta.habitacionActual(self.habitacionActual())  // Setear habitacion actual
 	 	puerta.atravesar(self)	
 	}
 

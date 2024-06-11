@@ -273,7 +273,6 @@ object habitacionFactory {
 	
 	habitacionManager.cargarHabitacion(nivel1)
 	asterion.habitacionActual(nivel1)
-	humano.habitacionActual(nivel2)
 	}
 }
 
