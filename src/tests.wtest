@@ -81,7 +81,7 @@ describe "asterion" {
 	test "Asterion no puede moverse mas alla de los bordes que delimita el juego" {
 		asterion.position(game.at(9,9))
 		asterion.mover(derecha)
-		assert.equals("9@9" , asterion.position()) // resolver esto no se como devuelve la posicion
+		assert.equals(game.at(9,9) , asterion.position()) // resolver esto no se como devuelve la posicion
 	}
 	
 	test "Asterion lootea una pocion de vida y su vida crece 40 puntos o lo que le falte para llegar a 100 si tiene mas de 60 de vida" {
