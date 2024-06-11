@@ -16,6 +16,7 @@ describe "asterion" {
 	
 	const espada = espadaDeNederita
 	const escudoDef = escudo
+	const pocion = pocionVida
 	
 	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
 	
@@ -23,6 +24,7 @@ describe "asterion" {
 		habitacionFactory.init()
 		espada.position(game.at(3,5))
 		escudoDef.position(game.at(4,5))
+		pocion.position(game.at(4,5))
 		
 		nivel1.agregarPuerta(puerta12)
 		nivel2.agregarPuerta(puerta21)
@@ -31,6 +33,7 @@ describe "asterion" {
 		nivel1.agregarCosa(espada)
 		nivel1.agregarCosa(escudoDef)
 		nivel2.agregarEnemigo(humano)
+		nivel2.agregarCosa(pocion)
 	
 		habitacionManager.cargarHabitacion(nivel1)
 		asterion.habitacionActual(nivel1)		
@@ -75,9 +78,26 @@ describe "asterion" {
 		assert.equals(llave, tablero.objetoEnPosDe(asterion))
 	}
 	
-//	test "Asterion no puede moverse mas alla de los bordes que delimita el juego" {
-//		asterion.position(game.at(9,9))
-//		asterion.mover(derecha)
-//		assert.equals(, asterion.poderDefensa())
-//	}
+	test "Asterion no puede moverse mas alla de los bordes que delimita el juego" {
+		asterion.position(game.at(9,9))
+		asterion.mover(derecha)
+		assert.equals("9@9" , asterion.position()) // resolver esto no se como devuelve la posicion
+	}
+	
+	test "Asterion lootea una pocion de vida y su vida crece 40 puntos o lo que le falte para llegar a 100 si tiene mas de 60 de vida" {
+		asterion.position(game.at(3,5))
+		asterion.equipar()
+		asterion.position(game.at(5,9))
+		asterion.atravesar()
+		asterion.position(game.at(3,6))
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		assert.equals(60, asterion.vida())
+		asterion.position(game.at(4,5))
+		asterion.equipar()
+		assert.equals(100, asterion.vida())
+	}
 }
