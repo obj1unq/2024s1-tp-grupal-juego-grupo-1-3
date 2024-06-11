@@ -29,9 +29,7 @@ class Personaje {
 	
 	method morir() {
 		game.say(self, "me mori")
-		habitacionActual.sacarEnemigo(self)
-		//game.removeVisual(self)
-	 //el método morir() debería recordar la habitación actual
+		game.removeVisual(self)
 	}
 	
 	method golpear(enemigo){

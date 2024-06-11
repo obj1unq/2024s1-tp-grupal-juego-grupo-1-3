@@ -80,13 +80,13 @@ class Habitacion {
 		self.enemigos().remove(enemigo)
 	}
 	
-	method sacarEnemigo(enemigoEncontrado){
+/* 	method sacarEnemigo(enemigoEncontrado){
 		const enemigoSeleccionado = self.enemigos().find({enemigo => enemigo == enemigoEncontrado})
 		console.println('enemigo seleccionado ' +  enemigoSeleccionado)
 		enemigos.remove(enemigoSeleccionado)
 		game.removeVisual(enemigoSeleccionado)
 	}
-	
+	*/
 	
 	
 	method mostrarEnemigos(){
@@ -186,8 +186,6 @@ class Puerta {
     method validarAtravesar(personaje, habitacion){ }
     
     method atravesar(personaje){
-    	//esto esta bien?
-  
   
      self.validarAtravesar(personaje, self.habitacionActual())
      habitacionManager.cargarHabitacion(self.siguienteHabitacion())
