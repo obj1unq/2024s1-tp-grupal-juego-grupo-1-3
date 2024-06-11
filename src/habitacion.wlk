@@ -222,7 +222,7 @@ class PuertaLoot inherits Puerta {
 	override method validarAtravesar(personaje, habitacion){
 			
 			if(not personaje.tieneArtefacto(artefactoPorLootear)){
-				self.error('debes recoger un objeto para pasar')
+				self.error('debes recoger: ' + artefactoPorLootear)
 			}
 	}
 }
