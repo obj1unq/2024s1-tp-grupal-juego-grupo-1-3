@@ -153,7 +153,7 @@ object asterion inherits Personaje {
 	
 	method desequiparDefensa(_defensa){
 		
-	}
+	} 
 	
 	method desequiparAtaque(_arma){
 		
