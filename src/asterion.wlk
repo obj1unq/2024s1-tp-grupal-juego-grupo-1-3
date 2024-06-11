@@ -58,10 +58,10 @@ class Personaje {
 	}
 	
 	method dropear(cosa){
-		cosa.drop(self.position(),self.habitacionActual())
+		cosa.drop(self.position(), self.habitacionActual())
 	}
 	
-	method esArtefacto(){
+	method esArtefacto(){ 
 		return false
 	}
 	
@@ -146,8 +146,12 @@ object asterion inherits Personaje {
 	
 	method dropearArma(){
 		self.validarDropearArma()
-		self.dropear(self.arma()) 
+		self.dropear(self.arma())
 		self.arma(manos)
+	}
+	
+	method tieneArtefacto(artefacto){
+	 	return self.utilidades().contains(artefacto)
 	}
 	
 	method desequiparDefensa(_defensa){
@@ -202,7 +206,7 @@ class Enemigo inherits Personaje {
 		habitacionActual.sacarEnemigo(self)
 	}
 	
-
+	
 	method poderBase(){
 		return 10
 	}
@@ -228,6 +232,7 @@ class Humano inherits Enemigo {
 			self.golpear(personaje)
 		} else {
 			self.morir()
+			
 		}
 	}
 

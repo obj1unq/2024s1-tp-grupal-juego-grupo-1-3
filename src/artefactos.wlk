@@ -119,7 +119,7 @@ object pocionVida inherits Artefacto {
 	
 	var property puntosDeVida = 40
 	
-	override method image(){
+	override method image(){ 
 		return "pocion.png"
 	}
 	

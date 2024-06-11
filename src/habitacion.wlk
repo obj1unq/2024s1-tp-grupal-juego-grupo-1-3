@@ -84,6 +84,8 @@ class Habitacion {
 		enemigos.forEach({enemigo => enemigo.init()})
 	}
 	
+
+	
 	
 	method init(manager){
 		game.ground(ground)
@@ -92,7 +94,7 @@ class Habitacion {
 		self.mostrarEnemigos()
 		game.addVisual(barraVida)
 	}
-}
+} 
 
 object posicionSuperior{
 	const positionStategy = positionUp
@@ -158,6 +160,8 @@ class Puerta {
     const property siguienteHabitacion 
     const property posicionPuerta
     var property habitacionActual = null
+
+    
     
     method image() = posicionPuerta.image()
     
@@ -170,31 +174,38 @@ class Puerta {
     method validarAtravesar(personaje, habitacion){ }
     
     method atravesar(personaje){
+  
      self.validarAtravesar(personaje, self.habitacionActual())
      habitacionManager.cargarHabitacion(self.siguienteHabitacion())
      personaje.habitacionActual(self.siguienteHabitacion())
-     personaje.position(posicionPuerta.nextPosition())
+     personaje.position(posicionPuerta.nextPosition())    
     }
 }
 
 
 
-
 class PuertaLoot inherits Puerta {
-	var property lootear = #{}
+	var property artefactoPorLootear 
+		
 	
 	override method validarAtravesar(personaje, habitacion){
-		
+			
+			if(not personaje.tieneArtefacto(artefactoPorLootear)){
+				self.error('debes recoger: ' + artefactoPorLootear)
+			}
 	}
 }
 
 
 class PuertaKill inherits Puerta {
 	var property kill = #{}
-	
-	override method validarAtravesar(personaje, habitacion){
-		
+
+		override method validarAtravesar(personaje, habitacion){
+		if (habitacion.enemigos().size() > 0){
+			self.error('Debes derrotar a los enemigos que restan: ' + habitacion.enemigos().size())
+		}
 	}
+	
 }
 
 object habitacionFactory {
@@ -207,9 +218,9 @@ object habitacionFactory {
 	
 	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior)
 	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior)
-	const puerta23 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste)
+	const puerta23 = new PuertaKill(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste)//Puerta Kill
 	const puerta32 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionEste)
-	const puerta34 = new Puerta(siguienteHabitacion= nivel4, posicionPuerta= posicionInferior)
+	const puerta34 = new PuertaLoot(siguienteHabitacion= nivel4, posicionPuerta= posicionInferior,artefactoPorLootear=llave) //Puerta de loot
 	const puerta43 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionSuperior)
 	
 	
@@ -217,7 +228,7 @@ object habitacionFactory {
 	const pocion = pocionVida
 	pocion.position(game.at(4,5))
 	espada.position(game.at(3,5))
-	
+
 	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
 	
 	nivel1.agregarPuerta(puerta12)
