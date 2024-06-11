@@ -108,7 +108,7 @@ object llave inherits Cosa {
 	}
 }
 
-object aire inherits Cosa {
+object aire inherits Cosa { 
 	
 	override method drop(posicion,habitacion){}
 	

@@ -147,7 +147,7 @@ object asterion inherits Personaje {
 	
 	method dropearArma(){
 		self.validarDropearArma()
-		self.dropear(self.arma())
+		self.dropear(self.arma()) 
 		self.arma(manos)
 	}
 	
