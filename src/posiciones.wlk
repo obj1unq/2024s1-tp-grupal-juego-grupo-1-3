@@ -91,6 +91,9 @@ object tablero {
 				 
 	}
 	
+	method objetoEnPosDe(personaje) {
+		return game.getObjectsIn(personaje.position()).copyWithout(personaje).asList().get(0)
+	}
 }
 
 

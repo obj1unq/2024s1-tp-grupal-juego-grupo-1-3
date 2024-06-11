@@ -68,7 +68,6 @@ class Personaje {
 	method esAtravesable(){
 		return false
 	}
-	
 }
 
 
@@ -183,7 +182,6 @@ object asterion inherits Personaje {
 		super(enemigo)
 		self.reaccionarTrasGolpe(enemigo)
 	}
-	
 	
 }
 
