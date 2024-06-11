@@ -103,7 +103,7 @@ class Habitacion {
 		self.mostrarEnemigos()
 		game.addVisual(barraVida)
 	}
-}
+} 
 
 object posicionSuperior{
 	const positionStategy = positionUp

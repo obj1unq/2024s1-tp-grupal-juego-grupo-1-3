@@ -61,7 +61,7 @@ class Personaje {
 		cosa.drop(self.position(), self.habitacionActual())
 	}
 	
-	method esArtefacto(){
+	method esArtefacto(){ 
 		return false
 	}
 	
