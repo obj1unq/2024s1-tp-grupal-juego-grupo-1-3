@@ -64,6 +64,7 @@ class Cosa inherits Artefacto {
 }
 
 object espadaDeNederita inherits Arma {
+	override method position() =game.at(3,5)
 	
 	override method poderQueOtorga() = 10
 	

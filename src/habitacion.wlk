@@ -197,40 +197,63 @@ class PuertaKill inherits Puerta {
 	}
 }
 
+class Conexion {
+	
+	var property habitacion1
+	var property habitacion2
+	var property posicionPuerta1
+	
+	 method conectar() {
+        const puerta1 = new Puerta(siguienteHabitacion = habitacion2, posicionPuerta = posicionPuerta1)
+        const puerta2 = new Puerta(siguienteHabitacion = habitacion1, posicionPuerta = posicionPuerta1.nextPosition())
+        habitacion1.agregarPuerta(puerta1)
+        habitacion2.agregarPuerta(puerta2)
+    }
+}
+
 object habitacionFactory {
 	
+	method inicializarHabitaciones(){
+		return (1..4).map({_ => new Habitacion()})
+	}
+	
+	method inicializarConexiones(habitaciones) {
+		
+    const conexiones = [
+       	  new Conexion (habitacion1= habitaciones.get(0), habitacion2= habitaciones.get(1),  posicionPuerta1= posicionSuperior),
+       	new Conexion (habitacion1= habitaciones.get(1), habitacion2= habitaciones.get(2), posicionPuerta1 = posicionOeste),
+       	new Conexion (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), posicionPuerta1 = posicionInferior)
+        ]
+        
+    conexiones.forEach({ conexion =>
+        const puerta1 = new Puerta(siguienteHabitacion = conexion.habitacion2(), posicionPuerta = conexion.posicionPuerta1())
+        const puerta2 = new Puerta(siguienteHabitacion= conexion.habitacion1(), posicionPuerta= conexion.posicionPuerta1().nextPosition())
+        conexion.agregarPuertas(puerta1, puerta2)
+    })
+}
+
+method inicializarElementos(habitaciones) {
+    habitaciones.get(0).agregarCosa(espadaDeNederita)
+}
+
+method inicializarEnemigos(habitaciones) {
+    const humano = new Humano(artefactoADropear = llave, position = game.at(3, 6))
+    habitaciones.get(1).agregarEnemigo(humano)
+    habitaciones.get(1).agregarEnemigo(ghostito)
+}
+	
+	method inicializarHabitacion(habitacion){
+	habitacionManager.cargarHabitacion(habitacion)
+	asterion.habitacionActual(habitacion)
+	}
+	
+	
 	method init(){
-	const nivel1 = new Habitacion()
-	const nivel2 = new Habitacion()
-	const nivel3 = new Habitacion()
-	const nivel4 = new Habitacion()
-	
-	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior)
-	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior)
-	const puerta23 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste)
-	const puerta32 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionEste)
-	const puerta34 = new Puerta(siguienteHabitacion= nivel4, posicionPuerta= posicionInferior)
-	const puerta43 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionSuperior)
-	
-	
-	const espada = espadaDeNederita
-	espada.position(game.at(3,5))
-	
-	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
-	
-	nivel1.agregarPuerta(puerta12)
-	nivel2.agregarPuerta(puerta21)
-	nivel2.agregarPuerta(puerta23)
-	nivel3.agregarPuerta(puerta32)
-	nivel3.agregarPuerta(puerta34)
-	nivel4.agregarPuerta(puerta43)
-	
-	nivel1.agregarCosa(espada)
-	nivel2.agregarEnemigo(humano)
-	nivel2.agregarEnemigo(ghostito)
-	
-	habitacionManager.cargarHabitacion(nivel1)
-	asterion.habitacionActual(nivel1)
+	const habitaciones = self.inicializarHabitaciones() // Inicializar 4 habitaciones
+    self.inicializarConexiones(habitaciones)
+    self.inicializarElementos(habitaciones)
+    self.inicializarEnemigos(habitaciones)
+	self.inicializarHabitacion(habitaciones.get(0))
 	}
 }
 
