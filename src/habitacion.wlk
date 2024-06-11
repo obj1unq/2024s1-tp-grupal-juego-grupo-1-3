@@ -80,15 +80,6 @@ class Habitacion {
 		self.enemigos().remove(enemigo)
 	}
 	
-/* 	method sacarEnemigo(enemigoEncontrado){
-		const enemigoSeleccionado = self.enemigos().find({enemigo => enemigo == enemigoEncontrado})
-		console.println('enemigo seleccionado ' +  enemigoSeleccionado)
-		enemigos.remove(enemigoSeleccionado)
-		game.removeVisual(enemigoSeleccionado)
-	}
-	*/
-	
-	
 	method mostrarEnemigos(){
 		enemigos.forEach({enemigo => enemigo.init()})
 	}
@@ -187,26 +178,7 @@ class Puerta {
      self.validarAtravesar(personaje, self.habitacionActual())
      habitacionManager.cargarHabitacion(self.siguienteHabitacion())
      personaje.habitacionActual(self.siguienteHabitacion())
-     personaje.position(posicionPuerta.nextPosition())
-  
-  /*    self.validarAtravesar(personaje, self.habitacionActual())
-     console.println('es objetivo cumpleido: ' +self.habitacionActual().esObjetivoCumplido() )
-     
-     if(self.habitacionActual().esObjetivoCumplido() && self.esCompletada()){
-		console.println('en el if del atravesar')
-     	self.habitacionCompletada(self.habitacionActual())
-     	self.esCompletada(false)
-     	
-     	habitacionManager.cargarHabitacion(self.siguienteHabitacion())
-     	personaje.habitacionActual(self.siguienteHabitacion())
-     	personaje.position(posicionPuerta.nextPosition())
-     	
-     }else{
-     	console.println('en el else del atravesar')
-     	habitacionManager.cargarHabitacion(self.habitacionCompletada())	
-     }
-     */
-    
+     personaje.position(posicionPuerta.nextPosition())    
     }
 }
 
