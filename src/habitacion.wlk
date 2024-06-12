@@ -5,6 +5,7 @@ import artefactos.*
 
 
 object habitacionManager{
+	var property habitaciones = #{}
 			
 	method cargarHabitacion(habitacion){
 		
@@ -25,6 +26,7 @@ object habitacionManager{
 
 		
 		habitacion.init(self)
+		asterion.habitacionActual(habitacion)
 		
 		self.inicializarJuego() 
 	}
@@ -37,6 +39,11 @@ object habitacionManager{
 		game.addVisual(asterion)
 		// game.addVisual(escudo) //buen tamaño 32x32 
 		// game.addVisual(espadaDeNederita)	
+	}
+	
+	
+	method init(){
+		habitacionFactory.init(self)
 	}
 }
 
@@ -230,7 +237,7 @@ class Conexion {
 object habitacionFactory {
 	
 	method inicializarHabitaciones(){
-		return (1..4).map({_ => new Habitacion()})
+		return (1..12).map({_ => new Habitacion()})
 	}
 	
 	method inicializarConexiones(habitaciones) {
@@ -238,7 +245,8 @@ object habitacionFactory {
     const conexiones = [
        	  new Conexion (habitacion1= habitaciones.get(0), habitacion2= habitaciones.get(1),  posicionPuerta1= posicionSuperior),
        	new Conexion (habitacion1= habitaciones.get(1), habitacion2= habitaciones.get(2), posicionPuerta1 = posicionOeste),
-       	new Conexion (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), posicionPuerta1 = posicionInferior)
+       	new Conexion (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), posicionPuerta1 = posicionInferior),
+       	new Conexion(habitacion1= habitaciones.get(2), habitacion2= habitaciones.get(4), posicionPuerta1 = posicionSuperior)
         ]
         
     conexiones.forEach({ conexion =>
@@ -256,18 +264,13 @@ method inicializarEnemigos(habitaciones) {
     habitaciones.get(1).agregarEnemigo(ghostito)
 }
 	
-	method inicializarHabitacion(habitacion){
-	habitacionManager.cargarHabitacion(habitacion)
-	asterion.habitacionActual(habitacion)
-	}
 	
-	
-	method init(){
+	method init(habitacionManager){
 	const habitaciones = self.inicializarHabitaciones()
     self.inicializarConexiones(habitaciones)
     self.inicializarElementos(habitaciones)
     self.inicializarEnemigos(habitaciones)
-	self.inicializarHabitacion(habitaciones.get(0))
+	habitacionManager.cargarHabitacion(habitaciones.get(0))
 	}
 }
 
