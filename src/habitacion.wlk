@@ -55,7 +55,13 @@ class Habitacion {
 		puerta.habitacionActual(self)
 	}
 	method mostrarPuertas(){
-		puertas.forEach({puerta => game.addVisual(puerta)})
+		console.println("puertas habitacion: " + puertas)
+		puertas.forEach({puerta => 
+			console.println("puerta: "+ puerta)
+			console.println("posicion puerta: "+ puerta.posicionPuerta())
+			console.println("puerta position: " + puerta.position())
+			game.addVisual(puerta)
+		})
 	}
 	
 	method agregarCosa(cosa){
@@ -107,6 +113,10 @@ object posicionSuperior{
 		return positionStategy.nextPosition()
 	}
 	
+	method opuesto(){
+		return posicionInferior
+	}
+	
 }
 
 object posicionInferior{
@@ -120,6 +130,10 @@ object posicionInferior{
 	
 	method nextPosition(){
 		return positionStategy.nextPosition()
+	}
+	
+	method opuesto(){
+		return posicionSuperior
 	}
 }
 
@@ -135,6 +149,10 @@ object posicionEste{
 	method nextPosition(){
 		return positionStategy.nextPosition()
 	}
+	
+	method opuesto(){
+		return posicionOeste
+	}
 }
 
 object posicionOeste{
@@ -148,6 +166,10 @@ object posicionOeste{
 	
 	method nextPosition(){
 		return positionStategy.nextPosition()
+	}
+	
+	method opuesto(){
+		return posicionEste
 	}
 }
 
@@ -205,7 +227,7 @@ class Conexion {
 	
 	 method conectar() {
         const puerta1 = new Puerta(siguienteHabitacion = habitacion2, posicionPuerta = posicionPuerta1)
-        const puerta2 = new Puerta(siguienteHabitacion = habitacion1, posicionPuerta = posicionPuerta1.nextPosition())
+        const puerta2 = new Puerta(siguienteHabitacion = habitacion1, posicionPuerta = posicionPuerta1.opuesto())
         habitacion1.agregarPuerta(puerta1)
         habitacion2.agregarPuerta(puerta2)
     }
@@ -226,9 +248,7 @@ object habitacionFactory {
         ]
         
     conexiones.forEach({ conexion =>
-        const puerta1 = new Puerta(siguienteHabitacion = conexion.habitacion2(), posicionPuerta = conexion.posicionPuerta1())
-        const puerta2 = new Puerta(siguienteHabitacion= conexion.habitacion1(), posicionPuerta= conexion.posicionPuerta1().nextPosition())
-        conexion.agregarPuertas(puerta1, puerta2)
+        conexion.conectar()
     })
 }
 
@@ -249,7 +269,7 @@ method inicializarEnemigos(habitaciones) {
 	
 	
 	method init(){
-	const habitaciones = self.inicializarHabitaciones() // Inicializar 4 habitaciones
+	const habitaciones = self.inicializarHabitaciones()
     self.inicializarConexiones(habitaciones)
     self.inicializarElementos(habitaciones)
     self.inicializarEnemigos(habitaciones)
