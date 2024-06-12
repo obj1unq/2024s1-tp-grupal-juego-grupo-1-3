@@ -55,13 +55,7 @@ class Habitacion {
 		puerta.habitacionActual(self)
 	}
 	method mostrarPuertas(){
-		console.println("puertas habitacion: " + puertas)
-		puertas.forEach({puerta => 
-			console.println("puerta: "+ puerta)
-			console.println("posicion puerta: "+ puerta.posicionPuerta())
-			console.println("puerta position: " + puerta.position())
-			game.addVisual(puerta)
-		})
+		puertas.forEach({puerta => game.addVisual(puerta)})
 	}
 	
 	method agregarCosa(cosa){
