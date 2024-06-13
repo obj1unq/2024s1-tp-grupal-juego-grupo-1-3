@@ -9,8 +9,9 @@ class Artefacto {
 	}
 	
 	
-	method drop(posicion) {
+	method drop(posicion,habitacion) {
 		position = posicion
+		habitacion.agregarCosa(self)
 		game.addVisual(self)
 	}
 	
@@ -108,9 +109,23 @@ object llave inherits Cosa {
 	}
 }
 
-object aire inherits Cosa {
+object aire inherits Cosa { 
 	
-	override method drop(posicion){}
+	override method drop(posicion,habitacion){}
 	
 	override method image(){}
+}
+
+object pocionVida inherits Artefacto {
+	
+	var property puntosDeVida = 40
+	
+	override method image(){ 
+		return "pocion.png"
+	}
+	
+	override method equipar(personaje) {
+		personaje.vida(100.min(personaje.vida() + puntosDeVida))
+		game.removeVisual(self)
+	}
 }

@@ -29,7 +29,7 @@ object habitacionManager{
 		asterion.habitacionActual(habitacion)
 		
 		self.inicializarJuego() 
-	}
+	} 
 	
 	method limpiarNivel(){
 		game.clear()
@@ -91,6 +91,8 @@ class Habitacion {
 		enemigos.forEach({enemigo => enemigo.init()})
 	}
 	
+
+	
 	
 	method init(manager){
 		game.ground(ground)
@@ -99,7 +101,7 @@ class Habitacion {
 		self.mostrarEnemigos()
 		game.addVisual(barraVida)
 	}
-}
+} 
 
 object posicionSuperior{
 	const positionStategy = positionUp
@@ -181,6 +183,8 @@ class Puerta {
     const property siguienteHabitacion 
     const property posicionPuerta
     var property habitacionActual = null
+
+    
     
     method image() = posicionPuerta.image()
     
@@ -193,32 +197,38 @@ class Puerta {
     method validarAtravesar(personaje, habitacion){ }
     
     method atravesar(personaje){
+  
      self.validarAtravesar(personaje, self.habitacionActual())
      habitacionManager.cargarHabitacion(self.siguienteHabitacion())
-     personaje.habitacionActual(self.siguienteHabitacion())
-     personaje.position(posicionPuerta.nextPosition())
+     personaje.position(posicionPuerta.nextPosition())    
     }
 }
 
 
 
-
 class PuertaLoot inherits Puerta {
-	var property lootear = #{}
+	var property artefactoPorLootear 
+		
 	
 	override method validarAtravesar(personaje, habitacion){
-		
+			
+			if(not personaje.tieneArtefacto(artefactoPorLootear)){
+				self.error('debes recoger: ' + artefactoPorLootear)
+			}
 	}
 }
 
 
 class PuertaKill inherits Puerta {
-	var property kill = #{}
-	
-	override method validarAtravesar(personaje, habitacion){
-		
+
+		override method validarAtravesar(personaje, habitacion){
+		if (habitacion.enemigos().size() > 0){
+			self.error('Debes derrotar a los enemigos que restan: ' + habitacion.enemigos().size())
+		}
 	}
+	
 }
+
 
 class Conexion {
 	
@@ -226,12 +236,37 @@ class Conexion {
 	var property habitacion2
 	var property posicionPuerta1
 	
-	 method conectar() {
-        const puerta1 = new Puerta(siguienteHabitacion = habitacion2, posicionPuerta = posicionPuerta1)
-        const puerta2 = new Puerta(siguienteHabitacion = habitacion1, posicionPuerta = posicionPuerta1.opuesto())
+	method crearPuertaPrincipal(_siguienteHabitacion, _posicionPuerta){
+		return self.crearPuerta(_siguienteHabitacion, _posicionPuerta)
+	}
+	
+	method crearPuerta( _siguienteHabitacion, _posicionPuerta){
+		return new Puerta(siguienteHabitacion= _siguienteHabitacion, posicionPuerta= _posicionPuerta)
+	}
+	 method conectar(	) {
+        const puerta1 = self.crearPuertaPrincipal(habitacion2, posicionPuerta1)
+        const puerta2 = self.crearPuerta(habitacion1,posicionPuerta1.opuesto())
         habitacion1.agregarPuerta(puerta1)
         habitacion2.agregarPuerta(puerta2)
     }
+}
+
+class ConexionKill inherits Conexion {
+	
+	override method crearPuertaPrincipal(_siguienteHabitacion, _posicionPuerta){
+			return new PuertaKill(siguienteHabitacion= _siguienteHabitacion, posicionPuerta=_posicionPuerta)
+	}
+}
+
+class ConexionLoot inherits Conexion {
+	const artefactoLoot
+	
+	override method crearPuertaPrincipal(_siguienteHabitacion, _posicionPuerta){
+			return new PuertaLoot(siguienteHabitacion= habitacion2, 
+																posicionPuerta= posicionPuerta1, 
+																artefactoPorLootear= artefactoLoot)
+	}
+	
 }
 
 object habitacionFactory {
@@ -244,8 +279,9 @@ object habitacionFactory {
 		
     const conexiones = [
        	  new Conexion (habitacion1= habitaciones.get(0), habitacion2= habitaciones.get(1),  posicionPuerta1= posicionSuperior),
-       	new Conexion (habitacion1= habitaciones.get(1), habitacion2= habitaciones.get(2), posicionPuerta1 = posicionOeste),
-       	new Conexion (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), posicionPuerta1 = posicionInferior),
+       	new ConexionKill (habitacion1= habitaciones.get(1), habitacion2= habitaciones.get(2), posicionPuerta1 = posicionOeste),
+       	new ConexionLoot (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), 
+       									posicionPuerta1 = posicionInferior, artefactoLoot= llave),
        	new Conexion(habitacion1= habitaciones.get(2), habitacion2= habitaciones.get(4), posicionPuerta1 = posicionSuperior)
         ]
         
