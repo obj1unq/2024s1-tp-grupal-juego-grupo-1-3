@@ -227,6 +227,20 @@ class PuertaKill inherits Puerta {
 
 }
 
+
+class PuertaFinal inherits Puerta {
+	var property enemigosTotalesParaPasar
+	var property cosasTotalesParaPasar
+
+	override method validarAtravesar(personaje, habitacion) {
+		if (personaje.enemigosEliminados() < self.enemigosTotalesParaPasar() || personaje.cantidadDeCosas() < self.cosasTotalesParaPasar()) {
+			self.error('Debes eliminar a todos los enemigos del juego y obtener todos los items')
+		}
+	}
+
+}
+
+
 class Conexion {
 
 	var property habitacion1
@@ -268,6 +282,15 @@ class ConexionLoot inherits Conexion {
 
 }
 
+class ConexionFinal inherits Conexion{
+	
+	override method crearPuertaPrincipal(_siguienteHabitacion, _posicionPuerta) {
+		return new PuertaFinal(siguienteHabitacion = habitacion2, posicionPuerta = posicionPuerta1, enemigosTotalesParaPasar = 2, cosasTotalesParaPasar = 1) //parametrizable
+	}
+	
+}
+
+
 object habitacionFactory {
 
 	method inicializarHabitaciones() {
@@ -276,7 +299,7 @@ object habitacionFactory {
 
 	method inicializarConexiones(habitaciones) {
 		const conexiones = [ new Conexion (habitacion1= habitaciones.get(0), habitacion2= habitaciones.get(1),  posicionPuerta1= posicionSuperior), new ConexionKill (habitacion1= habitaciones.get(1), habitacion2= habitaciones.get(2), posicionPuerta1 = posicionOeste), new ConexionLoot (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), 
-       									posicionPuerta1 = posicionInferior, artefactoLoot= llave), new Conexion(habitacion1= habitaciones.get(2), habitacion2= habitaciones.get(4), posicionPuerta1 = posicionSuperior) ]
+       									posicionPuerta1 = posicionInferior, artefactoLoot= llave), new ConexionFinal(habitacion1= habitaciones.get(2), habitacion2= habitaciones.get(4), posicionPuerta1 = posicionSuperior) ]
 		conexiones.forEach({ conexion => conexion.conectar()})
 	}
 
