@@ -241,7 +241,7 @@ class Conexion {
 		return new Puerta(siguienteHabitacion = _siguienteHabitacion, posicionPuerta = _posicionPuerta)
 	}
 
-	method conectar(	) {
+	method conectar() {
 		const puerta1 = self.crearPuertaPrincipal(habitacion2, posicionPuerta1)
 		const puerta2 = self.crearPuerta(habitacion1, posicionPuerta1.opuesto())
 		habitacion1.agregarPuerta(puerta1)
