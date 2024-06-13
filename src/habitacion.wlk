@@ -5,7 +5,6 @@ import artefactos.*
 
 
 object habitacionManager{
-	var property habitaciones = #{}
 			
 	method cargarHabitacion(habitacion){
 		
