@@ -6,6 +6,6 @@ import habitacion.*
 
 program juego { 
 	
-	habitacionFactory.init()
+	habitacionManager.init()
 	game.start()
 }
