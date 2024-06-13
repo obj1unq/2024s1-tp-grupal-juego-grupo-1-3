@@ -21,7 +21,7 @@ describe "asterion" {
 	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
 	
 	method initialize() {
-		habitacionFactory.init()
+		habitacionManager.init()
 		espada.position(game.at(3,5))
 		escudoDef.position(game.at(4,5))
 		pocion.position(game.at(4,5))

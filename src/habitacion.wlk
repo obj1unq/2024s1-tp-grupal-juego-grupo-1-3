@@ -5,6 +5,7 @@ import artefactos.*
 
 
 object habitacionManager{
+		var property habitaciones = []
 			
 	method cargarHabitacion(habitacion){
 		
@@ -40,9 +41,14 @@ object habitacionManager{
 		// game.addVisual(espadaDeNederita)	
 	}
 	
+	method habitacion(indice){
+		return self.habitaciones().get(indice)
+	}
+	
 	
 	method init(){
 		habitacionFactory.init(self)
+		self.cargarHabitacion(self.habitacion(0))
 	}
 }
 
@@ -290,6 +296,7 @@ object habitacionFactory {
 }
 
 method inicializarElementos(habitaciones) {
+	espadaDeNederita.position(game.at(3,5))
     habitaciones.get(0).agregarCosa(espadaDeNederita)
 }
 
@@ -305,7 +312,7 @@ method inicializarEnemigos(habitaciones) {
     self.inicializarConexiones(habitaciones)
     self.inicializarElementos(habitaciones)
     self.inicializarEnemigos(habitaciones)
-	habitacionManager.cargarHabitacion(habitaciones.get(0))
+    habitacionManager.habitaciones(habitaciones)
 	}
 }
 
