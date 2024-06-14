@@ -249,12 +249,34 @@ class Humano inherits Enemigo {
 
 class SuperHumano inherits Humano (arma = lanzaHechizada){
 	
+	var property estado = vivo
+	
 	override method poderDefensa() {
 		return 20
 	}
 	
-	override method image() = ""
+	override method image() {
+		return estado.image()
+	}
 	
+	override method morir(){
+		super()
+		self.dropear(self.artefactoADropear())
+		self.estado(muerto) //hacer que la imagen quede unos segundos
+		habitacionActual.sacarEnemigo(self)
+	}
+}
+
+object vivo {
+	method image() {
+		return "SuperHumano-vivo.png"
+	}
+}
+
+object muerto {
+	method image() {
+		return "SuperHumano-muerto3.png"
+	}
 }
 
 object ghost {
