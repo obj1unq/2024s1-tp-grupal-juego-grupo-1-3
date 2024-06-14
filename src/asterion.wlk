@@ -245,7 +245,15 @@ class Humano inherits Enemigo {
 	override method poderPelea(){
 		return super() + arma.poderQueOtorga()
 	}
+}
+
+class SuperHumano inherits Humano (arma = lanzaHechizada){
 	
+	override method poderDefensa() {
+		return 20
+	}
+	
+	override method image() = ""
 	
 }
 
