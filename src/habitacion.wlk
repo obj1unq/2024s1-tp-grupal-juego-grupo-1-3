@@ -2,6 +2,7 @@ import wollok.game.*
 import asterion.*
 import posiciones.*
 import artefactos.*
+import menu.*
 
 object habitacionManager {
 
@@ -20,6 +21,8 @@ object habitacionManager {
 		keyboard.q().onPressDo({ asterion.equipar()})
 		keyboard.z().onPressDo({ asterion.dropearArma()})
 		keyboard.f().onPressDo({ asterion.golpear()})
+		keyboard.i().onPressDo({ inventario.mostrar()})
+		
 		habitacion.init(self)
 		asterion.habitacionActual(habitacion)
 		self.inicializarJuego()

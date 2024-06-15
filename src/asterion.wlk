@@ -191,6 +191,10 @@ object manos {
 	method poderQueOtorga() {
 		return 0
 	}
+
+	method image() {
+		return "testfondo.jpg"
+	}
 }
 
 
