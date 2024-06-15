@@ -3,53 +3,90 @@ import wollok.game.*
 import artefactos.*
 import posiciones.*
 
-class Inventario {
+class ObjetoMostrable {
 
-    var property position = game.at(3,4)
-    const property personaje = asterion
-    var property oculto = true
-    const property objetosMostrables = []
+	var property position = null
+	var property image
 
-    method image(){
-        return "Inventory1.png"
-    }
+	method mostrarEn(posicion) {
+		position = posicion
+		game.addVisual(self)
+	}
 
-    method mostrar() {
-        if(oculto){
-            game.addVisual(self)
-            self.mostrarObjetos()
-            oculto = false
+	method ocultar() {
+		game.removeVisual(self)
+	}
 
-        }else{
-            game.removeVisual(self)
-            oculto = true 
-        } 
-    }
+	method esArtefacto() {
+		return false
+	}
 
-    method mostrarObjetos() {
-        const posicionesDisponibles = ["4,6","5,6","6,6"]
-        var indice = 0
-        objetosMostrables.add(new ObjetoDeInventario(image = asterion.arma().image())
-        objetosMostrables.forEach({obj => 
-            const posicion = posicionesDisponibles.get(indice)
-            obj.mostrarEn(posicion)
-            indice += 1
-        })
-        // asterion.utilidades().forEach(utilidad => objetosMostrables().add(new ObjetoDeInventario(self, x, objeto.imagen))})
-    }
 }
 
-class ObjetoDeInventario {
-    var property position
-    var property image
+class Inventario {
 
-    method mostrarEn(posicion){
-        position = posicion
-        game.addVisual(self)
-    }
+	var property position = game.at(3, 4)
+	const property personaje = asterion
+	var property oculto = true
+	var property objetosMostrables = []
+
+	method validarEspacioEnInventario() {
+		if (self.estaLleno()) {
+			self.error("Inventario lleno")
+		}
+	}
+
+	method estaLleno() {
+		return asterion.todosLosObjetos().size() == 9
+	}
+
+	method image() {
+		return "Inventory1.png"
+	}
+	
+	method actualizar(){
+		if(!oculto){
+			self.ocultarObjetos()
+			self.mostrarObjetos()
+		}
+	}
+
+	method mostrar() {
+		if (oculto) {
+			game.addVisual(self)
+			self.mostrarObjetos()
+			oculto = false
+		} else {
+			game.removeVisual(self)
+			self.ocultarObjetos()
+			oculto = true
+		}
+	}
+
+	method mostrarObjetos() {
+		const posicionesX = [ 3, 4, 5, 3, 4, 5, 3, 4, 5 ]
+		const posicionesY = [ 6, 6, 6, 5, 5, 5, 4, 4, 4 ]
+		var indice = 0
+		objetosMostrables = asterion.todosLosObjetos().map({ obj => new ObjetoMostrable(image = obj.image())})
+		objetosMostrables.forEach({ obj =>
+			const posicion = game.at(posicionesX.get(indice), posicionesY.get(indice))
+			obj.mostrarEn(posicion)
+			indice += 1
+		})
+	}
+
+	method ocultarObjetos() {
+		objetosMostrables.forEach({ obj => game.removeVisual(obj)})
+		objetosMostrables.clear()
+	}
+
+	method esArtefacto() {
+		return false
+	}
 
 }
 
 object inventario inherits Inventario {
-  
+
 }
+

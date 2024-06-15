@@ -110,7 +110,6 @@ object yelmo inherits Defensa {
 }
 
 object llave inherits Cosa {
-
 	override method image() {
 		return "llave.png"
 	}

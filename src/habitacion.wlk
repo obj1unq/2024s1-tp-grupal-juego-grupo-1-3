@@ -21,7 +21,7 @@ object habitacionManager {
 		keyboard.q().onPressDo({ asterion.equipar()})
 		keyboard.z().onPressDo({ asterion.dropearArma()})
 		keyboard.f().onPressDo({ asterion.golpear()})
-		keyboard.i().onPressDo({ inventario.mostrar()})
+		keyboard.i().onPressDo({ inventario.mostrar()}) //quiza poner que tambien muestre los objetos y no solo responsabilidad del inventario
 		
 		habitacion.init(self)
 		asterion.habitacionActual(habitacion)
