@@ -23,12 +23,31 @@ class ObjetoMostrable {
 
 }
 
-class Inventario {
-
-	var property position = game.at(3, 4)
-	const property personaje = asterion
+class Menu {
 	var property oculto = true
-	var property objetosMostrables = []
+	var property position = game.at(0, 0)
+	
+	method image()
+	
+	method mostrar() {
+		if (oculto) {
+			game.addVisual(self)
+			oculto = false
+		} else {
+			game.removeVisual(self)
+			oculto = true
+		}
+	}
+}
+
+class Inventario inherits Menu {
+
+	const property personaje = asterion
+	const property objetosMostrables = []
+	
+	override method position() = game.at(3, 4)
+	
+	override method oculto() = true 
 
 	method validarEspacioEnInventario() {
 		if (self.estaLleno()) {
@@ -40,7 +59,7 @@ class Inventario {
 		return asterion.todosLosObjetos().size() == 9
 	}
 
-	method image() {
+	override method image() {
 		return "Inventory1.png"
 	}
 	
@@ -51,7 +70,7 @@ class Inventario {
 		}
 	}
 
-	method mostrar() {
+	override method mostrar() {
 		if (oculto) {
 			game.addVisual(self)
 			self.mostrarObjetos()
@@ -67,7 +86,7 @@ class Inventario {
 		const posicionesX = [ 3, 4, 5, 3, 4, 5, 3, 4, 5 ]
 		const posicionesY = [ 6, 6, 6, 5, 5, 5, 4, 4, 4 ]
 		var indice = 0
-		objetosMostrables = asterion.todosLosObjetos().map({ obj => new ObjetoMostrable(image = obj.image())})
+		objetosMostrables.addAll(asterion.todosLosObjetos().map({ obj => new ObjetoMostrable(image = obj.image())}))
 		objetosMostrables.forEach({ obj =>
 			const posicion = game.at(posicionesX.get(indice), posicionesY.get(indice))
 			obj.mostrarEn(posicion)
@@ -88,5 +107,15 @@ class Inventario {
 
 object inventario inherits Inventario {
 
+}
+
+object controles inherits Menu {
+	
+	override method position() = game.at(0,-2)
+	
+	override method image() {
+		return "controles.png"
+	}
+	
 }
 
