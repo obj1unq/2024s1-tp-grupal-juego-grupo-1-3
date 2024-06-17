@@ -78,18 +78,26 @@ object lanzaHechizada inherits Arma {
 	override method poderQueOtorga() = 15
 	
 	override method image() {
-		return ""
+		return "LanzaHechizada.png"
 	}
 }
 
 object escudo inherits Defensa {
 	
+	override method defensaQueOtorga() = 20
+	
+	override method image() {
+		return "shield1.png"
+	}
+}
+
+object escudoBlindado inherits Defensa { //podria ser escudo una class para que escudo blindado herede de aca pero solo van a ser dos objetos unicos
+	
 	override method defensaQueOtorga() = 30
 	
 	override method image() {
-		return "gema.png"
+		return "shield2.png"
 	}
-	
 }
 
 object yelmo inherits Defensa {
@@ -102,7 +110,6 @@ object yelmo inherits Defensa {
 }
 
 object llave inherits Cosa {
-
 	override method image() {
 		return "llave.png"
 	}

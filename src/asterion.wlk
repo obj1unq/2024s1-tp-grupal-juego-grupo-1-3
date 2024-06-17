@@ -2,6 +2,7 @@ import wollok.game.*
 import artefactos.*
 import posiciones.*
 import habitacion.*
+import menu.*
 
 
 class Personaje {
@@ -82,6 +83,13 @@ object asterion inherits Personaje {
 
 	override method image() = "minotaur4x.png"
 	
+	method todosLosObjetos(){
+		const objetos = []
+		objetos.add(arma)
+		objetos.addAll(utilidades)
+		objetos.addAll(defensa)
+		return objetos
+	}
 	
 	method atravesar(){
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
@@ -120,22 +128,28 @@ object asterion inherits Personaje {
 		if (self.estaArmado()){
 			self.error("Ya existe un arma equipada, es necesario dropear el armamento actual") 
 		}
+		inventario.validarEspacioEnInventario()
 	}
 	
 	method equiparArma(_arma){
 		self.validarEquiparArma()
 		self.arma(_arma)
 		self.habitacionActual().sacarCosa(_arma)
+		inventario.actualizar()
 	}
 	
 	method equiparDefensa(_defensa){
+		inventario.validarEspacioEnInventario()
 		self.defensa().add(_defensa)
 		self.habitacionActual().sacarCosa(_defensa)
+		inventario.actualizar()
 	}
 	
 	method equiparUtilidad(utilidad){
+		inventario.validarEspacioEnInventario()
 		self.utilidades().add(utilidad)
 		self.habitacionActual().sacarCosa(utilidad)
+		inventario.actualizar()
 	}
 	
 	method validarDropearArma(){
@@ -148,6 +162,7 @@ object asterion inherits Personaje {
 		self.validarDropearArma()
 		self.dropear(self.arma())
 		self.arma(manos)
+		inventario.actualizar()
 	}
 	
 	method tieneArtefacto(artefacto){
@@ -155,15 +170,15 @@ object asterion inherits Personaje {
 	}
 	
 	method desequiparDefensa(_defensa){
-		
+//		inventario.actualizar()
 	} 
 	
 	method desequiparAtaque(_arma){
-		
+//		inventario.actualizar()
 	}
 	
 	method desequiparUtilidad(_utilidad){
-		
+//		inventario.actualizar()
 	}
 	
 	override method morir(){
@@ -190,6 +205,10 @@ object manos {
 	
 	method poderQueOtorga() {
 		return 0
+	}
+
+	method image() {
+		return "testfondo.jpg"
 	}
 }
 
@@ -245,8 +264,38 @@ class Humano inherits Enemigo {
 	override method poderPelea(){
 		return super() + arma.poderQueOtorga()
 	}
+}
+
+class SuperHumano inherits Humano (arma = lanzaHechizada){
 	
+	var property estado = vivo
 	
+	override method poderDefensa() {
+		return 20
+	}
+	
+	override method image() {
+		return estado.image()
+	}
+	
+	override method morir(){
+		super()
+		self.dropear(self.artefactoADropear())
+		self.estado(muerto) //hacer que la imagen quede unos segundos
+		habitacionActual.sacarEnemigo(self)
+	}
+}
+
+object vivo {
+	method image() {
+		return "SuperHumano-vivo.png"
+	}
+}
+
+object muerto {
+	method image() {
+		return "SuperHumano-muerto3.png"
+	}
 }
 
 object ghost {
