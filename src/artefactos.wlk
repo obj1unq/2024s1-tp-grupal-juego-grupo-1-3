@@ -151,7 +151,6 @@ class PocionVida inherits Artefacto {
 	
 	override method equipar(personaje) {
 		personaje.vida(100.min(personaje.vida() + puntosDeVida))
-		game.removeVisual(self)
 		personaje.habitacionActual().sacarCosa(self)
 	}
 }

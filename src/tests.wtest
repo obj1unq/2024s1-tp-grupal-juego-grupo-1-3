@@ -16,7 +16,7 @@ describe "asterion" {
 	
 	const espada = espadaDeNederita
 	const escudoDef = escudo
-	const pocion = pocionVida
+	const pocion = new PocionVida()
 	
 	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
 	
