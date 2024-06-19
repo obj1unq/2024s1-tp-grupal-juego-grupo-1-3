@@ -152,6 +152,11 @@ object asterion inherits Personaje {
 		inventario.actualizar()
 	}
 	
+	method sumarVida(consumible){
+		self.vida(100.min(self.vida() + consumible.puntosDeVida()))
+		self.habitacionActual().sacarCosa(consumible)
+	}
+	
 	method validarDropearArma(){
 		if (!self.estaArmado()){
 			self.error("No existe un arma para dropear")
