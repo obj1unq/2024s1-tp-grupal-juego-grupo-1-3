@@ -237,8 +237,6 @@ class PuertaFinal inherits Puerta {
 	var property cosasTotalesParaPasar
 
 	override method validarAtravesar(personaje, habitacion) {
-		console.println("eneemigos eliminados: " + personaje.enemigosEliminados())
-		console.println("cantidad de cosas del personaje: " + personaje.cantidadDeCosas())
 		if (personaje.enemigosEliminados() < self.enemigosTotalesParaPasar() || personaje.cantidadDeCosas() < self.cosasTotalesParaPasar()) {
 			self.error('Debes eliminar a todos los enemigos del juego y obtener todos los items')
 		}
@@ -304,20 +302,58 @@ object habitacionFactory {
 	}
 
 	method inicializarConexiones(habitaciones) {
-		const conexiones = [ new Conexion (habitacion1= habitaciones.get(0), habitacion2= habitaciones.get(1),  posicionPuerta1= posicionSuperior), new ConexionKill (habitacion1= habitaciones.get(1), habitacion2= habitaciones.get(2), posicionPuerta1 = posicionOeste), new ConexionLoot (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), 
-       									posicionPuerta1 = posicionInferior, artefactoLoot= llave), new ConexionFinal(habitacion1= habitaciones.get(2), habitacion2= habitaciones.get(4), posicionPuerta1 = posicionSuperior) ]
+		const conexiones = [ new Conexion (habitacion1= habitaciones.get(0), habitacion2= habitaciones.get(1),  posicionPuerta1= posicionSuperior),
+			 new ConexionKill (habitacion1= habitaciones.get(1), habitacion2= habitaciones.get(2), posicionPuerta1 = posicionOeste), 
+			 new ConexionLoot (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), posicionPuerta1 = posicionInferior, artefactoLoot= llave), 
+			 new Conexion(habitacion1= habitaciones.get(2), habitacion2= habitaciones.get(4), posicionPuerta1 = posicionSuperior),
+       		new ConexionKill(habitacion1= habitaciones.get(4), habitacion2=habitaciones.get(5), posicionPuerta1= posicionEste),
+       		new Conexion(habitacion1= habitaciones.get(5), habitacion2=habitaciones.get(6), posicionPuerta1=posicionEste),
+       		new Conexion(habitacion1= habitaciones.get(5), habitacion2= habitaciones.get(10), posicionPuerta1= posicionSuperior),
+       		new Conexion(habitacion1= habitaciones.get(6), habitacion2=habitaciones.get(7), posicionPuerta1= posicionInferior),
+       		new ConexionKill(habitacion1= habitaciones.get(6), habitacion2= habitaciones.get(9), posicionPuerta1= posicionSuperior),
+       		new ConexionLoot(habitacion1= habitaciones.get(7),habitacion2=habitaciones.get(8), posicionPuerta1= posicionInferior, artefactoLoot= llaveDePlata),
+       		new ConexionKill(habitacion1= habitaciones.get(9), habitacion2=habitaciones.get(10), posicionPuerta1= posicionOeste),
+       		new ConexionFinal(habitacion1= habitaciones.get(10), habitacion2=habitaciones.get(11), posicionPuerta1= posicionOeste)
+       		 ]
 		conexiones.forEach({ conexion => conexion.conectar()})
 	}
 
 	method inicializarElementos(habitaciones) {
 		espadaDeNederita.position(game.at(3, 5))
 		habitaciones.get(0).agregarCosa(espadaDeNederita)
+		habitaciones.get(2).agregarCosa(new PocionVida(position= game.at(5,4)))
+		
+		escudo.position(game.at(4,4))
+		habitaciones.get(7).agregarCosa(escudo)
+		
+		gema.position(game.at(9,9))
+		habitaciones.get(9).agregarCosa(gema)
+		
+		escudoBlindado.position(game.at(5,5))
+		habitaciones.get(10).agregarCosa(escudoBlindado)
+		habitaciones.get(10).agregarCosa(new PocionVida(position= game.at(6,6), puntosDeVida = 100))
+		
 	}
 
 	method inicializarEnemigos(habitaciones) {
 		const humano = new Humano(artefactoADropear = llave, position = game.at(3, 6))
 		habitaciones.get(1).agregarEnemigo(humano)
 		habitaciones.get(1).agregarEnemigo(ghostito)
+		
+		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=20, artefactoADropear= new PocionVida()))
+		
+		habitaciones.get(4).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=20))
+		habitaciones.get(4).agregarEnemigo(new EspectroVenenoso(artefactoADropear= lanzaHechizada)) // era hacha? falta agregarla
+		
+		habitaciones.get(6).agregarEnemigo(new SuperHumano(position= game.at(4,4),artefactoADropear= new PocionVida()))
+		
+		const ghostVeloz = new EspectroVeloz(artefactoADropear= llaveDeOro)
+		habitaciones.get(8).agregarEnemigo(ghostVeloz)
+		habitaciones.get(8).agregarEnemigo(new EspectroVeloz())
+		
+		habitaciones.get(10).agregarEnemigo(new SuperHumano(position= game.at(5,4),artefactoADropear=lanzaHechizada, poderDefensa= 30))
+		habitaciones.get(10).agregarEnemigo(new EspectroVenenoso())
+		habitaciones.get(10).agregarEnemigo(new Humano(position= game.at(3,3), arma=espadaDeNederita, vida=100) )
 	}
 
 	method init(habitacionManager) {
