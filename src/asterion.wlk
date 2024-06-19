@@ -80,7 +80,8 @@ object asterion inherits Personaje {
 	var property arma = manos
 	const property defensa = #{}
 	const poderBase = 10
-
+	var property enemigosEliminados = 0
+	
 	override method image() = "minotaur4x.png"
 	
 	method todosLosObjetos(){
@@ -95,7 +96,15 @@ object asterion inherits Personaje {
 	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
 	 	puerta.atravesar(self)	
 	}
-
+	
+	method cantidadDeCosas(){
+		return utilidades.size() 
+	}
+	
+	method eliminarEnemigo(){
+		enemigosEliminados = enemigosEliminados + 1 
+	}
+	
 	override method poderPelea() {
 		return arma.poderQueOtorga() + poderBase
 	}
@@ -223,9 +232,11 @@ class Enemigo inherits Personaje {
 	var property artefactoADropear = aire
 	var property position = game.center()
 	var property vida = 50	
+	const jugador = asterion
 		
 	override method morir(){
 		super()
+		jugador.eliminarEnemigo()
 		self.dropear(self.artefactoADropear())
 		habitacionActual.sacarEnemigo(self)
 	}
@@ -256,7 +267,7 @@ class Humano inherits Enemigo {
 			self.golpear(personaje)
 		} else {
 			self.morir()
-			
+			//personaje.eliminarEnemigo()
 		}
 	}
 
@@ -319,6 +330,7 @@ class Espectro inherits Enemigo {
 	override method esGolpeado(personaje){
 		game.removeTickEvent("Espectro"+ self.identity())
 		self.morir()
+		//personaje.eliminarEnemigo()
 	}
 	
 	override method poderDefensa(){

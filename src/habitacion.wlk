@@ -231,6 +231,22 @@ class PuertaKill inherits Puerta {
 
 }
 
+
+class PuertaFinal inherits Puerta {
+	var property enemigosTotalesParaPasar
+	var property cosasTotalesParaPasar
+
+	override method validarAtravesar(personaje, habitacion) {
+		console.println("eneemigos eliminados: " + personaje.enemigosEliminados())
+		console.println("cantidad de cosas del personaje: " + personaje.cantidadDeCosas())
+		if (personaje.enemigosEliminados() < self.enemigosTotalesParaPasar() || personaje.cantidadDeCosas() < self.cosasTotalesParaPasar()) {
+			self.error('Debes eliminar a todos los enemigos del juego y obtener todos los items')
+		}
+	}
+
+}
+
+
 class Conexion {
 
 	var property habitacion1
@@ -243,7 +259,7 @@ class Conexion {
 
 	method crearPuerta(_siguienteHabitacion, _posicionPuerta) {
 		return new Puerta(siguienteHabitacion = _siguienteHabitacion, posicionPuerta = _posicionPuerta)
-	}
+	} 
 
 	method conectar() {
 		const puerta1 = self.crearPuertaPrincipal(habitacion2, posicionPuerta1)
@@ -271,6 +287,15 @@ class ConexionLoot inherits Conexion {
 	}
 
 }
+
+class ConexionFinal inherits Conexion{
+	
+	override method crearPuertaPrincipal(_siguienteHabitacion, _posicionPuerta) {
+		return new PuertaFinal(siguienteHabitacion = habitacion2, posicionPuerta = posicionPuerta1, enemigosTotalesParaPasar = 2, cosasTotalesParaPasar = 1) //parametrizable
+	}
+	
+}
+
 
 object habitacionFactory {
 
