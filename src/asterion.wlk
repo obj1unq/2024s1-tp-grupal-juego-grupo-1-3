@@ -93,7 +93,7 @@ object asterion inherits Personaje {
 		return utilidades.size() 
 	}
 	
-	method sumaEnemigoEliminado(){
+	method eliminarEnemigo(){
 		enemigosEliminados = enemigosEliminados + 1 
 	}
 	
@@ -208,9 +208,11 @@ class Enemigo inherits Personaje {
 	var property artefactoADropear = aire
 	var property position = game.center()
 	var property vida = 50	
+	const jugador = asterion
 		
 	override method morir(){
 		super()
+		jugador.eliminarEnemigo()
 		self.dropear(self.artefactoADropear())
 		habitacionActual.sacarEnemigo(self)
 	}
@@ -241,7 +243,7 @@ class Humano inherits Enemigo {
 			self.golpear(personaje)
 		} else {
 			self.morir()
-			personaje.sumaEnemigoEliminado() // CAMBIO DE FER
+			//personaje.eliminarEnemigo()
 		}
 	}
 
@@ -276,7 +278,7 @@ class Espectro inherits Enemigo {
 	override method esGolpeado(personaje){
 		game.removeTickEvent("Espectro"+ self.identity())
 		self.morir()
-		personaje.sumaEnemigoEliminado()
+		//personaje.eliminarEnemigo()
 	}
 	
 	override method poderDefensa(){

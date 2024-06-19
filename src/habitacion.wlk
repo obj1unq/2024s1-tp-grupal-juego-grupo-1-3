@@ -233,6 +233,8 @@ class PuertaFinal inherits Puerta {
 	var property cosasTotalesParaPasar
 
 	override method validarAtravesar(personaje, habitacion) {
+		console.println("eneemigos eliminados: " + personaje.enemigosEliminados())
+		console.println("cantidad de cosas del personaje: " + personaje.cantidadDeCosas())
 		if (personaje.enemigosEliminados() < self.enemigosTotalesParaPasar() || personaje.cantidadDeCosas() < self.cosasTotalesParaPasar()) {
 			self.error('Debes eliminar a todos los enemigos del juego y obtener todos los items')
 		}
