@@ -267,7 +267,6 @@ class Humano inherits Enemigo {
 			self.golpear(personaje)
 		} else {
 			self.morir()
-			//personaje.eliminarEnemigo()
 		}
 	}
 
@@ -330,7 +329,6 @@ class Espectro inherits Enemigo {
 	override method esGolpeado(personaje){
 		game.removeTickEvent("Espectro"+ self.identity())
 		self.morir()
-		//personaje.eliminarEnemigo()
 	}
 	
 	override method poderDefensa(){

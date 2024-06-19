@@ -237,8 +237,6 @@ class PuertaFinal inherits Puerta {
 	var property cosasTotalesParaPasar
 
 	override method validarAtravesar(personaje, habitacion) {
-		console.println("eneemigos eliminados: " + personaje.enemigosEliminados())
-		console.println("cantidad de cosas del personaje: " + personaje.cantidadDeCosas())
 		if (personaje.enemigosEliminados() < self.enemigosTotalesParaPasar() || personaje.cantidadDeCosas() < self.cosasTotalesParaPasar()) {
 			self.error('Debes eliminar a todos los enemigos del juego y obtener todos los items')
 		}
@@ -315,7 +313,7 @@ object habitacionFactory {
        		new ConexionKill(habitacion1= habitaciones.get(6), habitacion2= habitaciones.get(9), posicionPuerta1= posicionSuperior),
        		new ConexionLoot(habitacion1= habitaciones.get(7),habitacion2=habitaciones.get(8), posicionPuerta1= posicionInferior, artefactoLoot= llaveDePlata),
        		new ConexionKill(habitacion1= habitaciones.get(9), habitacion2=habitaciones.get(10), posicionPuerta1= posicionOeste),
-       		new Conexion(habitacion1= habitaciones.get(10), habitacion2=habitaciones.get(11), posicionPuerta1= posicionOeste)
+       		new ConexionFinal(habitacion1= habitaciones.get(10), habitacion2=habitaciones.get(11), posicionPuerta1= posicionOeste)
        		 ]
 		conexiones.forEach({ conexion => conexion.conectar()})
 	}
