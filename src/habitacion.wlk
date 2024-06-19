@@ -259,7 +259,7 @@ class Conexion {
 
 	method crearPuerta(_siguienteHabitacion, _posicionPuerta) {
 		return new Puerta(siguienteHabitacion = _siguienteHabitacion, posicionPuerta = _posicionPuerta)
-	}
+	} 
 
 	method conectar() {
 		const puerta1 = self.crearPuertaPrincipal(habitacion2, posicionPuerta1)
