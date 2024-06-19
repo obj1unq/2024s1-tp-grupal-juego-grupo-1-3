@@ -3,6 +3,7 @@ import asterion.*
 import posiciones.*
 import artefactos.*
 import habitacion.*
+import menu.*
 
 program juego { 
 	

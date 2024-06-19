@@ -47,10 +47,10 @@ describe "asterion" {
 		assert.that(asterion.arma() == manos)
 	}
 	
-	test "asterion equipa un escudo, quedando su poderDefensa() en 30" {
+	test "asterion equipa un escudo, quedando su poderDefensa() en 20" {
 		asterion.equiparDefensa(escudoDef)
 		assert.that(asterion.defensa() == #{escudoDef})
-		assert.equals(30, asterion.poderDefensa())
+		assert.equals(20, asterion.poderDefensa())
 	}
 	
 	test "asterion intenta sacarse un arma teniendo manos y no puede por que no tiene armas" {
