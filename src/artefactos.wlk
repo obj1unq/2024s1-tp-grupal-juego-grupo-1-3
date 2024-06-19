@@ -75,10 +75,19 @@ object espadaDeNederita inherits Arma {
 
 object lanzaHechizada inherits Arma {
 	
-	override method poderQueOtorga() = 15
+	override method poderQueOtorga() = 17
 	
 	override method image() {
 		return "LanzaHechizada.png"
+	}
+}
+
+object hachaDeAdamantium inherits Arma {
+	
+	override method poderQueOtorga() = 13
+	
+	override method image() {
+		return "hacha.png"
 	}
 }
 
