@@ -100,4 +100,5 @@ describe "asterion" {
 		asterion.equipar()
 		assert.equals(100, asterion.vida())
 	}
+	
 }
