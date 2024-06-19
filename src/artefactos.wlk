@@ -115,6 +115,25 @@ object llave inherits Cosa {
 	}
 }
 
+object llaveDePlata inherits Cosa {
+	override method image() {
+		return "llave.png" // falta imagen
+	}
+}
+
+object llaveDeOro inherits Cosa {
+	override method image() {
+		return "llave.png" // falta imagen
+	}
+}
+
+object gema inherits Cosa{
+	
+	override method image() {
+		return "llave.png" // falta  imagen
+	}
+}
+
 object aire inherits Cosa { 
 	
 	override method drop(posicion,habitacion){}
@@ -122,7 +141,7 @@ object aire inherits Cosa {
 	override method image(){}
 }
 
-object pocionVida inherits Artefacto {
+class PocionVida inherits Artefacto {
 	
 	var property puntosDeVida = 40
 	
@@ -133,5 +152,6 @@ object pocionVida inherits Artefacto {
 	override method equipar(personaje) {
 		personaje.vida(100.min(personaje.vida() + puntosDeVida))
 		game.removeVisual(self)
+		personaje.habitacionActual().sacarCosa(self)
 	}
 }

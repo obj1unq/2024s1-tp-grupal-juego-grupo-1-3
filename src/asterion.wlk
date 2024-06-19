@@ -280,9 +280,7 @@ class SuperHumano inherits Humano (arma = lanzaHechizada){
 	
 	override method morir(){
 		super()
-		self.dropear(self.artefactoADropear())
 		self.estado(muerto) //hacer que la imagen quede unos segundos
-		habitacionActual.sacarEnemigo(self)
 	}
 }
 
@@ -343,6 +341,27 @@ class Espectro inherits Enemigo {
 
 object ghostito inherits Espectro {
 	
+}
+
+class EspectroVenenoso inherits Espectro {
+	
+	override method atacar(){
+		if (self.estaAsterion()){
+			self.golpear(asterion)
+			game.schedule(2000, { => self.golpear(asterion)})
+		}
+		
+		
+	}
+}
+
+class EspectroVeloz inherits Espectro {
+	
+	override method init(){
+		game.addVisual(self)
+		game.onTick(1000, "Espectro" + self.identity(), {self.position(randomizer.position())})
+		game.onCollideDo(self, {visual => self.atacar()})
+	}
 }
 
 
