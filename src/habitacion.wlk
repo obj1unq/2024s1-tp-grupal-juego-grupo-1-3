@@ -316,6 +316,7 @@ object habitacionFactory {
        		new ConexionFinal(habitacion1= habitaciones.get(10), habitacion2=habitaciones.get(11), posicionPuerta1= posicionOeste)
        		 ]
 		conexiones.forEach({ conexion => conexion.conectar()})
+		
 	}
 
 	method inicializarElementos(habitaciones) {
@@ -340,7 +341,7 @@ object habitacionFactory {
 		habitaciones.get(1).agregarEnemigo(humano)
 		habitaciones.get(1).agregarEnemigo(ghostito)
 		
-		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=20, artefactoADropear= new PocionVida()))
+		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=15, artefactoADropear= new PocionVida()))
 		
 		habitaciones.get(4).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=20))
 		habitaciones.get(4).agregarEnemigo(new EspectroVenenoso(artefactoADropear= lanzaHechizada)) // era hacha? falta agregarla
