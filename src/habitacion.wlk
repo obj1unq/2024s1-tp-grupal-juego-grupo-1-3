@@ -307,7 +307,7 @@ object habitacionFactory {
 	method inicializarConexiones(habitaciones) {
 		const conexiones = [ new Conexion (habitacion1= habitaciones.get(0), habitacion2= habitaciones.get(1),  posicionPuerta1= posicionSuperior),
 			 new ConexionKill (habitacion1= habitaciones.get(1), habitacion2= habitaciones.get(2), posicionPuerta1 = posicionOeste), 
-			 new ConexionLoot (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), posicionPuerta1 = posicionInferior, artefactoLoot= llave), 
+			 new ConexionLoot (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), posicionPuerta1 = posicionInferior, artefactoLoot= llaveDeBronce), 
 			 new Conexion(habitacion1= habitaciones.get(2), habitacion2= habitaciones.get(4), posicionPuerta1 = posicionSuperior),
        		new ConexionKill(habitacion1= habitaciones.get(4), habitacion2=habitaciones.get(5), posicionPuerta1= posicionEste),
        		new Conexion(habitacion1= habitaciones.get(5), habitacion2=habitaciones.get(6), posicionPuerta1=posicionEste),
@@ -344,7 +344,7 @@ object habitacionFactory {
 	}
 
 	method inicializarEnemigos(habitaciones) {
-		const humano = new Humano(artefactoADropear = llave, position = game.at(3, 6))
+		const humano = new Humano(artefactoADropear = llaveDeBronce, position = game.at(3, 6))
 		habitaciones.get(1).agregarEnemigo(humano)
 		habitaciones.get(1).agregarEnemigo(ghostito)
 		

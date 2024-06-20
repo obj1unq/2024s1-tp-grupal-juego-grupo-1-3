@@ -231,7 +231,11 @@ object manos {
 	}
 
 	method image() {
-		return "testfondo.jpg"
+		return null
+	}
+	
+	method esArtefacto() {
+		return false
 	}
 }
 

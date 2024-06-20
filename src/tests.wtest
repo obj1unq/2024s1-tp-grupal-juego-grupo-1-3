@@ -18,7 +18,7 @@ describe "asterion" {
 	const escudoDef = escudo
 	const pocion = new PocionVida()
 	
-	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
+	const humano = new Humano(artefactoADropear = llaveDeBronce, position= game.at(3,6))
 	
 	method initialize() {
 		habitacionManager.init()
@@ -80,7 +80,7 @@ describe "asterion" {
 		asterion.golpear()
 		asterion.golpear()
 		asterion.golpear()
-		assert.equals(llave, tablero.objetoEnPosDe(asterion))
+		assert.equals(llaveDeBronce, tablero.objetoEnPosDe(asterion))
 	}
 	
 	test "Asterion no puede moverse mas alla de los bordes que delimita el juego" {

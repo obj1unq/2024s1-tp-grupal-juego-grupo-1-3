@@ -123,7 +123,7 @@ object yelmo inherits Defensa { //sin asset no utiliza aun
 	}
 }
 
-object llave inherits Cosa {
+object llaveDeBronce inherits Cosa {
 	override method image() {
 		return "llaveBronce.png"
 	}
