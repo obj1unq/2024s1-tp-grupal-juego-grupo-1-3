@@ -23,6 +23,9 @@ object habitacionManager {
 		keyboard.f().onPressDo({ asterion.golpear()})
 		keyboard.i().onPressDo({ inventario.mostrar()}) //quiza poner que tambien muestre los objetos y no solo responsabilidad del inventario
 		keyboard.h().onPressDo({ controles.mostrar()})
+		keyboard.a().onPressDo({asterion.sayAtaque()})
+		keyboard.d().onPressDo({asterion.sayDefensa()})
+		keyboard.v().onPressDo({asterion.sayVida()})
 		
 		habitacion.init(self)
 		asterion.habitacionActual(habitacion)

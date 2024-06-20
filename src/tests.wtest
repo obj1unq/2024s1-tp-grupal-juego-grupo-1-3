@@ -42,7 +42,7 @@ describe "asterion" {
 	test "asterion equipa un arma, quedando su poderPelea() en 20, 10 de base y 10 de la espada, puede dropearla quedandose con manos" {
 		asterion.equiparArma(espadaDeNederita)
 		assert.that(asterion.arma() == espadaDeNederita)
-		assert.equals(18, asterion.poderPelea())
+		assert.equals(20, asterion.poderPelea())
 		asterion.dropearArma()
 		assert.that(asterion.arma() == manos)
 	}
@@ -50,7 +50,7 @@ describe "asterion" {
 	test "asterion equipa un escudo, quedando su poderDefensa() en 20" {
 		asterion.equiparDefensa(escudoDef)
 		assert.that(asterion.defensa() == #{escudoDef})
-		assert.equals(15, asterion.poderDefensa())
+		assert.equals(10, asterion.poderDefensa())
 	}
 	
 	test "asterion intenta sacarse un arma teniendo manos y no puede por que no tiene armas" {
