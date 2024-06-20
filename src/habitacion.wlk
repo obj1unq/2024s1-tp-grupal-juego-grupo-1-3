@@ -322,10 +322,12 @@ object habitacionFactory {
 	method inicializarElementos(habitaciones) {
 		espadaDeNederita.position(game.at(3, 5))
 		habitaciones.get(0).agregarCosa(espadaDeNederita)
-		habitaciones.get(2).agregarCosa(new PocionVida(position= game.at(5,4)))
+		habitaciones.get(2).agregarCosa(new PocionVida(puntosDeVida=60, position= game.at(5,4)))
 		
 		escudo.position(game.at(4,4))
-		habitaciones.get(7).agregarCosa(escudo)
+		habitaciones.get(5).agregarCosa(escudo)
+		
+		//habitaciones.get(7).agregarCosa(escudo) agrwgar algo en la 7
 		
 		gema.position(game.at(9,9))
 		habitaciones.get(9).agregarCosa(gema)
@@ -341,18 +343,17 @@ object habitacionFactory {
 		habitaciones.get(1).agregarEnemigo(humano)
 		habitaciones.get(1).agregarEnemigo(ghostito)
 		
-		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=15, artefactoADropear= new PocionVida()))
+		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=10, artefactoADropear= new PocionVida(puntosDeVida= 80)))
 		
-		habitaciones.get(4).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=20))
-		habitaciones.get(4).agregarEnemigo(new EspectroVenenoso(artefactoADropear= lanzaHechizada)) // era hacha? falta agregarla
-		
-		habitaciones.get(6).agregarEnemigo(new SuperHumano(position= game.at(4,4),artefactoADropear= new PocionVida()))
+		habitaciones.get(4).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=15))
+		habitaciones.get(4).agregarEnemigo(new EspectroVenenoso(artefactoADropear= hachaDobleCara))
+		habitaciones.get(6).agregarEnemigo(new SuperHumano(position= game.at(4,4),artefactoADropear= new PocionVida(puntosDeVida=60)))
 		
 		const ghostVeloz = new EspectroVeloz(artefactoADropear= llaveDeOro)
 		habitaciones.get(8).agregarEnemigo(ghostVeloz)
 		habitaciones.get(8).agregarEnemigo(new EspectroVeloz())
 		
-		habitaciones.get(10).agregarEnemigo(new SuperHumano(position= game.at(5,4),artefactoADropear=lanzaHechizada, poderDefensa= 30))
+		habitaciones.get(10).agregarEnemigo(new SuperHumano(position= game.at(5,4),artefactoADropear=lanzaHechizada, poderDefensa= 35))
 		habitaciones.get(10).agregarEnemigo(new EspectroVenenoso())
 		habitaciones.get(10).agregarEnemigo(new Humano(position= game.at(3,3), arma=espadaDeNederita, vida=100) )
 	}

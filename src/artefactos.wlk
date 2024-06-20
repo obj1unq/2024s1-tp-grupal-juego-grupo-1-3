@@ -66,16 +66,25 @@ class Cosa inherits Artefacto {
 
 object espadaDeNederita inherits Arma {
 	
-	override method poderQueOtorga() = 10
+	override method poderQueOtorga() = 8
 	
 	override method image() {
 		return "espada.png"
 	}
 }
 
+object hachaDobleCara inherits Arma {
+	
+	override method poderQueOtorga() = 20
+	
+	override method image() {
+		return "hacha.png"
+	}
+}
+
 object lanzaHechizada inherits Arma {
 	
-	override method poderQueOtorga() = 15
+	override method poderQueOtorga() = 25
 	
 	override method image() {
 		return "LanzaHechizada.png"
@@ -84,7 +93,7 @@ object lanzaHechizada inherits Arma {
 
 object escudo inherits Defensa {
 	
-	override method defensaQueOtorga() = 20
+	override method defensaQueOtorga() = 15
 	
 	override method image() {
 		return "shield1.png"
@@ -100,7 +109,7 @@ object escudoBlindado inherits Defensa { //podria ser escudo una class para que 
 	}
 }
 
-object yelmo inherits Defensa {
+object yelmo inherits Defensa { //sin asset no utiliza aun
 	
 	override method defensaQueOtorga() = 40
 	
@@ -130,7 +139,7 @@ object llaveDeOro inherits Cosa {
 object gema inherits Cosa{
 	
 	override method image() {
-		return "llave.png" // falta  imagen
+		return "gema.png"
 	}
 }
 
@@ -143,7 +152,7 @@ object aire inherits Cosa {
 
 class PocionVida inherits Artefacto {
 	
-	var property puntosDeVida = 40
+	var property puntosDeVida
 	
 	override method image(){ 
 		return "pocion.png"
