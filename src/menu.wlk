@@ -62,13 +62,6 @@ class Inventario inherits Menu {
 	override method image() {
 		return "Inventory1.png"
 	}
-	
-	method actualizar(){
-		if(!oculto){
-			self.ocultarObjetos()
-			self.mostrarObjetos()
-		}
-	}
 
 	override method mostrar() {
 		if (oculto) {
@@ -76,6 +69,14 @@ class Inventario inherits Menu {
 			self.mostrarObjetos()
 			oculto = false
 		} else {
+			game.removeVisual(self)
+			self.ocultarObjetos()
+			oculto = true
+		}
+	}
+	
+	method ocultar(){
+		if (!oculto) {
 			game.removeVisual(self)
 			self.ocultarObjetos()
 			oculto = true
