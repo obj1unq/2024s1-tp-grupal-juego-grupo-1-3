@@ -343,7 +343,7 @@ object habitacionFactory {
 		habitaciones.get(1).agregarEnemigo(humano)
 		habitaciones.get(1).agregarEnemigo(ghostito)
 		
-		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=10, artefactoADropear= new PocionVida(puntosDeVida= 80)))
+		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=10, artefactoADropear= new PocionVida(puntosDeVida= 80)))//quiza 90
 		
 		habitaciones.get(4).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=15))
 		habitaciones.get(4).agregarEnemigo(new EspectroVenenoso(artefactoADropear= hachaDobleCara))
@@ -353,9 +353,9 @@ object habitacionFactory {
 		habitaciones.get(8).agregarEnemigo(ghostVeloz)
 		habitaciones.get(8).agregarEnemigo(new EspectroVeloz())
 		
-		habitaciones.get(10).agregarEnemigo(new SuperHumano(position= game.at(5,4),artefactoADropear=lanzaHechizada, poderDefensa= 35))
+		habitaciones.get(10).agregarEnemigo(new SuperHumano(position= game.at(5,4),artefactoADropear=lanzaHechizada, poderDefensa= 50))
 		habitaciones.get(10).agregarEnemigo(new EspectroVenenoso())
-		habitaciones.get(10).agregarEnemigo(new Humano(position= game.at(3,3), arma=espadaDeNederita, vida=100) )
+		habitaciones.get(10).agregarEnemigo(new Humano(position= game.at(3,3), arma=espadaDeNederita, vida=110) )
 	}
 
 	method init(habitacionManager) {

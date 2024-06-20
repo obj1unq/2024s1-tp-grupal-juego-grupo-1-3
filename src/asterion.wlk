@@ -257,7 +257,7 @@ class Enemigo inherits Personaje {
 
 
 class Humano inherits Enemigo {
-	var property poderDefensa = 10
+	var property poderDefensa = 12
 	var property arma = manos
 	
 	override method image() = "wpierdol.png"

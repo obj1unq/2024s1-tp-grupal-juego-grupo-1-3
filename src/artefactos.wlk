@@ -102,7 +102,7 @@ object escudo inherits Defensa {
 
 object escudoBlindado inherits Defensa { //podria ser escudo una class para que escudo blindado herede de aca pero solo van a ser dos objetos unicos
 	
-	override method defensaQueOtorga() = 30
+	override method defensaQueOtorga() = if (asterion.defensa().size()>=1) {15} else {30}
 	
 	override method image() {
 		return "shield2.png"
@@ -118,21 +118,21 @@ object yelmo inherits Defensa { //sin asset no utiliza aun
 	}
 }
 
-object llave inherits Cosa {
+object llaveBronce inherits Cosa {
 	override method image() {
-		return "llave.png"
+		return "llaveBronce.png"
 	}
 }
 
 object llaveDePlata inherits Cosa {
 	override method image() {
-		return "llave.png" // falta imagen
+		return "llavePlata.png"
 	}
 }
 
 object llaveDeOro inherits Cosa {
 	override method image() {
-		return "llave.png" // falta imagen
+		return "llaveOro.png"
 	}
 }
 
