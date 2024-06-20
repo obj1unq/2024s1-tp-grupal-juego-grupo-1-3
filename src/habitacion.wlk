@@ -312,7 +312,7 @@ object habitacionFactory {
        		new Conexion(habitacion1= habitaciones.get(6), habitacion2=habitaciones.get(7), posicionPuerta1= posicionInferior),
        		new ConexionKill(habitacion1= habitaciones.get(6), habitacion2= habitaciones.get(9), posicionPuerta1= posicionSuperior),
        		new ConexionLoot(habitacion1= habitaciones.get(7),habitacion2=habitaciones.get(8), posicionPuerta1= posicionInferior, artefactoLoot= llaveDePlata),
-       		new ConexionKill(habitacion1= habitaciones.get(9), habitacion2=habitaciones.get(10), posicionPuerta1= posicionOeste),
+       		new ConexionKill(habitacion1= habitaciones.get(10), habitacion2=habitaciones.get(9), posicionPuerta1= posicionEste),
        		new ConexionFinal(habitacion1= habitaciones.get(10), habitacion2=habitaciones.get(11), posicionPuerta1= posicionOeste)
        		 ]
 		conexiones.forEach({ conexion => conexion.conectar()})
