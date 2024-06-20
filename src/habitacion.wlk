@@ -331,6 +331,8 @@ object habitacionFactory {
 		
 		gema.position(game.at(9,9))
 		habitaciones.get(9).agregarCosa(gema)
+		llaveDePlata.position(game.at(0,9))
+		habitaciones.get(9).agregarCosa(llaveDePlata)
 		
 		escudoBlindado.position(game.at(5,5))
 		habitaciones.get(10).agregarCosa(escudoBlindado)

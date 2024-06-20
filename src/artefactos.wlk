@@ -118,7 +118,7 @@ object yelmo inherits Defensa { //sin asset no utiliza aun
 	}
 }
 
-object llaveBronce inherits Cosa {
+object llave inherits Cosa {
 	override method image() {
 		return "llaveBronce.png"
 	}
