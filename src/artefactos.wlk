@@ -152,7 +152,7 @@ object aire inherits Cosa {
 
 class PocionVida inherits Artefacto {
 	
-	var property puntosDeVida
+	var property puntosDeVida = 40
 	
 	override method image(){ 
 		return "pocion.png"
