@@ -344,12 +344,10 @@ object habitacionFactory {
 	}
 
 	method inicializarEnemigos(habitaciones) {
-
-		const humano = new Humano(artefactoADropear = llave, position = game.at(3, 6))
+		const humano = new Humano(artefactoADropear = llaveDeBronce, position = game.at(3, 6))
 		const ariadna = new Ariadna(artefactoADropear = aire, position = game.at(3, 6))
 		const teseo  = new Teseo(artefactoADropear = aire, position = game.at(3, 8))
-		const humano = new Humano(artefactoADropear = llaveDeBronce, position = game.at(3, 6))
-
+		
 		habitaciones.get(1).agregarEnemigo(humano)
 		habitaciones.get(1).agregarEnemigo(ghostito)
 		
