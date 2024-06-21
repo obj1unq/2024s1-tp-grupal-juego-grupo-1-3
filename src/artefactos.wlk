@@ -188,28 +188,42 @@ class PocionVida inherits Artefacto {
 
 }
 
-class Chest {
-
-	var property position
+class Chest inherits Artefacto {
+	
 	var property estado = cerrado
-	var property artefactoADropear
+	var property artefactoADropear = aire
 
-	method image() = estado.image()
+	override method image() = estado.image()
 
-	method equipar(personaje) { // metodo polimorfico para que abra el cofre, realmente no esta equipando si no que interactua
+	override method equipar(personaje) { // metodo polimorfico para que abra el cofre, realmente no esta equipando si no que interactua
 		if (self.estaCerrado()) {
 			estado = abierto
-			artefactoADropear.position(game.at(self.position().x(), self.position().y() + 1))
-			game.addVisual(artefactoADropear)
+			artefactoADropear.drop(self.posicionDrop(),personaje.habitacionActual())
 		}
-	}
-
-	method esArtefacto() {
-		return true
 	}
 
 	method estaCerrado() {
 		return estado == cerrado
+	}
+	
+	method posicionDrop() {
+		return game.at(self.position().x(), self.position().y() + 1)
+	}
+}
+
+class ChestMimic inherits Chest { //Quise hacer que este herede de dos clases pero no tengo la forma aun por que es un chest pero tambien un enemigo
+
+	var property poderPelea = 50
+	
+	override method equipar(personaje) {
+		if (self.estaCerrado()) {
+			estado = abiertoMimic
+			self.golpear(personaje)
+		}
+	}
+	
+	method golpear(personaje) {
+		personaje.esGolpeado(self)
 	}
 }
 

@@ -323,10 +323,9 @@ object habitacionFactory {
 	}
 
 	method inicializarElementos(habitaciones) {
-		//espadaDeNederita.position(game.at(3, 5))
-		//habitaciones.get(0).agregarCosa(espadaDeNederita)
-		
 		habitaciones.get(0).agregarCosa(new Chest(position = game.at(5,4), artefactoADropear = espadaDeNederita))
+		
+		habitaciones.get(0).agregarCosa(new ChestMimic(position = game.at(5,6)))
 		
 		habitaciones.get(2).agregarCosa(new PocionVida(puntosDeVida=60, position= game.at(5,4)))
 		
@@ -348,8 +347,6 @@ object habitacionFactory {
 
 	method inicializarEnemigos(habitaciones) {
 		const humano = new Humano(artefactoADropear = llaveDeBronce, position = game.at(3, 6))
-		
-		habitaciones.get(0).agregarEnemigo(new ChestMimic(posicion = game.at(5,5), drop = espadaDeNederita))
 		
 		habitaciones.get(1).agregarEnemigo(humano)
 		habitaciones.get(1).agregarEnemigo(ghostito)
