@@ -14,15 +14,18 @@ object habitacionManager {
 		game.title("El juego de Asterion")
 		game.height(10)
 		game.width(10)
-		keyboard.down().onPressDo({ asterion.mover(abajo)})
-		keyboard.up().onPressDo({ asterion.mover(arriba)})
-		keyboard.left().onPressDo({ asterion.mover(izquierda)})
-		keyboard.right().onPressDo({ asterion.mover(derecha)})
-		keyboard.q().onPressDo({ asterion.equipar()})
-		keyboard.z().onPressDo({ asterion.dropearArma()})
-		keyboard.f().onPressDo({ asterion.golpear()})
+		keyboard.down().onPressDo({ asterion.mover(abajo) inventario.ocultar()})
+		keyboard.up().onPressDo({ asterion.mover(arriba) inventario.ocultar()})
+		keyboard.left().onPressDo({ asterion.mover(izquierda) inventario.ocultar()})
+		keyboard.right().onPressDo({ asterion.mover(derecha) inventario.ocultar()})
+		keyboard.q().onPressDo({ asterion.equipar() inventario.ocultar()})
+		keyboard.z().onPressDo({ asterion.dropearArma() inventario.ocultar()})
+		keyboard.f().onPressDo({ asterion.golpear() inventario.ocultar()})
 		keyboard.i().onPressDo({ inventario.mostrar()}) //quiza poner que tambien muestre los objetos y no solo responsabilidad del inventario
-		keyboard.h().onPressDo({ controles.mostrar()})
+		keyboard.h().onPressDo({ controles.mostrar() inventario.ocultar()})
+		keyboard.a().onPressDo({asterion.sayAtaque() inventario.ocultar()})
+		keyboard.d().onPressDo({asterion.sayDefensa() inventario.ocultar()})
+		keyboard.v().onPressDo({asterion.sayVida() inventario.ocultar()})
 		
 		habitacion.init(self)
 		asterion.habitacionActual(habitacion)
@@ -304,7 +307,7 @@ object habitacionFactory {
 	method inicializarConexiones(habitaciones) {
 		const conexiones = [ new Conexion (habitacion1= habitaciones.get(0), habitacion2= habitaciones.get(1),  posicionPuerta1= posicionSuperior),
 			 new ConexionKill (habitacion1= habitaciones.get(1), habitacion2= habitaciones.get(2), posicionPuerta1 = posicionOeste), 
-			 new ConexionLoot (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), posicionPuerta1 = posicionInferior, artefactoLoot= llave), 
+			 new ConexionLoot (habitacion1= habitaciones.get(2), habitacion2=habitaciones.get(3), posicionPuerta1 = posicionInferior, artefactoLoot= llaveDeBronce), 
 			 new Conexion(habitacion1= habitaciones.get(2), habitacion2= habitaciones.get(4), posicionPuerta1 = posicionSuperior),
        		new ConexionKill(habitacion1= habitaciones.get(4), habitacion2=habitaciones.get(5), posicionPuerta1= posicionEste),
        		new Conexion(habitacion1= habitaciones.get(5), habitacion2=habitaciones.get(6), posicionPuerta1=posicionEste),
@@ -312,22 +315,27 @@ object habitacionFactory {
        		new Conexion(habitacion1= habitaciones.get(6), habitacion2=habitaciones.get(7), posicionPuerta1= posicionInferior),
        		new ConexionKill(habitacion1= habitaciones.get(6), habitacion2= habitaciones.get(9), posicionPuerta1= posicionSuperior),
        		new ConexionLoot(habitacion1= habitaciones.get(7),habitacion2=habitaciones.get(8), posicionPuerta1= posicionInferior, artefactoLoot= llaveDePlata),
-       		new ConexionKill(habitacion1= habitaciones.get(9), habitacion2=habitaciones.get(10), posicionPuerta1= posicionOeste),
+       		new ConexionKill(habitacion1= habitaciones.get(10), habitacion2=habitaciones.get(9), posicionPuerta1= posicionEste),
        		new ConexionFinal(habitacion1= habitaciones.get(10), habitacion2=habitaciones.get(11), posicionPuerta1= posicionOeste)
        		 ]
 		conexiones.forEach({ conexion => conexion.conectar()})
+		
 	}
 
 	method inicializarElementos(habitaciones) {
 		espadaDeNederita.position(game.at(3, 5))
 		habitaciones.get(0).agregarCosa(espadaDeNederita)
-		habitaciones.get(2).agregarCosa(new PocionVida(position= game.at(5,4)))
+		habitaciones.get(2).agregarCosa(new PocionVida(puntosDeVida=60, position= game.at(5,4)))
 		
 		escudo.position(game.at(4,4))
-		habitaciones.get(7).agregarCosa(escudo)
+		habitaciones.get(5).agregarCosa(escudo)
+		
+		//habitaciones.get(7).agregarCosa(escudo) agrwgar algo en la 7
 		
 		gema.position(game.at(9,9))
 		habitaciones.get(9).agregarCosa(gema)
+		llaveDePlata.position(game.at(0,9))
+		habitaciones.get(9).agregarCosa(llaveDePlata)
 		
 		escudoBlindado.position(game.at(5,5))
 		habitaciones.get(10).agregarCosa(escudoBlindado)
@@ -336,27 +344,28 @@ object habitacionFactory {
 	}
 
 	method inicializarEnemigos(habitaciones) {
+
 		const humano = new Humano(artefactoADropear = llave, position = game.at(3, 6))
 		const ariadna = new Ariadna(artefactoADropear = aire, position = game.at(3, 6))
 		const teseo  = new Teseo(artefactoADropear = aire, position = game.at(3, 8))
+		const humano = new Humano(artefactoADropear = llaveDeBronce, position = game.at(3, 6))
+
 		habitaciones.get(1).agregarEnemigo(humano)
 		habitaciones.get(1).agregarEnemigo(ghostito)
 		
-		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=20, artefactoADropear= new PocionVida()))
+		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=10, artefactoADropear= new PocionVida(puntosDeVida= 80)))//quiza 90
 		
-		habitaciones.get(4).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=20))
-		habitaciones.get(4).agregarEnemigo(new EspectroVenenoso(artefactoADropear= lanzaHechizada)) // era hacha? falta agregarla
-		
-		habitaciones.get(6).agregarEnemigo(new SuperHumano(position= game.at(4,4),artefactoADropear= new PocionVida()))
+		habitaciones.get(4).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=15))
+		habitaciones.get(4).agregarEnemigo(new EspectroVenenoso(artefactoADropear= hachaDobleCara))
+		habitaciones.get(6).agregarEnemigo(new SuperHumano(position= game.at(4,4),artefactoADropear= new PocionVida(puntosDeVida=60)))
 		
 		const ghostVeloz = new EspectroVeloz(artefactoADropear= llaveDeOro)
 		habitaciones.get(8).agregarEnemigo(ghostVeloz)
 		habitaciones.get(8).agregarEnemigo(new EspectroVeloz())
 		
-		habitaciones.get(10).agregarEnemigo(new SuperHumano(position= game.at(5,4),artefactoADropear=lanzaHechizada, poderDefensa= 30))
+		habitaciones.get(10).agregarEnemigo(new SuperHumano(position= game.at(5,4),artefactoADropear=lanzaHechizada, poderDefensa= 50))
 		habitaciones.get(10).agregarEnemigo(new EspectroVenenoso())
-		habitaciones.get(10).agregarEnemigo(new Humano(position= game.at(3,3), arma=espadaDeNederita, vida=100) )
-		
+		habitaciones.get(10).agregarEnemigo(new Humano(position= game.at(3,3), arma=espadaDeNederita, vida=100) )	
 	}
 
 	method init(habitacionManager) {

@@ -19,7 +19,9 @@ class Artefacto {
 		
 	}
 	
-	method equipar(personaje)
+	method equipar(personaje) {
+		game.say(personaje, "equipó: "+ self)
+	}
 	
 	method image()
 	
@@ -40,6 +42,7 @@ class Arma inherits Artefacto {
 	
 	override method equipar(personaje) {
 		personaje.equiparArma(self)
+		super(personaje)
 	}
 	
 }
@@ -49,6 +52,7 @@ class Defensa inherits Artefacto {
 	
 	override method equipar(personaje) {
 		personaje.equiparDefensa(self)
+		super(personaje)
 	}
 	
 	
@@ -60,6 +64,7 @@ class Cosa inherits Artefacto {
 	
 	override method equipar(personaje) {
 		personaje.equiparUtilidad(self)
+		super(personaje)
 	}
 	
 }
@@ -73,9 +78,18 @@ object espadaDeNederita inherits Arma {
 	}
 }
 
+object hachaDobleCara inherits Arma {
+	
+	override method poderQueOtorga() = 20
+	
+	override method image() {
+		return "hacha.png"
+	}
+}
+
 object lanzaHechizada inherits Arma {
 	
-	override method poderQueOtorga() = 15
+	override method poderQueOtorga() = 30
 	
 	override method image() {
 		return "LanzaHechizada.png"
@@ -84,7 +98,7 @@ object lanzaHechizada inherits Arma {
 
 object escudo inherits Defensa {
 	
-	override method defensaQueOtorga() = 20
+	override method defensaQueOtorga() = 10
 	
 	override method image() {
 		return "shield1.png"
@@ -93,14 +107,14 @@ object escudo inherits Defensa {
 
 object escudoBlindado inherits Defensa { //podria ser escudo una class para que escudo blindado herede de aca pero solo van a ser dos objetos unicos
 	
-	override method defensaQueOtorga() = 30
+	override method defensaQueOtorga() = if (asterion.defensa().size()>=1) {20} else {30}
 	
 	override method image() {
 		return "shield2.png"
 	}
 }
 
-object yelmo inherits Defensa {
+object yelmo inherits Defensa { //sin asset no utiliza aun
 	
 	override method defensaQueOtorga() = 40
 	
@@ -109,28 +123,28 @@ object yelmo inherits Defensa {
 	}
 }
 
-object llave inherits Cosa {
+object llaveDeBronce inherits Cosa {
 	override method image() {
-		return "llave.png"
+		return "llaveBronce.png"
 	}
 }
 
 object llaveDePlata inherits Cosa {
 	override method image() {
-		return "llave.png" // falta imagen
+		return "llavePlata.png"
 	}
 }
 
 object llaveDeOro inherits Cosa {
 	override method image() {
-		return "llave.png" // falta imagen
+		return "llaveOro.png"
 	}
 }
 
 object gema inherits Cosa{
 	
 	override method image() {
-		return "llave.png" // falta  imagen
+		return "gema.png"
 	}
 }
 

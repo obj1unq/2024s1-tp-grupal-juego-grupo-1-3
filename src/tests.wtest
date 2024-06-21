@@ -18,7 +18,7 @@ describe "asterion" {
 	const escudoDef = escudo
 	const pocion = new PocionVida()
 	
-	const humano = new Humano(artefactoADropear = llave, position= game.at(3,6))
+	const humano = new Humano(artefactoADropear = llaveDeBronce, position= game.at(3,6))
 	
 	method initialize() {
 		habitacionManager.init()
@@ -50,7 +50,7 @@ describe "asterion" {
 	test "asterion equipa un escudo, quedando su poderDefensa() en 20" {
 		asterion.equiparDefensa(escudoDef)
 		assert.that(asterion.defensa() == #{escudoDef})
-		assert.equals(20, asterion.poderDefensa())
+		assert.equals(10, asterion.poderDefensa())
 	}
 	
 	test "asterion intenta sacarse un arma teniendo manos y no puede por que no tiene armas" {
@@ -75,13 +75,18 @@ describe "asterion" {
 		asterion.golpear()
 		asterion.golpear()
 		asterion.golpear()
-		assert.equals(llave, tablero.objetoEnPosDe(asterion))
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		assert.equals(llaveDeBronce, tablero.objetoEnPosDe(asterion))
 	}
 	
 	test "Asterion no puede moverse mas alla de los bordes que delimita el juego" {
 		asterion.position(game.at(9,9))
 		asterion.mover(derecha)
-		assert.equals(game.at(9,9) , asterion.position()) // resolver esto no se como devuelve la posicion
+		assert.equals(game.at(9,9) , asterion.position())
 	}
 	
 	test "Asterion lootea una pocion de vida y su vida crece 40 puntos o lo que le falte para llegar a 100 si tiene mas de 60 de vida" {
@@ -95,9 +100,18 @@ describe "asterion" {
 		asterion.golpear()
 		asterion.golpear()
 		asterion.golpear()
-		assert.equals(60, asterion.vida())
+		assert.equals(50, asterion.vida())
 		asterion.position(game.at(4,5))
 		asterion.equipar()
+		assert.equals(90, asterion.vida())
+	}
+	
+	test "Asterion lootea una pocion de vida que aporta 40 de vida, teniendo 90 de vida. Entonces su vida es 100"{
+		asterion.vida(90)
+		nivel1.agregarCosa(pocion)
+		game.addVisual(pocion)
+		asterion.sumarVida(pocion)
 		assert.equals(100, asterion.vida())
 	}
+	
 }

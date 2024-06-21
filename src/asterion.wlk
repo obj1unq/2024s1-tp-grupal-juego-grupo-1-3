@@ -75,7 +75,7 @@ class Personaje {
 
 object asterion inherits Personaje {
 	var property position = game.at(3, 8)
-    var property vida = 10000000000//100
+    var property vida = 100
 	const property utilidades = #{}
 	var property arma = manos
 	const property defensa = #{}
@@ -118,7 +118,8 @@ object asterion inherits Personaje {
 	}
 	
 	method equipar(){
-		 self.artefactos().forEach({artefacto => artefacto.equipar(self)})
+		 self.artefactos().forEach({artefacto => artefacto.equipar(self)
+		 })
 	}
 	
 	method enemigosEnPosicion(){
@@ -137,28 +138,25 @@ object asterion inherits Personaje {
 		if (self.estaArmado()){
 			self.error("Ya existe un arma equipada, es necesario dropear el armamento actual") 
 		}
-		inventario.validarEspacioEnInventario()
 	}
 	
 	method equiparArma(_arma){
 		self.validarEquiparArma()
+		inventario.validarEspacioEnInventario()
 		self.arma(_arma)
 		self.habitacionActual().sacarCosa(_arma)
-		inventario.actualizar()
 	}
 	
 	method equiparDefensa(_defensa){
 		inventario.validarEspacioEnInventario()
 		self.defensa().add(_defensa)
 		self.habitacionActual().sacarCosa(_defensa)
-		inventario.actualizar()
 	}
 	
 	method equiparUtilidad(utilidad){
 		inventario.validarEspacioEnInventario()
 		self.utilidades().add(utilidad)
 		self.habitacionActual().sacarCosa(utilidad)
-		inventario.actualizar()
 	}
 	
 	method sumarVida(consumible){
@@ -176,7 +174,6 @@ object asterion inherits Personaje {
 		self.validarDropearArma()
 		self.dropear(self.arma())
 		self.arma(manos)
-		inventario.actualizar()
 	}
 	
 	method tieneArtefacto(artefacto){
@@ -213,6 +210,18 @@ object asterion inherits Personaje {
 		self.reaccionarTrasGolpe(enemigo)
 	}
 	
+	method sayAtaque(){
+		game.say(self, "poder ataque:" + self.poderPelea())
+	}
+	
+	method sayDefensa(){
+		game.say(self, "poder defensa: " + self.poderDefensa())
+	}
+	
+	method sayVida(){
+		game.say(self, "vida: " + self.vida())
+	}
+	
 }
 
 
@@ -221,9 +230,9 @@ object manos {
 	method poderQueOtorga() {
 		return 0
 	}
-
-	method image() {
-		return "testfondo.jpg"
+	
+	method esArtefacto() {
+		return false
 	}
 }
 
@@ -279,7 +288,7 @@ class Teseo inherits Enemigo{
 
 
 class Humano inherits Enemigo {
-	var property poderDefensa = 10
+	var property poderDefensa = 12
 	var property arma = manos
 	
 	override method image() = "wpierdol.png"
