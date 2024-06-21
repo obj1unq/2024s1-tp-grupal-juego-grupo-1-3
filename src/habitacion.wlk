@@ -21,7 +21,7 @@ object habitacionManager {
 		keyboard.q().onPressDo({ asterion.equipar() inventario.ocultar()})
 		keyboard.z().onPressDo({ asterion.dropearArma() inventario.ocultar()})
 		keyboard.f().onPressDo({ asterion.golpear() inventario.ocultar()})
-		keyboard.i().onPressDo({ inventario.mostrar()}) //quiza poner que tambien muestre los objetos y no solo responsabilidad del inventario
+		keyboard.i().onPressDo({ inventario.mostrar()})
 		keyboard.h().onPressDo({ controles.mostrar() inventario.ocultar()})
 		keyboard.a().onPressDo({asterion.sayAtaque() inventario.ocultar()})
 		keyboard.d().onPressDo({asterion.sayDefensa() inventario.ocultar()})

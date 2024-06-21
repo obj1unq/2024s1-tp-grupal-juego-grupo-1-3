@@ -167,3 +167,18 @@ class PocionVida inherits Artefacto {
 		personaje.sumarVida(self)
 	}
 }
+
+class Chest {
+	var property position
+	var property estado = cerrado
+	
+	method image() = estado.image()
+}
+
+object cerrado() {
+	method image() = ""
+}
+
+object abierto() {
+	method image() = ""
+}

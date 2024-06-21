@@ -119,6 +119,7 @@ object asterion inherits Personaje {
 	
 	method equipar(){
 		 self.artefactos().forEach({artefacto => artefacto.equipar(self)
+		 	//abrir chest
 		 })
 	}
 	
