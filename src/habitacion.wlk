@@ -337,6 +337,8 @@ object habitacionFactory {
 
 	method inicializarEnemigos(habitaciones) {
 		const humano = new Humano(artefactoADropear = llave, position = game.at(3, 6))
+		const ariadna = new Ariadna(artefactoADropear = aire, position = game.at(3, 6))
+		const teseo  = new Teseo(artefactoADropear = aire, position = game.at(3, 8))
 		habitaciones.get(1).agregarEnemigo(humano)
 		habitaciones.get(1).agregarEnemigo(ghostito)
 		
@@ -354,6 +356,7 @@ object habitacionFactory {
 		habitaciones.get(10).agregarEnemigo(new SuperHumano(position= game.at(5,4),artefactoADropear=lanzaHechizada, poderDefensa= 30))
 		habitaciones.get(10).agregarEnemigo(new EspectroVenenoso())
 		habitaciones.get(10).agregarEnemigo(new Humano(position= game.at(3,3), arma=espadaDeNederita, vida=100) )
+		
 	}
 
 	method init(habitacionManager) {

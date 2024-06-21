@@ -22,6 +22,10 @@ class ObjetoMostrable {
 	}
 
 }
+class FraseFinal{
+	var property position = game.at(1,5)
+	method image() = "frasefinalv2.png"
+}
 
 class Menu {
 	var property oculto = true

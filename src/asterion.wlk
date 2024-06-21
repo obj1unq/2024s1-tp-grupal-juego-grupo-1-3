@@ -75,7 +75,7 @@ class Personaje {
 
 object asterion inherits Personaje {
 	var property position = game.at(3, 8)
-    var property vida = 100
+    var property vida = 10000000000//100
 	const property utilidades = #{}
 	var property arma = manos
 	const property defensa = #{}
@@ -197,7 +197,8 @@ object asterion inherits Personaje {
 	
 	override method morir(){
 		super()
-		game.schedule(2000, { game.stop()})
+		game.addVisual(new FraseFinal())//Acá
+		game.schedule(4000, { game.stop()}) //prod: 2000
 	}
 	
 	method reaccionarTrasGolpe(enemigo){
@@ -253,6 +254,27 @@ class Enemigo inherits Personaje {
 	method init(){
 		game.addVisual(self)
 	}
+}
+
+class Ariadna inherits Enemigo{
+	var property poderDefensa = 0
+
+	override method image() = "ariadna.png" 
+}
+
+class Teseo inherits Enemigo{
+	var property poderDefensa = 99999999999
+
+	override method poderBase(){
+		return 99999999999999999
+	}
+	
+	override method image() = "teseo.png"
+	
+	override method esGolpeado(personaje){
+		super(personaje)
+		self.golpear(personaje)
+	} 
 }
 
 
