@@ -265,15 +265,18 @@ class Enemigo inherits Personaje {
 	}
 }
 
-class Ariadna inherits Enemigo{
+object ariadna inherits Enemigo{
+	
 	var property poderDefensa = 0
-
+	override method position()= game.at(1, 0)
+	
 	override method image() = "ariadna.png" 
 }
 
-class Teseo inherits Enemigo{
+object teseo inherits Enemigo{
 	var property poderDefensa = 99999999999
-
+	override method position() = game.at(5, 5)
+	
 	override method poderBase(){
 		return 99999999999999999
 	}
