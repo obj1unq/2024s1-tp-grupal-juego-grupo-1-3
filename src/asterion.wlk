@@ -93,7 +93,7 @@ object asterion inherits Personaje {
 	}
 	
 	method atravesar(){
-	 	const puerta = game.getObjectsIn(self.position()).find({visual => visual.esAtravesable()})
+	 	const puerta = game.getObjectsIn(self.position()).findOrElse({visual => visual.esAtravesable()}, {self.error("No hay una puerta para pasar")})
 	 	puerta.atravesar(self)	
 	}
 	
