@@ -207,13 +207,13 @@ class Chest inherits Artefacto {
 	}
 	
 	method posicionDrop() {
-		return game.at(self.position().x(), self.position().y() + 1)
+		return game.at(self.position().x(), self.position().y() - 1)
 	}
 }
 
-class ChestMimic inherits Chest { //Quise hacer que este herede de dos clases pero no tengo la forma aun por que es un chest pero tambien un enemigo
+class ChestMimic inherits Chest { //Reutilizamos poder de pelea de personaje ya que es polimorfico
 
-	var property poderPelea = 50
+	var property poderPelea = 60
 	
 	override method equipar(personaje) {
 		if (self.estaCerrado()) {

@@ -323,26 +323,19 @@ object habitacionFactory {
 	}
 
 	method inicializarElementos(habitaciones) {
-		habitaciones.get(0).agregarCosa(new Chest(position = game.at(5,4), artefactoADropear = espadaDeNederita))
+		habitaciones.get(0).agregarCosa(new Chest(position = game.at(9,9), artefactoADropear = espadaDeNederita))
 		
-		habitaciones.get(0).agregarCosa(new ChestMimic(position = game.at(5,6)))
+		habitaciones.get(2).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = new PocionVida(puntosDeVida=60)))
 		
-		habitaciones.get(2).agregarCosa(new PocionVida(puntosDeVida=60, position= game.at(5,4)))
+		habitaciones.get(5).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = escudo))
 		
-		escudo.position(game.at(4,4))
-		habitaciones.get(5).agregarCosa(escudo)
+		habitaciones.get(7).agregarCosa(new ChestMimic(position = game.at(5,6)))
 		
-		//habitaciones.get(7).agregarCosa(escudo) agrwgar algo en la 7
+		habitaciones.get(9).agregarCosa(new Chest(position = game.at(9,9), artefactoADropear = gema))
+		habitaciones.get(9).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = llaveDePlata))
 		
-		gema.position(game.at(9,9))
-		habitaciones.get(9).agregarCosa(gema)
-		llaveDePlata.position(game.at(0,9))
-		habitaciones.get(9).agregarCosa(llaveDePlata)
-		
-		escudoBlindado.position(game.at(5,5))
-		habitaciones.get(10).agregarCosa(escudoBlindado)
-		habitaciones.get(10).agregarCosa(new PocionVida(position= game.at(6,6), puntosDeVida = 100))
-		
+		habitaciones.get(10).agregarCosa(new Chest(position = game.at(9,9), artefactoADropear = escudoBlindado))
+		habitaciones.get(10).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = new PocionVida(puntosDeVida = 100)))
 	}
 
 	method inicializarEnemigos(habitaciones) {
