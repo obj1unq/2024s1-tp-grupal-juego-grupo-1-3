@@ -102,7 +102,7 @@ object asterion inherits Personaje {
 	const poderBase = 10
 	var property enemigosEliminados = 0
 
-	override method image() = "asterion_" + arma + ".png"
+	override method image() = "asterion_" + arma + "_" + escudo + ".png"
 
 	method todosLosObjetos() {
 		const objetos = []
