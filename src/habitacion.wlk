@@ -360,7 +360,7 @@ object habitacionFactory {
 		habitaciones.get(11).agregarEnemigo(teseo)
 		habitaciones.get(11).agregarEnemigo(ariadna)
 			
-	}
+	} 
 
 	method init(habitacionManager) {
 		const habitaciones = self.inicializarHabitaciones()
