@@ -44,8 +44,17 @@ class Personaje {
 		return 0.max(self.vida() - self.vidaARestarPorGolpe(personaje))
 	}
 
+	method esLastimado(personaje){
+		return personaje.poderPelea() - self.poderDefensa() > 0
+	}
+	
+	method lastimado(){}
+
 	method recibirGolpe(personaje) {
+		if (self.esLastimado(personaje)){
 		self.vida(self.vidaAlSerGolpeadoPor(personaje))
+		self.lastimado()
+		}
 	}
 
 	method tieneVida() {
@@ -148,6 +157,10 @@ object asterion inherits Personaje {
 		self.enemigosEnPosicion().forEach({ enemigo => self.golpear(enemigo) self.arma().golpe()})
 		}
 	}
+	
+	override method lastimado(){
+		sonidos.play("ough.mp3")
+	}
 
 	method estaArmado() {
 		return self.arma() != mano
@@ -173,6 +186,7 @@ object asterion inherits Personaje {
 		self.validarEquiparArma()
 		inventario.validarEspacioEnInventario()
 		self.arma(_arma)
+		sonidos.play("equip.mp3")
 		self.habitacionActual().sacarCosa(_arma)
 	}
 
@@ -180,11 +194,13 @@ object asterion inherits Personaje {
 		self.validarEquiparEscudo()
 		inventario.validarEspacioEnInventario()
 		self.escudo(_escudo)
+		sonidos.play("equip.mp3")
 		self.habitacionActual().sacarCosa(_escudo)
 	}
 
 	method equiparUtilidad(utilidad) {
 		inventario.validarEspacioEnInventario()
+		utilidad.sonar()
 		self.utilidades().add(utilidad)
 		self.habitacionActual().sacarCosa(utilidad)
 	}
@@ -216,6 +232,11 @@ object asterion inherits Personaje {
 		self.validarDropearEscudo()
 		self.dropear(self.escudo())
 		self.escudo(mano)
+	}
+	
+	override method dropear(cosa){
+		super(cosa)
+		sonidos.play("drop.mp3")
 	}
 
 	method tieneArtefacto(artefacto) {
