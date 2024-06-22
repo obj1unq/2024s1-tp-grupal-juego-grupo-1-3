@@ -145,7 +145,7 @@ object asterion inherits Personaje {
 
 	method golpear() {
 		if (self.estaVivo()){
-		self.enemigosEnPosicion().forEach({ enemigo => self.golpear(enemigo)})
+		self.enemigosEnPosicion().forEach({ enemigo => self.golpear(enemigo) self.arma().golpe()})
 		}
 	}
 
@@ -259,6 +259,14 @@ object asterion inherits Personaje {
 }
 
 object mano {
+	
+	method golpe(){
+		sonidos.play(self.sound())
+	}
+	
+	method sound() {
+		return "hand_punch.mp3"
+	}
 
 	method poderQueOtorga() {
 		return 0

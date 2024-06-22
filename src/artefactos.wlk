@@ -1,5 +1,6 @@
 import wollok.game.*
 import asterion.*
+import menu.*
 
 class Artefacto {
 
@@ -33,6 +34,7 @@ class Artefacto {
 class Arma inherits Artefacto {
 
 	method poderQueOtorga()
+	method sound()
 
 	override method usar(personaje) {
 		const enemigos = game.colliders(personaje).filter({ visual => !visual.esAtravesable() && !visual.esArtefacto() })
@@ -43,6 +45,11 @@ class Arma inherits Artefacto {
 		personaje.equiparArma(self)
 		super(personaje)
 	}
+	
+	method golpe(){
+		sonidos.play(self.sound())
+	}
+	
 
 }
 
@@ -79,6 +86,10 @@ object espadaDeNederita inherits Arma {
 	override method image() {
 		return "espada.png"
 	}
+	
+	override method sound(){
+		return "katana_cut.mp3"
+	}
 
 }
 
@@ -89,6 +100,10 @@ object hachaDobleCara inherits Arma {
 	override method image() {
 		return "hacha.png"
 	}
+	
+	override method sound(){
+		return "cleaver.mp3"
+	}
 
 }
 
@@ -98,6 +113,10 @@ object lanzaHechizada inherits Arma {
 
 	override method image() {
 		return "LanzaHechizada.png"
+	}
+	
+	override method sound(){
+		return "protego.mp3"
 	}
 
 }
