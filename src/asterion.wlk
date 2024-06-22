@@ -87,20 +87,19 @@ object asterion inherits Personaje {
 	var property position = game.at(3, 8)
 	var property vida = 100
 	const property utilidades = #{}
-	var property arma = manos
+	var property arma = mano
+	var property escudo = mano
 	var property final = normal
-	const property defensa = #{}
 	const poderBase = 10
 	var property enemigosEliminados = 0
-	var property estadoVisual = manos
 
 	override method image() = "asterion_" + arma + ".png"
 
 	method todosLosObjetos() {
 		const objetos = []
-		objetos.add(arma)
-		objetos.addAll(utilidades)
-		objetos.addAll(defensa)
+		objetos.add(self.arma())
+		objetos.addAll(self.utilidades())
+		objetos.addAll(self.defensa())
 		return objetos
 	}
 	
@@ -121,8 +120,13 @@ object asterion inherits Personaje {
 		return arma.poderQueOtorga() + poderBase
 	}
 
+
+	method defensa(){
+		return #{self.escudo()}
+	}
+	
 	override method poderDefensa() {
-		return defensa.sum({ artefacto => artefacto.defensaQueOtorga() })
+		return self.defensa().sum({ artefacto => artefacto.defensaQueOtorga() })
 	}
 
 	method artefactos() {
@@ -146,12 +150,22 @@ object asterion inherits Personaje {
 	}
 
 	method estaArmado() {
-		return self.arma() != manos
+		return self.arma() != mano
 	}
 
 	method validarEquiparArma() {
 		if (self.estaArmado()) {
 			self.error("Ya existe un arma equipada, es necesario dropear el armamento actual")
+		}
+	}
+	
+	method tieneEscudo(){
+		return self.escudo() != mano
+	}
+	
+	method validarEquiparEscudo() {
+		if (self.tieneEscudo()) {
+			self.error("Ya existe un escudo equipado, es necesario dropear el escudo actual")
 		}
 	}
 
@@ -162,10 +176,11 @@ object asterion inherits Personaje {
 		self.habitacionActual().sacarCosa(_arma)
 	}
 
-	method equiparDefensa(_defensa) {
+	method equiparEscudo(_escudo) {
+		self.validarEquiparEscudo()
 		inventario.validarEspacioEnInventario()
-		self.defensa().add(_defensa)
-		self.habitacionActual().sacarCosa(_defensa)
+		self.escudo(_escudo)
+		self.habitacionActual().sacarCosa(_escudo)
 	}
 
 	method equiparUtilidad(utilidad) {
@@ -184,11 +199,23 @@ object asterion inherits Personaje {
 			self.error("No existe un arma para dropear")
 		}
 	}
+	
+	method validarDropearEscudo() {
+		if (!self.tieneEscudo()) {
+			self.error("No existe un escudo para dropear")
+		}
+	}
 
 	method dropearArma() {
 		self.validarDropearArma()
 		self.dropear(self.arma())
-		self.arma(manos)
+		self.arma(mano)
+	}
+	
+	method dropearEscudo() {
+		self.validarDropearEscudo()
+		self.dropear(self.escudo())
+		self.escudo(mano)
 	}
 
 	method tieneArtefacto(artefacto) {
@@ -231,9 +258,13 @@ object asterion inherits Personaje {
 
 }
 
-object manos {
+object mano {
 
 	method poderQueOtorga() {
+		return 0
+	}
+	
+	method defensaQueOtorga(){
 		return 0
 	}
 
@@ -303,7 +334,7 @@ object teseo inherits Enemigo{
 class Humano inherits Enemigo {
 
 	var property poderDefensa = 12
-	var property arma = manos
+	var property arma = mano
 
 	override method image() = "wpierdol.png"
 
