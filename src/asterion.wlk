@@ -338,10 +338,11 @@ class SuperHumano inherits Humano (arma = lanzaHechizada) {
 		return estado.image()
 	}
 	
+	
+	
 	override method morir(){
 		self.estado(muerto) 
-		game.schedule(500, super())
-
+		super()
 	}
 
 }
