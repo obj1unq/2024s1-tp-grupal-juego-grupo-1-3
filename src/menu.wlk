@@ -160,14 +160,38 @@ object sonidos {
 
 class Assets {
 	
+	var property position
+	
 	method image()
 	
-	method position()
 }
 
 class Escaleras inherits Assets {
 	override method image() {
-		 
+		 return "escalerasCombinadas.png"
 	}
 }
 
+class Piso inherits Assets {
+	override method image() {
+		return "paredHorizontal32.png"
+	}
+}
+
+class Columna inherits Assets {
+	override method image() {
+		return "columnaRomana160.png"
+	}
+}
+
+class Escalera inherits Escaleras {
+	override method image() {
+		return "escaleraSimple.png"
+	}
+}
+
+class Techo inherits Assets {
+	override method image() {
+		return "techo96x16.png"
+	}
+}

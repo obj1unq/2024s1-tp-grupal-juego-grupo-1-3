@@ -59,7 +59,7 @@ class Habitacion {
 	const property enemigos = []
 	const property cosas = #{}
 	const property puertas = #{}
-	const ground = "ground5.png"
+	const ground = "fondoCompleto.png"
 
 	method agregarPuerta(puerta) {
 		puertas.add(puerta)
@@ -97,7 +97,7 @@ class Habitacion {
 	}
 
 	method init(manager) {
-		game.ground(ground)
+		game.boardGround(ground)
 		self.mostrarPuertas()
 		self.mostrarCosas()
 		self.mostrarEnemigos()
@@ -327,6 +327,16 @@ object habitacionFactory {
 
 	method inicializarElementos(habitaciones) {
 		habitaciones.get(0).agregarCosa(new Chest(position = game.at(9,9), artefactoADropear = espadaDeNederita))
+		habitaciones.get(0).agregarCosa(new Escaleras(position=game.at(0,5)))
+		habitaciones.get(0).agregarCosa(new Piso(position=game.at(0,5)))
+		habitaciones.get(0).agregarCosa(new Piso(position=game.at(3,5)))
+		habitaciones.get(0).agregarCosa(new Piso(position=game.at(0,3)))
+		habitaciones.get(0).agregarCosa(new Piso(position=game.at(3,3)))
+		habitaciones.get(0).agregarCosa(new Piso(position=game.at(6,3)))
+		habitaciones.get(0).agregarCosa(new Columna(position=game.at(9,0)))
+		habitaciones.get(0).agregarCosa(new Columna(position=game.at(5,0)))
+		habitaciones.get(0).agregarCosa(new Columna(position=game.at(1,0)))
+		habitaciones.get(0).agregarCosa(new Escalera(position=game.at(8,3)))
 		
 		habitaciones.get(2).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = new PocionVida(puntosDeVida=60)))
 		
