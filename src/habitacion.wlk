@@ -38,8 +38,7 @@ object habitacionManager {
 
 	method inicializarJuego() {
 		game.addVisual(asterion)
-	// game.addVisual(escudo) //buen tamaño 32x32 
-	// game.addVisual(espadaDeNederita)	
+		sonidos.playMusic("tension.mp3")
 	}
 
 	method habitacion(indice) {
@@ -199,6 +198,10 @@ class Puerta {
 
 	method esAtravesable() {
 		return true
+	}
+	
+	method esArtefacto() {
+		return false
 	}
 
 	method validarAtravesar(personaje, habitacion) {

@@ -103,10 +103,10 @@ object asterion inherits Personaje {
 		objetos.addAll(defensa)
 		return objetos
 	}
-
-	method atravesar() {
-		const puerta = game.getObjectsIn(self.position()).find({ visual => visual.esAtravesable() })
-		puerta.atravesar(self)
+	
+	method atravesar(){
+	 	const puerta = game.getObjectsIn(self.position()).findOrElse({visual => visual.esAtravesable()}, {self.error("No hay una puerta para pasar")})
+	 	puerta.atravesar(self)	
 	}
 
 	method cantidadDeCosas() {
@@ -190,25 +190,12 @@ object asterion inherits Personaje {
 	method tieneArtefacto(artefacto) {
 		return self.utilidades().contains(artefacto)
 	}
-
-	method desequiparDefensa(_defensa) {
-//		inventario.actualizar()
-	}
-
-	method desequiparAtaque(_arma) {
-//		inventario.actualizar()
-	}
 	
 	override method morir(){
 		game.addVisual(new FraseFinal(estado=self.estado()))
-		game.schedule(100,{super()})
+		super()
 		game.schedule(4000, { game.stop()}) 
 	}
-
-	method desequiparUtilidad(_utilidad) {
-//		inventario.actualizar()
-	}
-
 
 
 	method reaccionarTrasGolpe(enemigo) {
@@ -343,10 +330,11 @@ class SuperHumano inherits Humano (arma = lanzaHechizada) {
 	override method image() {
 		return estado.image()
 	}
+	
+	override method morir(){
+		self.estado(muerto) 
+		game.schedule(500, super())
 
-	override method morir() {
-		super()
-		self.estado(muerto) // hacer que la imagen quede unos segundos
 	}
 
 }
