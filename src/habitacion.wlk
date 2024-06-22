@@ -18,10 +18,10 @@ object habitacionManager {
 		keyboard.up().onPressDo({ asterion.mover(arriba) inventario.ocultar()})
 		keyboard.left().onPressDo({ asterion.mover(izquierda) inventario.ocultar()})
 		keyboard.right().onPressDo({ asterion.mover(derecha) inventario.ocultar()})
-		keyboard.q().onPressDo({ asterion.equipar() inventario.ocultar()})
+		keyboard.q().onPressDo({ asterion.equipar() inventario.ocultar() })
 		keyboard.z().onPressDo({ asterion.dropearArma() inventario.ocultar()})
 		keyboard.f().onPressDo({ asterion.golpear() inventario.ocultar()})
-		keyboard.i().onPressDo({ inventario.mostrar()}) //quiza poner que tambien muestre los objetos y no solo responsabilidad del inventario
+		keyboard.i().onPressDo({ inventario.mostrar()})
 		keyboard.h().onPressDo({ controles.mostrar() inventario.ocultar()})
 		keyboard.a().onPressDo({asterion.sayAtaque() inventario.ocultar()})
 		keyboard.d().onPressDo({asterion.sayDefensa() inventario.ocultar()})
@@ -323,28 +323,24 @@ object habitacionFactory {
 	}
 
 	method inicializarElementos(habitaciones) {
-		espadaDeNederita.position(game.at(3, 5))
-		habitaciones.get(0).agregarCosa(espadaDeNederita)
-		habitaciones.get(2).agregarCosa(new PocionVida(puntosDeVida=60, position= game.at(5,4)))
+		habitaciones.get(0).agregarCosa(new Chest(position = game.at(9,9), artefactoADropear = espadaDeNederita))
 		
-		escudo.position(game.at(4,4))
-		habitaciones.get(5).agregarCosa(escudo)
+		habitaciones.get(2).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = new PocionVida(puntosDeVida=60)))
 		
-		//habitaciones.get(7).agregarCosa(escudo) agrwgar algo en la 7
+		habitaciones.get(5).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = escudo))
 		
-		gema.position(game.at(9,9))
-		habitaciones.get(9).agregarCosa(gema)
-		llaveDePlata.position(game.at(0,9))
-		habitaciones.get(9).agregarCosa(llaveDePlata)
+		habitaciones.get(7).agregarCosa(new ChestMimic(position = game.at(5,6)))
 		
-		escudoBlindado.position(game.at(5,5))
-		habitaciones.get(10).agregarCosa(escudoBlindado)
-		habitaciones.get(10).agregarCosa(new PocionVida(position= game.at(6,6), puntosDeVida = 100))
+		habitaciones.get(9).agregarCosa(new Chest(position = game.at(9,9), artefactoADropear = gema))
+		habitaciones.get(9).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = llaveDePlata))
 		
+		habitaciones.get(10).agregarCosa(new Chest(position = game.at(9,9), artefactoADropear = escudoBlindado))
+		habitaciones.get(10).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = new PocionVida(puntosDeVida = 100)))
 	}
 
 	method inicializarEnemigos(habitaciones) {
 		const humano = new Humano(artefactoADropear = llaveDeBronce, position = game.at(3, 6))
+		
 		habitaciones.get(1).agregarEnemigo(humano)
 		habitaciones.get(1).agregarEnemigo(ghostito)
 		
