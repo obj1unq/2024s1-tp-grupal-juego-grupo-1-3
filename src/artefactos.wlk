@@ -50,11 +50,15 @@ class Defensa inherits Artefacto {
 
 	method defensaQueOtorga()
 
+}
+
+class Escudo inherits Defensa {
+	
 	override method equipar(personaje) {
-		personaje.equiparDefensa(self)
+		personaje.equiparEscudo(self)
 		super(personaje)
 	}
-
+	
 }
 
 class Cosa inherits Artefacto {
@@ -98,7 +102,7 @@ object lanzaHechizada inherits Arma {
 
 }
 
-object escudo inherits Defensa {
+object escudoDeMadera inherits Escudo {
 
 	override method defensaQueOtorga() = 10
 
@@ -108,13 +112,9 @@ object escudo inherits Defensa {
 
 }
 
-object escudoBlindado inherits Defensa { //podria ser escudo una class para que escudo blindado herede de aca pero solo van a ser dos objetos unicos
-
-	override method defensaQueOtorga() = if (asterion.defensa().size() >= 1) {
-		20
-	} else {
-		30
-	}
+object escudoBlindado inherits Escudo {
+	
+	override method defensaQueOtorga() = 30
 
 	override method image() {
 		return "shield2.png"

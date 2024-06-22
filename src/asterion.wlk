@@ -29,7 +29,6 @@ class Personaje {
 	}
 
 	method morir() {
-		
 		game.removeVisual(self)
 	}
 
@@ -88,19 +87,19 @@ object asterion inherits Personaje {
 	var property position = game.at(3, 8)
 	var property vida = 100
 	const property utilidades = #{}
-	var property arma = manos
-	var property estado = normal
-	const property defensa = #{}
+	var property arma = mano
+	var property escudo = mano
+	var property final = normal
 	const poderBase = 10
 	var property enemigosEliminados = 0
 
-	override method image() = "minotaur4x.png"
+	override method image() = "asterion_" + arma + ".png"
 
 	method todosLosObjetos() {
 		const objetos = []
-		objetos.add(arma)
-		objetos.addAll(utilidades)
-		objetos.addAll(defensa)
+		objetos.add(self.arma())
+		objetos.addAll(self.utilidades())
+		objetos.addAll(self.defensa())
 		return objetos
 	}
 	
@@ -121,8 +120,13 @@ object asterion inherits Personaje {
 		return arma.poderQueOtorga() + poderBase
 	}
 
+
+	method defensa(){
+		return #{self.escudo()}
+	}
+	
 	override method poderDefensa() {
-		return defensa.sum({ artefacto => artefacto.defensaQueOtorga() })
+		return self.defensa().sum({ artefacto => artefacto.defensaQueOtorga() })
 	}
 
 	method artefactos() {
@@ -130,7 +134,9 @@ object asterion inherits Personaje {
 	}
 
 	method equipar() {
+		if (self.estaVivo()){
 		self.artefactos().forEach({ artefacto => artefacto.equipar(self)})
+		}
 	}
 
 	method enemigosEnPosicion() {
@@ -138,16 +144,28 @@ object asterion inherits Personaje {
 	}
 
 	method golpear() {
+		if (self.estaVivo()){
 		self.enemigosEnPosicion().forEach({ enemigo => self.golpear(enemigo)})
+		}
 	}
 
 	method estaArmado() {
-		return self.arma() != manos
+		return self.arma() != mano
 	}
 
 	method validarEquiparArma() {
 		if (self.estaArmado()) {
 			self.error("Ya existe un arma equipada, es necesario dropear el armamento actual")
+		}
+	}
+	
+	method tieneEscudo(){
+		return self.escudo() != mano
+	}
+	
+	method validarEquiparEscudo() {
+		if (self.tieneEscudo()) {
+			self.error("Ya existe un escudo equipado, es necesario dropear el escudo actual")
 		}
 	}
 
@@ -158,10 +176,11 @@ object asterion inherits Personaje {
 		self.habitacionActual().sacarCosa(_arma)
 	}
 
-	method equiparDefensa(_defensa) {
+	method equiparEscudo(_escudo) {
+		self.validarEquiparEscudo()
 		inventario.validarEspacioEnInventario()
-		self.defensa().add(_defensa)
-		self.habitacionActual().sacarCosa(_defensa)
+		self.escudo(_escudo)
+		self.habitacionActual().sacarCosa(_escudo)
 	}
 
 	method equiparUtilidad(utilidad) {
@@ -180,11 +199,23 @@ object asterion inherits Personaje {
 			self.error("No existe un arma para dropear")
 		}
 	}
+	
+	method validarDropearEscudo() {
+		if (!self.tieneEscudo()) {
+			self.error("No existe un escudo para dropear")
+		}
+	}
 
 	method dropearArma() {
 		self.validarDropearArma()
 		self.dropear(self.arma())
-		self.arma(manos)
+		self.arma(mano)
+	}
+	
+	method dropearEscudo() {
+		self.validarDropearEscudo()
+		self.dropear(self.escudo())
+		self.escudo(mano)
 	}
 
 	method tieneArtefacto(artefacto) {
@@ -192,7 +223,7 @@ object asterion inherits Personaje {
 	}
 	
 	override method morir(){
-		game.addVisual(new FraseFinal(estado=self.estado()))
+		game.addVisual(new FraseFinal(estado=self.final()))
 		super()
 		game.schedule(4000, { game.stop()}) 
 	}
@@ -220,12 +251,20 @@ object asterion inherits Personaje {
 	method sayVida() {
 		game.say(self, "vida: " + self.vida())
 	}
+	
+	method estaVivo() {
+		return self.vida() > 0
+	}
 
 }
 
-object manos {
+object mano {
 
 	method poderQueOtorga() {
+		return 0
+	}
+	
+	method defensaQueOtorga(){
 		return 0
 	}
 
@@ -287,7 +326,7 @@ object teseo inherits Enemigo{
 	
 	override method esGolpeado(personaje){
 		super(personaje)
-		personaje.estado(ganaTeseo)
+		personaje.final(ganaTeseo)
 		self.golpear(personaje)
 	} 
 }
@@ -295,7 +334,7 @@ object teseo inherits Enemigo{
 class Humano inherits Enemigo {
 
 	var property poderDefensa = 12
-	var property arma = manos
+	var property arma = mano
 
 	override method image() = "wpierdol.png"
 
@@ -331,10 +370,11 @@ class SuperHumano inherits Humano (arma = lanzaHechizada) {
 		return estado.image()
 	}
 	
+	
+	
 	override method morir(){
 		self.estado(muerto) 
-		game.schedule(500, super())
-
+		super()
 	}
 
 }

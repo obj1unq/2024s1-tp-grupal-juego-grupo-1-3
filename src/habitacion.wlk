@@ -20,6 +20,7 @@ object habitacionManager {
 		keyboard.right().onPressDo({ asterion.mover(derecha) inventario.ocultar()})
 		keyboard.q().onPressDo({ asterion.equipar() inventario.ocultar() })
 		keyboard.z().onPressDo({ asterion.dropearArma() inventario.ocultar()})
+		keyboard.c().onPressDo({asterion.dropearEscudo() inventario.ocultar()})
 		keyboard.f().onPressDo({ asterion.golpear() inventario.ocultar()})
 		keyboard.i().onPressDo({ inventario.mostrar()})
 		keyboard.h().onPressDo({ controles.mostrar() inventario.ocultar()})
@@ -330,7 +331,7 @@ object habitacionFactory {
 		
 		habitaciones.get(2).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = new PocionVida(puntosDeVida=60)))
 		
-		habitaciones.get(5).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = escudo))
+		habitaciones.get(5).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = escudoDeMadera))
 		
 		habitaciones.get(7).agregarCosa(new ChestMimic(position = game.at(5,6)))
 		
