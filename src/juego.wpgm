@@ -5,8 +5,7 @@ import artefactos.*
 import habitacion.*
 import menu.*
 
-program juego { 
-	
+program juego {
 	habitacionManager.init()
 	game.start()
 }
