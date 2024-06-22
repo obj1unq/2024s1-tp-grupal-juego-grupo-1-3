@@ -29,7 +29,6 @@ class Personaje {
 	}
 
 	method morir() {
-		
 		game.removeVisual(self)
 	}
 
@@ -130,7 +129,9 @@ object asterion inherits Personaje {
 	}
 
 	method equipar() {
+		if (self.estaVivo()){
 		self.artefactos().forEach({ artefacto => artefacto.equipar(self)})
+		}
 	}
 
 	method enemigosEnPosicion() {
@@ -138,7 +139,9 @@ object asterion inherits Personaje {
 	}
 
 	method golpear() {
+		if (self.estaVivo()){
 		self.enemigosEnPosicion().forEach({ enemigo => self.golpear(enemigo)})
+		}
 	}
 
 	method estaArmado() {
@@ -232,6 +235,10 @@ object asterion inherits Personaje {
 
 	method sayVida() {
 		game.say(self, "vida: " + self.vida())
+	}
+	
+	method estaVivo() {
+		return self.vida() > 0
 	}
 
 }
