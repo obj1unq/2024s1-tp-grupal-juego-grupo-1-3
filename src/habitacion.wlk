@@ -126,7 +126,7 @@ object posicionSuperior {
 	}
 
 }
-
+ 
 object posicionInferior {
 
 	const positionStategy = positionDown
@@ -357,7 +357,10 @@ object habitacionFactory {
 		habitaciones.get(10).agregarEnemigo(new SuperHumano(position= game.at(5,4),artefactoADropear=lanzaHechizada, poderDefensa= 50))
 		habitaciones.get(10).agregarEnemigo(new EspectroVenenoso())
 		habitaciones.get(10).agregarEnemigo(new Humano(position= game.at(3,3), arma=espadaDeNederita, vida=110) )
-	}
+		habitaciones.get(11).agregarEnemigo(teseo)
+		habitaciones.get(11).agregarEnemigo(ariadna)
+			
+	} 
 
 	method init(habitacionManager) {
 		const habitaciones = self.inicializarHabitaciones()

@@ -29,7 +29,7 @@ class Personaje {
 	}
 
 	method morir() {
-		game.say(self, "me mori")
+		
 		game.removeVisual(self)
 	}
 
@@ -71,12 +71,25 @@ class Personaje {
 
 }
 
+
+
+object normal{
+	method position() = game.at(4,5)
+	method image() = "gameover.png" 
+}
+
+object ganaTeseo{
+	method position() = game.at(1,4)
+	method image() = "frasefinalv2.png"
+}
+
 object asterion inherits Personaje {
 
 	var property position = game.at(3, 8)
 	var property vida = 100
 	const property utilidades = #{}
 	var property arma = manos
+	var property estado = normal
 	const property defensa = #{}
 	const poderBase = 10
 	var property enemigosEliminados = 0
@@ -185,15 +198,18 @@ object asterion inherits Personaje {
 	method desequiparAtaque(_arma) {
 //		inventario.actualizar()
 	}
+	
+	override method morir(){
+		game.addVisual(new FraseFinal(estado=self.estado()))
+		game.schedule(100,{super()})
+		game.schedule(4000, { game.stop()}) 
+	}
 
 	method desequiparUtilidad(_utilidad) {
 //		inventario.actualizar()
 	}
 
-	override method morir() {
-		super()
-		game.schedule(2000, { game.stop()})
-	}
+
 
 	method reaccionarTrasGolpe(enemigo) {
 		if (!self.tieneVida()) {
@@ -262,6 +278,31 @@ class Enemigo inherits Personaje {
 		game.addVisual(self)
 	}
 
+}
+
+object ariadna inherits Enemigo{
+	
+	var property poderDefensa = 0
+	override method position()= game.at(1, 0)
+	
+	override method image() = "ariadna.png" 
+}
+
+object teseo inherits Enemigo{
+	var property poderDefensa = 99999999999
+	override method position() = game.at(5, 5)
+	
+	override method poderBase(){
+		return 99999999999999999
+	}
+	
+	override method image() = "teseo.png"
+	
+	override method esGolpeado(personaje){
+		super(personaje)
+		personaje.estado(ganaTeseo)
+		self.golpear(personaje)
+	} 
 }
 
 class Humano inherits Enemigo {

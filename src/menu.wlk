@@ -2,7 +2,7 @@ import asterion.*
 import wollok.game.*
 import artefactos.*
 import posiciones.*
-
+ 
 class ObjetoMostrable {
 
 	var property position = null
@@ -21,6 +21,12 @@ class ObjetoMostrable {
 		return false
 	}
 
+}
+class FraseFinal{
+	const estado 
+	
+	method position() = estado.position()
+	method image() = estado.image()
 }
 
 class Menu {
