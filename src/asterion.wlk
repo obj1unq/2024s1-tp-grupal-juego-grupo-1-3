@@ -180,18 +180,6 @@ object asterion inherits Personaje {
 	 	return self.utilidades().contains(artefacto)
 	}
 	
-	method desequiparDefensa(_defensa){
-//		inventario.actualizar()
-	} 
-	
-	method desequiparAtaque(_arma){
-//		inventario.actualizar()
-	}
-	
-	method desequiparUtilidad(_utilidad){
-//		inventario.actualizar()
-	}
-	
 	override method morir(){
 		super()
 		game.schedule(2000, { game.stop()})
@@ -303,8 +291,8 @@ class SuperHumano inherits Humano (arma = lanzaHechizada){
 	}
 	
 	override method morir(){
-		super()
-		self.estado(muerto) //hacer que la imagen quede unos segundos
+		self.estado(muerto) 
+		game.schedule(500, super())
 	}
 }
 
