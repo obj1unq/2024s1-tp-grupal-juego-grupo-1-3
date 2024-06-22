@@ -260,17 +260,9 @@ object asterion inherits Personaje {
 		super(enemigo)
 		self.reaccionarTrasGolpe(enemigo)
 	}
-
-	method sayAtaque() {
-		game.say(self, "poder ataque:" + self.poderPelea())
-	}
-
-	method sayDefensa() {
-		game.say(self, "poder defensa: " + self.poderDefensa())
-	}
-
-	method sayVida() {
-		game.say(self, "vida: " + self.vida())
+	
+	method sayPoderes() {
+		game.say(self, "Att:" + self.poderPelea() + " Def:" + self.poderDefensa() + " Vida:" + self.vida())
 	}
 	
 	method estaVivo() {
