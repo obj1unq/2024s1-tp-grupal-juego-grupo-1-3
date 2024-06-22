@@ -88,12 +88,13 @@ object asterion inherits Personaje {
 	var property vida = 100
 	const property utilidades = #{}
 	var property arma = manos
-	var property estado = normal
+	var property final = normal
 	const property defensa = #{}
 	const poderBase = 10
 	var property enemigosEliminados = 0
+	var property estadoVisual = manos
 
-	override method image() = "minotaur4x.png"
+	override method image() = "asterion_" + arma + ".png"
 
 	method todosLosObjetos() {
 		const objetos = []
@@ -195,7 +196,7 @@ object asterion inherits Personaje {
 	}
 	
 	override method morir(){
-		game.addVisual(new FraseFinal(estado=self.estado()))
+		game.addVisual(new FraseFinal(estado=self.final()))
 		super()
 		game.schedule(4000, { game.stop()}) 
 	}
@@ -294,7 +295,7 @@ object teseo inherits Enemigo{
 	
 	override method esGolpeado(personaje){
 		super(personaje)
-		personaje.estado(ganaTeseo)
+		personaje.final(ganaTeseo)
 		self.golpear(personaje)
 	} 
 }
