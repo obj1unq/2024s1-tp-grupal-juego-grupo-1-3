@@ -10,7 +10,7 @@ object habitacionManager {
 
 	method cargarHabitacion(habitacion) {
 		self.limpiarNivel()
-		keyboard.p().onPressDo({ asterion.atravesar()})
+		keyboard.q().onPressDo({ asterion.atravesar()})
 		game.title("El juego de Asterion")
 		game.height(10)
 		game.width(10)
@@ -18,15 +18,13 @@ object habitacionManager {
 		keyboard.up().onPressDo({ asterion.mover(arriba) inventario.ocultar()})
 		keyboard.left().onPressDo({ asterion.mover(izquierda) inventario.ocultar()})
 		keyboard.right().onPressDo({ asterion.mover(derecha) inventario.ocultar()})
-		keyboard.q().onPressDo({ asterion.equipar() inventario.ocultar() })
+		keyboard.e().onPressDo({ asterion.equipar() inventario.ocultar() })
 		keyboard.z().onPressDo({ asterion.dropearArma() inventario.ocultar()})
-		keyboard.c().onPressDo({asterion.dropearEscudo() inventario.ocultar()})
+		keyboard.x().onPressDo({asterion.dropearEscudo() inventario.ocultar()})
 		keyboard.f().onPressDo({ asterion.golpear() inventario.ocultar()})
 		keyboard.i().onPressDo({ inventario.mostrar()})
 		keyboard.h().onPressDo({ controles.mostrar() inventario.ocultar()})
-		keyboard.a().onPressDo({asterion.sayAtaque() inventario.ocultar()})
-		keyboard.d().onPressDo({asterion.sayDefensa() inventario.ocultar()})
-		keyboard.v().onPressDo({asterion.sayVida() inventario.ocultar()})
+		keyboard.c().onPressDo({asterion.sayPoderes() inventario.ocultar()})
 		
 		habitacion.init(self)
 		asterion.habitacionActual(habitacion)
