@@ -60,7 +60,7 @@ class Habitacion {
 	const property enemigos = []
 	const property cosas = #{}
 	const property puertas = #{}
-	const ground = "ground5.png"
+	const ground = "fondoCompleto.png"
 
 	method agregarPuerta(puerta) {
 		puertas.add(puerta)
@@ -98,7 +98,7 @@ class Habitacion {
 	}
 
 	method init(manager) {
-		game.ground(ground)
+		game.boardGround(ground)
 		self.mostrarPuertas()
 		self.mostrarCosas()
 		self.mostrarEnemigos()
@@ -111,7 +111,7 @@ object posicionSuperior {
 
 	const positionStategy = positionUp
 
-	method image() = "door-down.png"
+	method image() = "puerta-up.png"
 
 	method position() {
 		return positionStategy.position()
@@ -131,7 +131,7 @@ object posicionInferior {
 
 	const positionStategy = positionDown
 
-	method image() = "door-up.png"
+	method image() = "puerta-down.png"
 
 	method position() {
 		return positionStategy.position()
@@ -151,7 +151,7 @@ object posicionEste {
 
 	const positionStategy = positionRight
 
-	method image() = "door-left.png"
+	method image() = "puerta-der.png"
 
 	method position() {
 		return positionStategy.position()
@@ -171,7 +171,7 @@ object posicionOeste {
 
 	const positionStategy = positionLeft
 
-	method image() = "door-right.png"
+	method image() = "puerta-izq.png"
 
 	method position() {
 		return positionStategy.position()
