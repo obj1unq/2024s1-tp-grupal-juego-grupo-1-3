@@ -9,36 +9,30 @@ describe "asterion" {
 	const nivel1 = new Habitacion()
 	const nivel2 = new Habitacion()
 	const nivel3 = new Habitacion()
-	
-	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta= posicionSuperior)
-	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta= posicionInferior)
-	const puerta23 = new Puerta(siguienteHabitacion= nivel3, posicionPuerta= posicionOeste)
-	
+	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta = posicionSuperior)
+	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta = posicionInferior)
+	const puerta23 = new Puerta(siguienteHabitacion = nivel3, posicionPuerta = posicionOeste)
 	const espada = espadaDeNederita
 	const escudoDef = escudo
 	const pocion = new PocionVida()
-	
-	const humano = new Humano(artefactoADropear = llaveDeBronce, position= game.at(3,6))
-	
+	const humano = new Humano(artefactoADropear = llaveDeBronce, position = game.at(3, 6))
+
 	method initialize() {
 		habitacionManager.init()
-		espada.position(game.at(3,5))
-		escudoDef.position(game.at(4,5))
-		pocion.position(game.at(4,5))
-		
+		espada.position(game.at(3, 5))
+		escudoDef.position(game.at(4, 5))
+		pocion.position(game.at(4, 5))
 		nivel1.agregarPuerta(puerta12)
 		nivel2.agregarPuerta(puerta21)
-		nivel2.agregarPuerta(puerta23)	
-		
+		nivel2.agregarPuerta(puerta23)
 		nivel1.agregarCosa(espada)
 		nivel1.agregarCosa(escudoDef)
 		nivel2.agregarEnemigo(humano)
 		nivel2.agregarCosa(pocion)
-	
 		habitacionManager.cargarHabitacion(nivel1)
-		asterion.habitacionActual(nivel1)		
+		asterion.habitacionActual(nivel1)
 	}
-	
+
 	test "asterion equipa un arma, quedando su poderPelea() en 20, 10 de base y 10 de la espada, puede dropearla quedandose con manos" {
 		asterion.equiparArma(espadaDeNederita)
 		assert.that(asterion.arma() == espadaDeNederita)
@@ -46,30 +40,30 @@ describe "asterion" {
 		asterion.dropearArma()
 		assert.that(asterion.arma() == manos)
 	}
-	
+
 	test "asterion equipa un escudo, quedando su poderDefensa() en 20" {
 		asterion.equiparDefensa(escudoDef)
-		assert.that(asterion.defensa() == #{escudoDef})
+		assert.that(asterion.defensa() == #{ escudoDef })
 		assert.equals(10, asterion.poderDefensa())
 	}
-	
+
 	test "asterion intenta sacarse un arma teniendo manos y no puede por que no tiene armas" {
-		assert.throwsException({asterion.dropearArma()})
+		assert.throwsException({ asterion.dropearArma()})
 	}
-	
+
 	test "asterion pasa a la siguiente habitacion" {
 		assert.equals(nivel1, asterion.habitacionActual())
-		asterion.position(game.at(5,9))
+		asterion.position(game.at(5, 9))
 		asterion.atravesar()
 		assert.equals(nivel2, asterion.habitacionActual())
 	}
-	
+
 	test "Asterion golpea un enemigo y dropea un objeto (desapareciendo el visual del enemigo)" {
-		asterion.position(game.at(3,5))
+		asterion.position(game.at(3, 5))
 		asterion.equipar()
-		asterion.position(game.at(5,9))
+		asterion.position(game.at(5, 9))
 		asterion.atravesar()
-		asterion.position(game.at(3,6))
+		asterion.position(game.at(3, 6))
 		asterion.golpear()
 		asterion.golpear()
 		asterion.golpear()
@@ -82,36 +76,37 @@ describe "asterion" {
 		asterion.golpear()
 		assert.equals(llaveDeBronce, tablero.objetoEnPosDe(asterion))
 	}
-	
+
 	test "Asterion no puede moverse mas alla de los bordes que delimita el juego" {
-		asterion.position(game.at(9,9))
+		asterion.position(game.at(9, 9))
 		asterion.mover(derecha)
-		assert.equals(game.at(9,9) , asterion.position())
+		assert.equals(game.at(9, 9), asterion.position())
 	}
-	
+
 	test "Asterion lootea una pocion de vida y su vida crece 40 puntos o lo que le falte para llegar a 100 si tiene mas de 60 de vida" {
-		asterion.position(game.at(3,5))
+		asterion.position(game.at(3, 5))
 		asterion.equipar()
-		asterion.position(game.at(5,9))
+		asterion.position(game.at(5, 9))
 		asterion.atravesar()
-		asterion.position(game.at(3,6))
+		asterion.position(game.at(3, 6))
 		asterion.golpear()
 		asterion.golpear()
 		asterion.golpear()
 		asterion.golpear()
 		asterion.golpear()
 		assert.equals(50, asterion.vida())
-		asterion.position(game.at(4,5))
+		asterion.position(game.at(4, 5))
 		asterion.equipar()
 		assert.equals(90, asterion.vida())
 	}
-	
-	test "Asterion lootea una pocion de vida que aporta 40 de vida, teniendo 90 de vida. Entonces su vida es 100"{
+
+	test "Asterion lootea una pocion de vida que aporta 40 de vida, teniendo 90 de vida. Entonces su vida es 100" {
 		asterion.vida(90)
 		nivel1.agregarCosa(pocion)
 		game.addVisual(pocion)
 		asterion.sumarVida(pocion)
 		assert.equals(100, asterion.vida())
 	}
-	
+
 }
+
