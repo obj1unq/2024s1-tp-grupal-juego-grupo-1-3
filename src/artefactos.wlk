@@ -1,5 +1,6 @@
 import wollok.game.*
 import asterion.*
+import menu.*
 
 class Artefacto {
 
@@ -8,6 +9,8 @@ class Artefacto {
 	method esArtefacto() {
 		return true
 	}
+	
+	method sonar(){}
 
 	method drop(posicion, habitacion) {
 		position = posicion
@@ -33,6 +36,7 @@ class Artefacto {
 class Arma inherits Artefacto {
 
 	method poderQueOtorga()
+	method sound()
 
 	override method usar(personaje) {
 		const enemigos = game.colliders(personaje).filter({ visual => !visual.esAtravesable() && !visual.esArtefacto() })
@@ -43,6 +47,11 @@ class Arma inherits Artefacto {
 		personaje.equiparArma(self)
 		super(personaje)
 	}
+	
+	method golpe(){
+		sonidos.play(self.sound())
+	}
+	
 
 }
 
@@ -69,7 +78,18 @@ class Cosa inherits Artefacto {
 		personaje.equiparUtilidad(self)
 		super(personaje)
 	}
+	
+	override method sonar(){
+		sonidos.play("pickup-sound.mp3")
+	}
 
+}
+
+class Llave inherits Cosa {
+	
+	override method sonar() {
+		sonidos.play("key-get.mp3")
+	}
 }
 
 object espadaDeNederita inherits Arma {
@@ -78,6 +98,10 @@ object espadaDeNederita inherits Arma {
 
 	override method image() {
 		return "espada.png"
+	}
+	
+	override method sound(){
+		return "katana_cut.mp3"
 	}
 
 }
@@ -89,6 +113,10 @@ object hachaDobleCara inherits Arma {
 	override method image() {
 		return "hacha.png"
 	}
+	
+	override method sound(){
+		return "cleaver.mp3"
+	}
 
 }
 
@@ -98,6 +126,10 @@ object lanzaHechizada inherits Arma {
 
 	override method image() {
 		return "LanzaHechizada.png"
+	}
+	
+	override method sound(){
+		return "protego.mp3"
 	}
 
 }
@@ -122,25 +154,16 @@ object escudoBlindado inherits Escudo {
 
 }
 
-object yelmo inherits Defensa { //sin asset no utiliza aun
-
-	override method defensaQueOtorga() = 40
-
-	override method image() {
-		return ""
-	}
-
-}
-
-object llaveDeBronce inherits Cosa {
+object llaveDeBronce inherits Llave {
 
 	override method image() {
 		return "llaveBronce.png"
 	}
+	
 
 }
 
-object llaveDePlata inherits Cosa {
+object llaveDePlata inherits Llave {
 
 	override method image() {
 		return "llavePlata.png"
@@ -148,7 +171,7 @@ object llaveDePlata inherits Cosa {
 
 }
 
-object llaveDeOro inherits Cosa {
+object llaveDeOro inherits Llave {
 
 	override method image() {
 		return "llaveOro.png"
@@ -181,9 +204,14 @@ class PocionVida inherits Artefacto {
 	override method image() {
 		return "pocion.png"
 	}
+	
+	override method sonar(){
+		sonidos.play("heal.mp3")
+	}
 
 	override method equipar(personaje) {
 		personaje.sumarVida(self)
+		self.sonar()
 	}
 
 }
@@ -199,7 +227,12 @@ class Chest inherits Artefacto {
 		if (self.estaCerrado()) {
 			estado = abierto
 			artefactoADropear.drop(self.posicionDrop(),personaje.habitacionActual())
+			self.sonar()
 		}
+	}
+	
+	override method sonar(){
+		sonidos.play("wooden-door-open.mp3")
 	}
 
 	method estaCerrado() {
@@ -219,6 +252,7 @@ class ChestMimic inherits Chest { //Reutilizamos poder de pelea de personaje ya 
 		if (self.estaCerrado()) {
 			estado = abiertoMimic
 			self.golpear(personaje)
+			self.sonar()
 		}
 	}
 	
