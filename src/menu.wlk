@@ -158,3 +158,16 @@ object sonidos {
 
 }
 
+class Assets {
+	
+	method image()
+	
+	method position()
+}
+
+class Escaleras inherits Assets {
+	override method image() {
+		 
+	}
+}
+
