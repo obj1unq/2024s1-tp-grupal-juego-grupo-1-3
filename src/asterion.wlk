@@ -74,10 +74,12 @@ class Personaje {
 
 
 object normal{
-	method image() = "gameover.png"
+	method position() = game.at(4,5)
+	method image() = "gameover.png" 
 }
 
 object ganaTeseo{
+	method position() = game.at(1,4)
 	method image() = "frasefinalv2.png"
 }
 
@@ -199,7 +201,7 @@ object asterion inherits Personaje {
 	
 	override method morir(){
 		game.addVisual(new FraseFinal(estado=self.estado()))
-		game.schedule(50,{super()})
+		game.schedule(100,{super()})
 		game.schedule(4000, { game.stop()}) 
 	}
 
