@@ -23,8 +23,10 @@ class ObjetoMostrable {
 
 }
 class FraseFinal{
+	const estado 
+	
 	var property position = game.at(1,5)
-	method image() = "frasefinalv2.png"
+	method image() = estado.image()
 }
 
 class Menu {
