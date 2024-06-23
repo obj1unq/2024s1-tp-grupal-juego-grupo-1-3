@@ -26,6 +26,9 @@ object habitacionManager {
 		keyboard.h().onPressDo({ controles.mostrar() inventario.ocultar()})
 		keyboard.c().onPressDo({asterion.sayPoderes() inventario.ocultar()})
 		
+		keyboard.m().onPressDo({sonidos.switchSound()})
+		
+		
 		habitacion.init(self)
 		asterion.habitacionActual(habitacion)
 		self.inicializarJuego()
@@ -101,6 +104,7 @@ class Habitacion {
 		self.mostrarCosas()
 		self.mostrarEnemigos()
 		game.addVisual(barraVida)
+		game.addVisual(soundImageOn) //TES FER
 	}
 
 }

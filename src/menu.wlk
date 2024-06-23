@@ -128,11 +128,37 @@ object controles inherits Menu {
 
 }
 
+object soundImageOff{
+	
+	var property position = game.at(0, 0)
+	method image() = "soundoff.png"
+}
+
+
+object soundImageOn{
+	
+	var property position = game.at(0, 0)
+	method image() = "soundon.png"
+}
+
 
 object sonidos {
 	var property musica
 	// var property soundWinner=game.sound("ganar.mp3")
-	var property soundOff=false
+	//var property soundImage= soundImageOn
+	var property soundOff = false
+	
+	method switchSound() {
+		if (soundOff) {
+			game.removeVisual(soundImageOff)
+			game.addVisual(soundImageOn)
+			soundOff = false
+		} else {
+			game.removeVisual(soundImageOn)
+			game.addVisual(soundImageOff)//game.removeVisual(self)
+			soundOff = true
+		}
+	}
 	
 	method play(unSonido){
 		if(not soundOff){
