@@ -120,13 +120,19 @@ object inventario inherits Inventario {
 
 object controles inherits Menu {
 
-	override method position() = game.at(0, -2)
+	override method position() = game.at(1, 1)
 
 	override method image() {
 		return "controles.png"
 	}
-
-}
+	
+	method ocultar() {
+		if (!oculto) {
+			game.removeVisual(self)
+				oculto = true
+		}
+	}
+}	
 
 
 object sonidos {
