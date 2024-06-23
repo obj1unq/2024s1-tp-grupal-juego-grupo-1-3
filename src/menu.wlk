@@ -155,14 +155,14 @@ object sonidos {
 		if (soundOff) {
 			game.removeVisual(soundState)			
 			soundState = soundImageOn
-	//		musica.playMusic("tension.mp3")
 			game.addVisual(soundState)
 			soundOff = false
+			self.resumeMusic()
 			
 		} else {
+			self.stopMusic()
 			game.removeVisual(soundState)
 			soundState = soundImageOff
-	//		musica.stopMusic()
 			game.addVisual(soundState)
 			soundOff = true		
 		}
@@ -174,8 +174,15 @@ object sonidos {
 	}
 	
 	method stopMusic(){
-		musica.stop()
-
+		if(not soundOff){
+			musica.pause()
+		}
+	}
+	
+	method resumeMusic(){
+		if(not soundOff){
+			musica.resume()
+		}
 	}
 	
 	method playMusic(unaMusica){
@@ -191,6 +198,7 @@ object sonidos {
 	}
 	
 	method init(){
+	//	soundOff = false
 		self.playMusic("tension.mp3")
 		return soundState
 	}

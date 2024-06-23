@@ -28,7 +28,7 @@ object habitacionManager {
 		
 		keyboard.m().onPressDo({sonidos.switchSound()})
 		
-		
+		game.addVisual(sonidos.init())
 		habitacion.init(self)
 		asterion.habitacionActual(habitacion)
 		self.inicializarJuego()
@@ -40,7 +40,7 @@ object habitacionManager {
 
 	method inicializarJuego() {
 		game.addVisual(asterion)
-		game.addVisual(sonidos.init())
+		
 		//sonidos.playMusic("tension.mp3")
 	}
 
@@ -247,6 +247,7 @@ class PuertaFinal inherits Puerta {
 	var property cosasTotalesParaPasar
 
 	override method validarAtravesar(personaje, habitacion) {
+		
 		if (personaje.enemigosEliminados() < self.enemigosTotalesParaPasar() || personaje.cantidadDeCosas() < self.cosasTotalesParaPasar()) {
 			self.error('Debes eliminar a todos los enemigos del juego y obtener todos los items')
 		}
@@ -299,7 +300,7 @@ class ConexionLoot inherits Conexion {
 class ConexionFinal inherits Conexion{
 	
 	override method crearPuertaPrincipal(_siguienteHabitacion, _posicionPuerta) {
-		return new PuertaFinal(siguienteHabitacion = habitacion2, posicionPuerta = posicionPuerta1, enemigosTotalesParaPasar = 2, cosasTotalesParaPasar = 1) //parametrizable
+		return new PuertaFinal(siguienteHabitacion = habitacion2, posicionPuerta = posicionPuerta1, enemigosTotalesParaPasar = 11, cosasTotalesParaPasar = 4) //parametrizable
 	}
 	
 }
