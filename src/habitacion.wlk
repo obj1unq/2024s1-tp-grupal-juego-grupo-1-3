@@ -22,7 +22,7 @@ object habitacionManager {
 		keyboard.z().onPressDo({ asterion.dropearArma() inventario.ocultar() controles.ocultar()})
 		keyboard.x().onPressDo({asterion.dropearEscudo() inventario.ocultar() controles.ocultar()})
 		keyboard.f().onPressDo({ asterion.golpear() inventario.ocultar() controles.ocultar()})
-		keyboard.i().onPressDo({ inventario.mostrar()})
+		keyboard.i().onPressDo({ inventario.mostrar() controles.ocultar()})
 		keyboard.h().onPressDo({ controles.mostrar() inventario.ocultar()})
 		keyboard.c().onPressDo({asterion.sayPoderes() inventario.ocultar() controles.ocultar()})
 		
