@@ -145,18 +145,26 @@ object soundImageOn{
 object sonidos {
 	var property musica
 	// var property soundWinner=game.sound("ganar.mp3")
-	//var property soundImage= soundImageOn
 	var property soundOff = false
+	var property soundState = soundImageOn
+	
+	var property position = soundState.position()
+	method image() = soundState.image()
 	
 	method switchSound() {
 		if (soundOff) {
-			game.removeVisual(soundImageOff)
-			game.addVisual(soundImageOn)
+			game.removeVisual(soundState)			
+			soundState = soundImageOn
+	//		musica.playMusic("tension.mp3")
+			game.addVisual(soundState)
 			soundOff = false
+			
 		} else {
-			game.removeVisual(soundImageOn)
-			game.addVisual(soundImageOff)//game.removeVisual(self)
-			soundOff = true
+			game.removeVisual(soundState)
+			soundState = soundImageOff
+	//		musica.stopMusic()
+			game.addVisual(soundState)
+			soundOff = true		
 		}
 	}
 	
@@ -167,6 +175,7 @@ object sonidos {
 	
 	method stopMusic(){
 		musica.stop()
+
 	}
 	
 	method playMusic(unaMusica){
@@ -177,9 +186,13 @@ object sonidos {
 		}
 	}
 
-	
 	method soundOff(booleano){
 		soundOff=booleano
+	}
+	
+	method init(){
+		self.playMusic("tension.mp3")
+		return soundState
 	}
 
 }

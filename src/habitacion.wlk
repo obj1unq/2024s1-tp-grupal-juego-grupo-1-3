@@ -40,7 +40,8 @@ object habitacionManager {
 
 	method inicializarJuego() {
 		game.addVisual(asterion)
-		sonidos.playMusic("tension.mp3")
+		game.addVisual(sonidos.init())
+		//sonidos.playMusic("tension.mp3")
 	}
 
 	method habitacion(indice) {
@@ -104,7 +105,7 @@ class Habitacion {
 		self.mostrarCosas()
 		self.mostrarEnemigos()
 		game.addVisual(barraVida)
-		game.addVisual(soundImageOn) //TES FER
+		
 	}
 
 }
