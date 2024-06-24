@@ -28,4 +28,4 @@ Sos el personaje principal, Asterion un minotauro que quiere escapar del laberin
 - Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
 
 ## Documentacion
-- [Excali](https://excalidraw.com/#room=dd65bdac33b1f548a284,Cp8jST4UzYUkIss8L4VWQw)
+- [Diseño](https://excalidraw.com/#room=dd65bdac33b1f548a284,Cp8jST4UzYUkIss8L4VWQw)
