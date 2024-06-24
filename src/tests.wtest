@@ -3,6 +3,7 @@ import habitacion.*
 import asterion.*
 import posiciones.*
 import artefactos.*
+import menu.*
 
 describe "asterion" {
 
@@ -31,6 +32,7 @@ describe "asterion" {
 		nivel2.agregarCosa(pocion)
 		habitacionManager.cargarHabitacion(nivel1)
 		asterion.habitacionActual(nivel1)
+		sonidos.soundOff(true)
 	}
 
 	test "asterion equipa un arma, quedando su poderPelea() en 20, 10 de base y 10 de la espada, puede dropearla quedandose con manos" {
