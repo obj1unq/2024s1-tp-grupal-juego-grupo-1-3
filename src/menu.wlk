@@ -220,10 +220,6 @@ object sonidos {
 		}
 	}
 
-	method soundOff(booleano) {
-		soundOff = booleano
-	}
-
 }
 
 class Assets {
