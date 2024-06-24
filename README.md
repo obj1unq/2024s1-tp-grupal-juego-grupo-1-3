@@ -29,3 +29,7 @@ Sos el personaje principal, Asterion un minotauro que quiere escapar del laberin
 
 ## Documentacion
 - [Diseño](https://excalidraw.com/#room=dd65bdac33b1f548a284,Cp8jST4UzYUkIss8L4VWQw)
+- ![Mapa](https://github.com/obj1unq/2024s1-tp-grupal-juego-grupo-1-3/assets/163039600/6decdf4c-031a-49e7-a405-a3ed210338a0)
+
+
+
