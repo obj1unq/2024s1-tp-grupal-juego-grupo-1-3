@@ -459,9 +459,6 @@ class Espectro inherits Enemigo {
 
 }
 
-object ghostito inherits Espectro {
-
-}
 
 class EspectroVenenoso inherits Espectro {
 

@@ -332,6 +332,8 @@ object habitacionFactory {
 		
 		habitaciones.get(2).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = new PocionVida(puntosDeVida=60)))
 		
+		habitaciones.get(4).agregarCosa(new Chest(position= game.at(0,9), artefactoADropear = llaveDeBronce))
+		
 		habitaciones.get(5).agregarCosa(new Chest(position = game.at(0,9), artefactoADropear = escudoDeMadera))
 		
 		habitaciones.get(7).agregarCosa(new ChestMimic(position = game.at(5,6)))
@@ -344,19 +346,17 @@ object habitacionFactory {
 	}
 
 	method inicializarEnemigos(habitaciones) {
-		const humano = new Humano(artefactoADropear = llaveDeBronce, position = game.at(3, 6))
 		
-		habitaciones.get(1).agregarEnemigo(humano)
-		habitaciones.get(1).agregarEnemigo(ghostito)
+		habitaciones.get(1).agregarEnemigo(new Humano(position = game.at(3, 6)))
+		habitaciones.get(1).agregarEnemigo(new Espectro())
 		
-		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=10, artefactoADropear= new PocionVida(puntosDeVida= 80)))//quiza 90
+		habitaciones.get(3).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=10, artefactoADropear= new PocionVida(puntosDeVida= 80)))
 		
 		habitaciones.get(4).agregarEnemigo(new Humano(position= game.at(4,7), poderDefensa=15))
 		habitaciones.get(4).agregarEnemigo(new EspectroVenenoso(artefactoADropear= hachaDobleCara))
 		habitaciones.get(6).agregarEnemigo(new SuperHumano(position= game.at(4,4),artefactoADropear= new PocionVida(puntosDeVida=60)))
 		
-		const ghostVeloz = new EspectroVeloz(artefactoADropear= llaveDeOro)
-		habitaciones.get(8).agregarEnemigo(ghostVeloz)
+		habitaciones.get(8).agregarEnemigo(new EspectroVeloz(artefactoADropear= llaveDeOro))
 		habitaciones.get(8).agregarEnemigo(new EspectroVeloz())
 		
 		habitaciones.get(10).agregarEnemigo(new SuperHumano(position= game.at(5,4),artefactoADropear=lanzaHechizada, poderDefensa= 50))
