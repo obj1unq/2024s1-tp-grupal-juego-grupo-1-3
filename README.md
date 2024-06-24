@@ -8,8 +8,9 @@
 
 ## Capturas
 ![image](https://github.com/obj1unq/2024s1-tp-grupal-juego-grupo-1-3/assets/65262580/e783519f-4396-4b24-a9e1-fc0b3db5e30f)
-<img width="500" alt="image" src="https://github.com/obj1unq/2024s1-tp-grupal-juego-grupo-1-3/assets/65262580/aad4791d-d303-4dcb-8b68-c0938225e5aa">
-<img width="498" alt="image" src="https://github.com/obj1unq/2024s1-tp-grupal-juego-grupo-1-3/assets/65262580/dfac2f7b-004a-43c4-bf14-fa16c33f1a30">
+![image](https://github.com/obj1unq/2024s1-tp-grupal-juego-grupo-1-3/assets/65262580/976c559e-09da-4562-98a8-58e4ec3a72cb)
+![image](https://github.com/obj1unq/2024s1-tp-grupal-juego-grupo-1-3/assets/65262580/3c59b485-35da-40ff-af57-8045f1d9b171)
+
 
 
 ## Reglas de Juego / Instrucciones
