@@ -20,6 +20,20 @@ Sos el personaje principal, Asterion un minotauro que quiere escapar del laberin
 * A su vez, la vida de asterion figura debajo a la derecha, cuidado si la vida baja y el ataque al enemigo no es suficiente para derrotarlo.
 * Cada enemigo se comporta de diferentes formas: Humano: devolverá el ataque una vez golpeado, Espectro: Te sacara vida ante cada colision con el, Espectro Venenoso: Te sacará vida en cada colision con el, y te sacará vida nuevamente una vez transcurrido determinado tiempo...
 
+## Controles
+Mover Arriba     -> Flecha Arriba
+Mover Abajo      -> Flecha Abajo
+Mover Derecha    -> Flecha Derecha
+Mover Izquierda  -> Flecha Izquierda
+Abrir Inventario -> I
+Ayuda(Controles) -> H
+Mute/Unmute      -> M
+Pasar Puerta     -> Q
+Mostrar Poderes  -> C
+Golpear Enemigo  -> F
+Equipar/Lootear  -> E
+Des-Equipar Arma -> Z
+Des-Equipar Def  -> X
 
 ## Otros
 
