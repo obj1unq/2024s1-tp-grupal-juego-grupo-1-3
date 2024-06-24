@@ -2,13 +2,15 @@
 
 ## Equipo de desarrollo
 
-- Lucas
-- Fernando
-- Rodrigo
+- Luca Laghezza
+- Fernando Lefloth
+- Rodrigo Ojeda
 
 ## Capturas
+<img width="493" alt="image" src="https://github.com/obj1unq/2024s1-tp-grupal-juego-grupo-1-3/assets/65262580/e5aed2b1-a8ce-4ecf-930b-4b2cbae925ac">
+<img width="500" alt="image" src="https://github.com/obj1unq/2024s1-tp-grupal-juego-grupo-1-3/assets/65262580/aad4791d-d303-4dcb-8b68-c0938225e5aa">
+<img width="498" alt="image" src="https://github.com/obj1unq/2024s1-tp-grupal-juego-grupo-1-3/assets/65262580/dfac2f7b-004a-43c4-bf14-fa16c33f1a30">
 
-(agregar)
 
 ## Reglas de Juego / Instrucciones
 
