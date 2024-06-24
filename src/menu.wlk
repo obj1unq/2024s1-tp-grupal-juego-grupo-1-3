@@ -2,7 +2,7 @@ import asterion.*
 import wollok.game.*
 import artefactos.*
 import posiciones.*
- 
+
 class ObjetoMostrable {
 
 	var property position = null
@@ -22,11 +22,15 @@ class ObjetoMostrable {
 	}
 
 }
-class FraseFinal{
-	const estado 
-	
+
+class FraseFinal {
+
+	const estado
+
 	method position() = estado.position()
+
 	method image() = estado.image()
+
 }
 
 class Menu {
@@ -120,125 +124,153 @@ object inventario inherits Inventario {
 
 object controles inherits Menu {
 
-	override method position() = game.at(0, -2)
+	override method position() = game.at(1, 1)
 
 	override method image() {
 		return "controles.png"
 	}
 
+	method ocultar() {
+		if (!oculto) {
+			game.removeVisual(self)
+			oculto = true
+		}
+	}
+
 }
 
-object soundImageOff{
-	
+object soundOff {
+
 	var property position = game.at(0, 0)
+
 	method image() = "soundoff.png"
+
+	method switch(sonidos) {
+		sonidos.soundState(soundOn)
+		sonidos.resumeMusic()
+	}
+
+	method play(unSonido) {
+	}
+
+	method isOn() {
+		return false
+	}
+
 }
 
+object soundOn {
 
-object soundImageOn{
-	
 	var property position = game.at(0, 0)
-	method image() = "soundon.png"
-}
 
+	method image() = "soundon.png"
+
+	method switch(sonidos) {
+		sonidos.soundState(soundOff)
+		sonidos.pauseMusic()
+	}
+
+	method play(unSonido) {
+		game.sound(unSonido).play()
+	}
+
+	method isOn() {
+		return true
+	}
+
+}
 
 object sonidos {
+
 	var property musica
-	// var property soundWinner=game.sound("ganar.mp3")
-	var property soundOff = false
-	var property soundState = soundImageOn
-	
+	var property soundState = soundOn
 	var property position = soundState.position()
+
 	method image() = soundState.image()
-	
+
 	method switchSound() {
-		if (soundOff) {
-			game.removeVisual(soundState)			
-			soundState = soundImageOn
-			game.addVisual(soundState)
-			soundOff = false
-			self.resumeMusic()
-			
-		} else {
-			self.stopMusic()
-			game.removeVisual(soundState)
-			soundState = soundImageOff
-			game.addVisual(soundState)
-			soundOff = true		
-		}
+		self.soundState().switch(self)
 	}
-	
-	method play(unSonido){
-		if(not soundOff){
-			game.sound(unSonido).play()}
+
+	method play(unSonido) {
+		self.soundState().play(unSonido)
 	}
-	
-	method stopMusic(){
-		if(not soundOff){
-			musica.pause()
-		}
+
+	method stopMusic() {
+		musica.stop()
 	}
-	
-	method resumeMusic(){
-		if(not soundOff){
+
+	method pauseMusic() {
+		musica.stop()
+	}
+
+	method resumeMusic() {
+		if (musica.paused()) {
 			musica.resume()
-		}
-	}
-	
-	method playMusic(unaMusica){
-		if(not soundOff){
-			musica=game.sound(unaMusica)
-			musica.shouldLoop(true)
-			game.schedule(100, {musica.play()})	
+		} else {
+			self.playMusic()
 		}
 	}
 
-	method soundOff(booleano){
-		soundOff=booleano
+	method playMusic() {
+		if (self.soundState().isOn()) {
+			musica = game.sound("tension.mp3")
+			musica.shouldLoop(true)
+			game.schedule(100, { musica.play()})
+		}
 	}
-	
-	method init(){
-	//	soundOff = false
-		self.playMusic("tension.mp3")
-		return soundState
+
+	method soundOff(booleano) {
+		soundOff = booleano
 	}
 
 }
 
 class Assets {
-	
+
 	var property position
-	
+
 	method image()
-	
+
 }
 
 class Escaleras inherits Assets {
+
 	override method image() {
-		 return "escalerasCombinadas.png"
+		return "escalerasCombinadas.png"
 	}
+
 }
 
 class Piso inherits Assets {
+
 	override method image() {
 		return "paredHorizontal32.png"
 	}
+
 }
 
 class Columna inherits Assets {
+
 	override method image() {
 		return "columnaRomana160.png"
 	}
+
 }
 
 class Escalera inherits Escaleras {
+
 	override method image() {
 		return "escaleraSimple.png"
 	}
+
 }
 
 class Techo inherits Assets {
+
 	override method image() {
 		return "techo96x16.png"
 	}
+
 }
+

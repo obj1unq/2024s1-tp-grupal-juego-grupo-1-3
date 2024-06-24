@@ -14,21 +14,19 @@ object habitacionManager {
 		game.title("El juego de Asterion")
 		game.height(10)
 		game.width(10)
-		keyboard.down().onPressDo({ asterion.mover(abajo) inventario.ocultar()})
-		keyboard.up().onPressDo({ asterion.mover(arriba) inventario.ocultar()})
-		keyboard.left().onPressDo({ asterion.mover(izquierda) inventario.ocultar()})
-		keyboard.right().onPressDo({ asterion.mover(derecha) inventario.ocultar()})
-		keyboard.e().onPressDo({ asterion.equipar() inventario.ocultar() })
-		keyboard.z().onPressDo({ asterion.dropearArma() inventario.ocultar()})
-		keyboard.x().onPressDo({asterion.dropearEscudo() inventario.ocultar()})
-		keyboard.f().onPressDo({ asterion.golpear() inventario.ocultar()})
-		keyboard.i().onPressDo({ inventario.mostrar()})
+		keyboard.down().onPressDo({ asterion.mover(abajo) inventario.ocultar() controles.ocultar()})
+		keyboard.up().onPressDo({ asterion.mover(arriba) inventario.ocultar() controles.ocultar()})
+		keyboard.left().onPressDo({ asterion.mover(izquierda) inventario.ocultar() controles.ocultar()})
+		keyboard.right().onPressDo({ asterion.mover(derecha) inventario.ocultar() controles.ocultar()})
+		keyboard.e().onPressDo({ asterion.equipar() inventario.ocultar() controles.ocultar()})
+		keyboard.z().onPressDo({ asterion.dropearArma() inventario.ocultar() controles.ocultar()})
+		keyboard.x().onPressDo({asterion.dropearEscudo() inventario.ocultar() controles.ocultar()})
+		keyboard.f().onPressDo({ asterion.golpear() inventario.ocultar() controles.ocultar()})
+		keyboard.i().onPressDo({ inventario.mostrar() controles.ocultar()})
 		keyboard.h().onPressDo({ controles.mostrar() inventario.ocultar()})
-		keyboard.c().onPressDo({asterion.sayPoderes() inventario.ocultar()})
+		keyboard.c().onPressDo({asterion.sayPoderes() inventario.ocultar() controles.ocultar()})
+		keyboard.m().onPressDo({sonidos.switchSound() inventario.ocultar() controles.ocultar()})
 		
-		keyboard.m().onPressDo({sonidos.switchSound()})
-		
-		game.addVisual(sonidos.init())
 		habitacion.init(self)
 		asterion.habitacionActual(habitacion)
 		self.inicializarJuego()
@@ -40,8 +38,7 @@ object habitacionManager {
 
 	method inicializarJuego() {
 		game.addVisual(asterion)
-		
-		//sonidos.playMusic("tension.mp3")
+		sonidos.playMusic()
 	}
 
 	method habitacion(indice) {
@@ -105,7 +102,7 @@ class Habitacion {
 		self.mostrarCosas()
 		self.mostrarEnemigos()
 		game.addVisual(barraVida)
-		
+		game.addVisual(sonidos)
 	}
 
 }
