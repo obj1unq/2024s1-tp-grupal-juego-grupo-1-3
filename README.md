@@ -23,3 +23,6 @@ Sos el personaje principal, Asterion un minotauro que quiere escapar del laberin
 - Universidad Nacional De Quilmes, Objetos 1
 - Versión de wollok 3.0.0
 - Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
+
+## Documentacion
+- https://excalidraw.com/#room=dd65bdac33b1f548a284,Cp8jST4UzYUkIss8L4VWQw
