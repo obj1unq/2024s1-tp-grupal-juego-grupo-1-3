@@ -201,3 +201,93 @@ describe "validacion de puertas y conexiones"{
 	
 }
 
+
+describe "artefactos" {
+	
+	test "asterion equipa espada de nederita y su poder de pelea ahora es 20"{
+		assert.equals(10, asterion.poderPelea())
+		
+		assert.notThat(asterion.estaArmado())
+		
+		asterion.arma(espadaDeNederita)
+		
+		assert.equals(20, asterion.poderPelea())
+		assert.that(asterion.estaArmado())
+	}
+	
+	test "asterion equipa hachaDobleCara y su poder de pelea ahora es 30"{
+		assert.equals(10, asterion.poderPelea())
+		
+		assert.notThat(asterion.estaArmado())
+		
+		asterion.arma(hachaDobleCara)
+		
+		assert.equals(30, asterion.poderPelea())
+		assert.that(asterion.estaArmado())
+	}
+	
+	test "asterion equipa lanzaHechizada y su poder de pelea ahora es 40"{
+		assert.equals(10, asterion.poderPelea())
+		
+		assert.notThat(asterion.estaArmado())
+		
+		asterion.arma(lanzaHechizada)
+		
+		assert.equals(40, asterion.poderPelea())
+		assert.that(asterion.estaArmado())
+	}
+	
+	test "asterion validaciones de armas"{
+		assert.equals(10, asterion.poderPelea())
+		
+		assert.notThat(asterion.estaArmado())
+		
+		assert.throwsExceptionWithMessage("No existe un arma para dropear", {asterion.dropearArma()})
+		
+		asterion.arma(lanzaHechizada)
+		
+		assert.equals(40, asterion.poderPelea())
+		assert.that(asterion.estaArmado())
+		
+		assert.throwsExceptionWithMessage("Ya existe un arma equipada, es necesario dropear el armamento actual", {asterion.equiparArma(hachaDobleCara)})
+	}
+	
+		test "asterion equipa escudoDeMadera y su poder de defensa ahora es 20"{
+		assert.equals(0, asterion.poderDefensa())
+		
+		assert.notThat(asterion.tieneEscudo())
+		
+		asterion.escudo(escudoDeMadera)
+		
+		assert.equals(10, asterion.poderDefensa())
+		assert.that(asterion.tieneEscudo())
+	}
+	
+	test "asterion equipa escudoBlindado y su poder de defensa ahora es 30"{
+		assert.equals(0, asterion.poderDefensa())
+		
+		assert.notThat(asterion.tieneEscudo())
+		
+		asterion.escudo(escudoBlindado)
+		
+		assert.equals(30, asterion.poderDefensa())
+		assert.that(asterion.tieneEscudo())
+	}
+	
+	
+	test "asterion validaciones de escudos"{
+		assert.equals(0, asterion.poderDefensa())
+		
+		assert.notThat(asterion.tieneEscudo())
+		
+		assert.throwsExceptionWithMessage("No existe un escudo para dropear", {asterion.dropearEscudo()})
+		asterion.escudo(escudoDeMadera)
+		
+		assert.equals(10, asterion.poderDefensa())
+		assert.that(asterion.tieneEscudo())
+		assert.throwsExceptionWithMessage("Ya existe un escudo equipado, es necesario dropear el escudo actual", {asterion.equiparEscudo(escudoBlindado)})
+
+	}
+	
+	
+}

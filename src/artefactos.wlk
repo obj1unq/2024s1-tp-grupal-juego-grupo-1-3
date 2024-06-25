@@ -18,9 +18,6 @@ class Artefacto {
 		game.addVisual(self)
 	}
 
-	method usar(personaje) {
-	}
-
 	method equipar(personaje) {
 		game.say(personaje, "equipó: " + self)
 	}
@@ -37,11 +34,6 @@ class Arma inherits Artefacto {
 
 	method poderQueOtorga()
 	method sound()
-
-	override method usar(personaje) {
-		const enemigos = game.colliders(personaje).filter({ visual => !visual.esAtravesable() && !visual.esArtefacto() })
-		enemigos.forEach({ enemigo => personaje.golpear(enemigo)})
-	}
 
 	override method equipar(personaje) {
 		personaje.equiparArma(self)
@@ -71,8 +63,6 @@ class Escudo inherits Defensa {
 }
 
 class Cosa inherits Artefacto {
-
-	var property usos = null
 
 	override method equipar(personaje) {
 		personaje.equiparUtilidad(self)
