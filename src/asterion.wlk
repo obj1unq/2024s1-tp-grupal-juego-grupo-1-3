@@ -95,7 +95,7 @@ object asterion inherits Personaje {
 
 	var property position = game.at(3, 8)
 	var property vida = 100
-	const property utilidades = #{}
+	const utilidades = #{}
 	var property arma = mano
 	var property escudo = mano
 	var property final = normal
@@ -104,6 +104,10 @@ object asterion inherits Personaje {
 
 	override method image() = "asterion_" + arma + "_" + escudo + ".png"
 
+	method utilidades(){
+		return utilidades
+	}
+	
 	method todosLosObjetos() {
 		const objetos = []
 		objetos.add(self.arma())
@@ -336,10 +340,13 @@ object ariadna inherits Enemigo{
 }
 
 object teseo inherits Enemigo{
-	var property poderDefensa = 99999999999
 	override method position() = game.at(5, 5)
 	
 	override method poderBase(){
+		return 99999999999999999
+	}
+	
+	override method poderDefensa(){
 		return 99999999999999999
 	}
 	
