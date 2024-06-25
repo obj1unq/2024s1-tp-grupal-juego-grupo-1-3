@@ -112,6 +112,95 @@ describe "asterion" {
 
 }
 
+describe "validacion de puertas y conexiones"{
+	
+	const nivel1 = new Habitacion()
+	const nivel2 = new Habitacion()
+	
+	const conexion =     new Conexion (habitacion1= nivel1, habitacion2= nivel2,  posicionPuerta1= posicionSuperior)
+    const conexionKill = new ConexionKill (habitacion1= nivel1, habitacion2= nivel2, posicionPuerta1 = posicionSuperior) 
+    const conexionLoot = new ConexionLoot (habitacion1= nivel1, habitacion2= nivel2, posicionPuerta1 = posicionSuperior, artefactoLoot= llaveDeBronce)
+	const conexionFinal = new ConexionFinal(habitacion1= nivel1, habitacion2=nivel2, posicionPuerta1= posicionSuperior)
+		
+	method initialize(){
+		sonidos.soundState(soundOff)	
+	}
+	
+	test "valida la conexion de tipo Loot entre una habitacion y otra de manera satifactoria"{
+		conexionLoot.conectar()
+		const puertaLoot = conexionLoot.habitacion1().puertas().anyOne()
+		assert.equals(puertaLoot.siguienteHabitacion(), nivel2) 
+		asterion.utilidades().add(llaveDeBronce)
+		assert.doesNotThrowException({puertaLoot.validarAtravesar(asterion,null)})
+	}	
+	
+	test "Valida la conexión del tipo Loot: No permite pasar"{
+		conexionLoot.conectar()
+		const puertaLoot = conexionLoot.habitacion1().puertas().anyOne()
+		assert.equals(puertaLoot.siguienteHabitacion(), nivel2) 
+		assert.throwsException({puertaLoot.validarAtravesar(asterion,null)})
+	}
+	
+	test "valida la conexion de tipo Kill entre una habitacion y otra de manera satifactoria"{
+		conexionKill.conectar()
+		const puertaKill = conexionKill.habitacion1().puertas().anyOne()
+		assert.equals(puertaKill.siguienteHabitacion(), nivel2) 
+		asterion.enemigosEliminados(2)
+		assert.doesNotThrowException({puertaKill.validarAtravesar(asterion,conexionKill.habitacion1())})
+	}
+	
+	test "Valida la conexión del tipo Kill: No permite pasar"{
+
+		conexionKill.conectar()
+		conexionKill.habitacion1().agregarEnemigo(new Espectro())
+		const puertaKill = conexionKill.habitacion1().puertas().anyOne()
+		assert.equals(puertaKill.siguienteHabitacion(), nivel2) 
+		assert.throwsException({puertaKill.validarAtravesar(asterion,conexionKill.habitacion1())})
+	}
+	test "valida la conexion de tipo Final entre una habitacion y otra de manera satifactoria"{
+		conexionFinal.conectar()
+		const puertaFinal = conexionFinal.habitacion1().puertas().anyOne()
+		assert.equals(puertaFinal.siguienteHabitacion(), nivel2) 
+		asterion.enemigosEliminados(11)
+		asterion.utilidades().add(llaveDeBronce)
+		asterion.utilidades().add(llaveDePlata)
+		asterion.utilidades().add(llaveDeOro)
+		asterion.utilidades().add(gema)
+		assert.doesNotThrowException({puertaFinal.validarAtravesar(asterion,null)})
+	}
+	
+	
+	test "Valida la conexión del tipo Final: No permite pasar por faltante de enemigos"{
+		conexionFinal.conectar()
+		const puertaFinal = conexionFinal.habitacion1().puertas().anyOne()
+		assert.equals(puertaFinal.siguienteHabitacion(), nivel2) 
+		asterion.enemigosEliminados(10)
+		asterion.utilidades().add(llaveDeBronce)
+		asterion.utilidades().add(llaveDePlata)
+		asterion.utilidades().add(llaveDeOro)
+		asterion.utilidades().add(gema)
+		assert.throwsException({puertaFinal.validarAtravesar(asterion,null)})
+	}
+	
+	test "Valida la conexión del tipo Final: No permite pasar por faltante de utilidades"{
+		conexionFinal.conectar()
+		const puertaFinal = conexionFinal.habitacion1().puertas().anyOne()
+		assert.equals(puertaFinal.siguienteHabitacion(), nivel2) 
+		asterion.enemigosEliminados(11)
+		asterion.utilidades().add(llaveDeBronce)
+		asterion.utilidades().add(llaveDePlata)
+		asterion.utilidades().add(llaveDeOro)
+		assert.throwsException({puertaFinal.validarAtravesar(asterion,null)})
+	}
+	test "valida la conexion entre una habitacion y otra de manera satifactoria"{
+		conexion.conectar()
+		const puerta = conexion.habitacion1().puertas().anyOne()
+		assert.equals(puerta.siguienteHabitacion(), nivel2) 
+		assert.doesNotThrowException({puerta.validarAtravesar(asterion,null)})
+	}
+	
+}
+
 
 describe "artefactos" {
 	
@@ -202,6 +291,3 @@ describe "artefactos" {
 	
 	
 }
-
-
-
