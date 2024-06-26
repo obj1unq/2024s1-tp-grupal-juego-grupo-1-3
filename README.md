@@ -34,6 +34,7 @@ Sos el personaje principal, Asterion un minotauro que quiere escapar del laberin
 - Equipar/Lootear  -> E
 - Des-Equipar Arma -> Z
 - Des-Equipar Def  -> X
+- Lootear = (abrir cofres)
 
 ## Otros
 
