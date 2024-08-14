@@ -1,6 +1,293 @@
+import wollok.game.*
+import habitacion.*
+import asterion.*
+import posiciones.*
+import artefactos.*
+import menu.*
 
-test "testX" {
+describe "asterion" {
 
-	assert.that(true)
+	const nivel1 = new Habitacion()
+	const nivel2 = new Habitacion()
+	const nivel3 = new Habitacion()
+	const puerta12 = new Puerta(siguienteHabitacion = nivel2, posicionPuerta = posicionSuperior)
+	const puerta21 = new Puerta(siguienteHabitacion = nivel1, posicionPuerta = posicionInferior)
+	const puerta23 = new Puerta(siguienteHabitacion = nivel3, posicionPuerta = posicionOeste)
+	const espada = espadaDeNederita
+	const escudoDef = escudoDeMadera
+	const pocion = new PocionVida()
+	const humano = new Humano(artefactoADropear = llaveDeBronce, position = game.at(3, 6))
 
+	method initialize() {
+		habitacionManager.init()
+		espada.position(game.at(3, 5))
+		escudoDef.position(game.at(4, 5))
+		pocion.position(game.at(4, 5))
+		nivel1.agregarPuerta(puerta12)
+		nivel2.agregarPuerta(puerta21)
+		nivel2.agregarPuerta(puerta23)
+		nivel1.agregarCosa(espada)
+		nivel1.agregarCosa(escudoDef)
+		nivel2.agregarEnemigo(humano)
+		nivel2.agregarCosa(pocion)
+		habitacionManager.cargarHabitacion(nivel1)
+		asterion.habitacionActual(nivel1)
+		sonidos.soundState(soundOff)
+	}
+
+	test "asterion equipa un arma, quedando su poderPelea() en 20, 10 de base y 10 de la espada, puede dropearla quedandose con manos" {
+		asterion.equiparArma(espadaDeNederita)
+		assert.that(asterion.arma() == espadaDeNederita)
+		assert.equals(20, asterion.poderPelea())
+		asterion.dropearArma()
+		assert.that(asterion.arma() == mano)
+	}
+
+	test "asterion equipa un escudo, quedando su poderDefensa() en 20" {
+		asterion.equiparEscudo(escudoDef)
+		assert.that(asterion.defensa() == #{ escudoDef })
+		assert.equals(10, asterion.poderDefensa())
+	}
+
+	test "asterion intenta sacarse un arma teniendo manos y no puede por que no tiene armas" {
+		assert.throwsException({ asterion.dropearArma()})
+	}
+
+	test "asterion pasa a la siguiente habitacion" {
+		assert.equals(nivel1, asterion.habitacionActual())
+		asterion.position(game.at(5, 9))
+		asterion.atravesar()
+		assert.equals(nivel2, asterion.habitacionActual())
+	}
+
+	test "Asterion golpea un enemigo y dropea un objeto (desapareciendo el visual del enemigo)" {
+		asterion.position(game.at(3, 5))
+		asterion.equipar()
+		asterion.position(game.at(5, 9))
+		asterion.atravesar()
+		asterion.position(game.at(3, 6))
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		assert.equals(llaveDeBronce, tablero.objetoEnPosDe(asterion))
+	}
+
+	test "Asterion no puede moverse mas alla de los bordes que delimita el juego" {
+		asterion.position(game.at(9, 9))
+		asterion.mover(derecha)
+		assert.equals(game.at(9, 9), asterion.position())
+	}
+
+	test "Asterion lootea una pocion de vida y su vida crece 40 puntos o lo que le falte para llegar a 100 si tiene mas de 60 de vida" {
+		asterion.position(game.at(3, 5))
+		asterion.equipar()
+		asterion.position(game.at(5, 9))
+		asterion.atravesar()
+		asterion.position(game.at(3, 6))
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		asterion.golpear()
+		assert.equals(50, asterion.vida())
+		asterion.position(game.at(4, 5))
+		asterion.equipar()
+		assert.equals(90, asterion.vida())
+	}
+
+	test "Asterion lootea una pocion de vida que aporta 40 de vida, teniendo 90 de vida. Entonces su vida es 100" {
+		asterion.vida(90)
+		nivel1.agregarCosa(pocion)
+		game.addVisual(pocion)
+		asterion.sumarVida(pocion)
+		assert.equals(100, asterion.vida())
+	}
+
+}
+
+describe "validacion de puertas y conexiones"{
+	
+	const nivel1 = new Habitacion()
+	const nivel2 = new Habitacion()
+	
+	const conexion =     new Conexion (habitacion1= nivel1, habitacion2= nivel2,  posicionPuerta1= posicionSuperior)
+    const conexionKill = new ConexionKill (habitacion1= nivel1, habitacion2= nivel2, posicionPuerta1 = posicionSuperior) 
+    const conexionLoot = new ConexionLoot (habitacion1= nivel1, habitacion2= nivel2, posicionPuerta1 = posicionSuperior, artefactoLoot= llaveDeBronce)
+	const conexionFinal = new ConexionFinal(habitacion1= nivel1, habitacion2=nivel2, posicionPuerta1= posicionSuperior)
+		
+	method initialize(){
+		sonidos.soundState(soundOff)	
+	}
+	
+	test "valida la conexion de tipo Loot entre una habitacion y otra de manera satifactoria"{
+		conexionLoot.conectar()
+		const puertaLoot = conexionLoot.habitacion1().puertas().anyOne()
+		assert.equals(puertaLoot.siguienteHabitacion(), nivel2) 
+		asterion.utilidades().add(llaveDeBronce)
+		assert.doesNotThrowException({puertaLoot.validarAtravesar(asterion,null)})
+	}	
+	
+	test "Valida la conexión del tipo Loot: No permite pasar"{
+		conexionLoot.conectar()
+		const puertaLoot = conexionLoot.habitacion1().puertas().anyOne()
+		assert.equals(puertaLoot.siguienteHabitacion(), nivel2) 
+		assert.throwsException({puertaLoot.validarAtravesar(asterion,null)})
+	}
+	
+	test "valida la conexion de tipo Kill entre una habitacion y otra de manera satifactoria"{
+		conexionKill.conectar()
+		const puertaKill = conexionKill.habitacion1().puertas().anyOne()
+		assert.equals(puertaKill.siguienteHabitacion(), nivel2) 
+		asterion.enemigosEliminados(2)
+		assert.doesNotThrowException({puertaKill.validarAtravesar(asterion,conexionKill.habitacion1())})
+	}
+	
+	test "Valida la conexión del tipo Kill: No permite pasar"{
+
+		conexionKill.conectar()
+		conexionKill.habitacion1().agregarEnemigo(new Espectro())
+		const puertaKill = conexionKill.habitacion1().puertas().anyOne()
+		assert.equals(puertaKill.siguienteHabitacion(), nivel2) 
+		assert.throwsException({puertaKill.validarAtravesar(asterion,conexionKill.habitacion1())})
+	}
+	test "valida la conexion de tipo Final entre una habitacion y otra de manera satifactoria"{
+		conexionFinal.conectar()
+		const puertaFinal = conexionFinal.habitacion1().puertas().anyOne()
+		assert.equals(puertaFinal.siguienteHabitacion(), nivel2) 
+		asterion.enemigosEliminados(11)
+		asterion.utilidades().add(llaveDeBronce)
+		asterion.utilidades().add(llaveDePlata)
+		asterion.utilidades().add(llaveDeOro)
+		asterion.utilidades().add(gema)
+		assert.doesNotThrowException({puertaFinal.validarAtravesar(asterion,null)})
+	}
+	
+	
+	test "Valida la conexión del tipo Final: No permite pasar por faltante de enemigos"{
+		conexionFinal.conectar()
+		const puertaFinal = conexionFinal.habitacion1().puertas().anyOne()
+		assert.equals(puertaFinal.siguienteHabitacion(), nivel2) 
+		asterion.enemigosEliminados(10)
+		asterion.utilidades().add(llaveDeBronce)
+		asterion.utilidades().add(llaveDePlata)
+		asterion.utilidades().add(llaveDeOro)
+		asterion.utilidades().add(gema)
+		assert.throwsException({puertaFinal.validarAtravesar(asterion,null)})
+	}
+	
+	test "Valida la conexión del tipo Final: No permite pasar por faltante de utilidades"{
+		conexionFinal.conectar()
+		const puertaFinal = conexionFinal.habitacion1().puertas().anyOne()
+		assert.equals(puertaFinal.siguienteHabitacion(), nivel2) 
+		asterion.enemigosEliminados(11)
+		asterion.utilidades().add(llaveDeBronce)
+		asterion.utilidades().add(llaveDePlata)
+		asterion.utilidades().add(llaveDeOro)
+		assert.throwsException({puertaFinal.validarAtravesar(asterion,null)})
+	}
+	test "valida la conexion entre una habitacion y otra de manera satifactoria"{
+		conexion.conectar()
+		const puerta = conexion.habitacion1().puertas().anyOne()
+		assert.equals(puerta.siguienteHabitacion(), nivel2) 
+		assert.doesNotThrowException({puerta.validarAtravesar(asterion,null)})
+	}
+	
+}
+
+
+describe "artefactos" {
+	
+	test "asterion equipa espada de nederita y su poder de pelea ahora es 20"{
+		assert.equals(10, asterion.poderPelea())
+		
+		assert.notThat(asterion.estaArmado())
+		
+		asterion.arma(espadaDeNederita)
+		
+		assert.equals(20, asterion.poderPelea())
+		assert.that(asterion.estaArmado())
+	}
+	
+	test "asterion equipa hachaDobleCara y su poder de pelea ahora es 30"{
+		assert.equals(10, asterion.poderPelea())
+		
+		assert.notThat(asterion.estaArmado())
+		
+		asterion.arma(hachaDobleCara)
+		
+		assert.equals(30, asterion.poderPelea())
+		assert.that(asterion.estaArmado())
+	}
+	
+	test "asterion equipa lanzaHechizada y su poder de pelea ahora es 40"{
+		assert.equals(10, asterion.poderPelea())
+		
+		assert.notThat(asterion.estaArmado())
+		
+		asterion.arma(lanzaHechizada)
+		
+		assert.equals(40, asterion.poderPelea())
+		assert.that(asterion.estaArmado())
+	}
+	
+	test "asterion validaciones de armas"{
+		assert.equals(10, asterion.poderPelea())
+		
+		assert.notThat(asterion.estaArmado())
+		
+		assert.throwsExceptionWithMessage("No existe un arma para dropear", {asterion.dropearArma()})
+		
+		asterion.arma(lanzaHechizada)
+		
+		assert.equals(40, asterion.poderPelea())
+		assert.that(asterion.estaArmado())
+		
+		assert.throwsExceptionWithMessage("Ya existe un arma equipada, es necesario dropear el armamento actual", {asterion.equiparArma(hachaDobleCara)})
+	}
+	
+		test "asterion equipa escudoDeMadera y su poder de defensa ahora es 20"{
+		assert.equals(0, asterion.poderDefensa())
+		
+		assert.notThat(asterion.tieneEscudo())
+		
+		asterion.escudo(escudoDeMadera)
+		
+		assert.equals(10, asterion.poderDefensa())
+		assert.that(asterion.tieneEscudo())
+	}
+	
+	test "asterion equipa escudoBlindado y su poder de defensa ahora es 30"{
+		assert.equals(0, asterion.poderDefensa())
+		
+		assert.notThat(asterion.tieneEscudo())
+		
+		asterion.escudo(escudoBlindado)
+		
+		assert.equals(30, asterion.poderDefensa())
+		assert.that(asterion.tieneEscudo())
+	}
+	
+	
+	test "asterion validaciones de escudos"{
+		assert.equals(0, asterion.poderDefensa())
+		
+		assert.notThat(asterion.tieneEscudo())
+		
+		assert.throwsExceptionWithMessage("No existe un escudo para dropear", {asterion.dropearEscudo()})
+		asterion.escudo(escudoDeMadera)
+		
+		assert.equals(10, asterion.poderDefensa())
+		assert.that(asterion.tieneEscudo())
+		assert.throwsExceptionWithMessage("Ya existe un escudo equipado, es necesario dropear el escudo actual", {asterion.equiparEscudo(escudoBlindado)})
+
+	}
+	
+	
 }
