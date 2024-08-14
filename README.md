@@ -35,6 +35,8 @@ Sos el personaje principal, Asterion un minotauro que quiere escapar del laberin
 - Des-Equipar Arma -> Z
 - Des-Equipar Def  -> X
 
+>Lootear = abrir cofres
+
 ## Otros
 
 - Universidad Nacional De Quilmes, Objetos 1
